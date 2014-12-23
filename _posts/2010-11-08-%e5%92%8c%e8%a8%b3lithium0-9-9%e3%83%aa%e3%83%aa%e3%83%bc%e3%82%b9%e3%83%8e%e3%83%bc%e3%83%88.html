@@ -20,7 +20,7 @@ author:
   first_name: Yusuke
   last_name: Ando
 ---
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png"><img src="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png" alt="" title="designall.dll" width="500" height="150" class="alignleft size-full wp-image-188" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png"><img src="/wp-content/uploads/2009/12/designall.dll_.png" alt="" title="designall.dll" width="500" height="150" class="alignleft size-full wp-image-188" /></a></p>
 <p>PHP Matsuri以降、実は一度ブログの更新がありましたが、自分の事が書いてあったので照れくさくて翻訳していません。そして立て続けにLithiumの新しいリリースの知らせがありましたので和訳を作成しました。文中に出てくるスタートアップにはセキュリティの権威、<a href="http://twitter.com/#!/shiflett">Chris Shiflett</a>さんやPHPのUnicode実装に奮戦していた<a href="http://twitter.com/#!/a">Andrei Zmievski</a>さんが在籍し、さらには<a href="http://twitter.com/#!/coates">Sean Coates</a>さんが。またTostyのCTOの<a href="https://twitter.com/#!/mitchitized">Mitch Pirtle</a>さんは有名CMS Joomlaの作者です。PHP界のビッグネームがこぞってLithiumを実際に使い始めているというエキサイティングな様子が見て取れます。ではどうぞ。</p>
 <h4>原文</h4>
 <p><a href="http://dev.lithify.me/lithium/wiki/blog/Lithium-0-9-9-99-Problems-But-a-Framework-Aint-One">http://dev.lithify.me/lithium/wiki/blog/Lithium-0-9-9-99-Problems-But-a-Framework-Aint-One</a></p>
@@ -75,7 +75,7 @@ $renderer = $this->_instance("renderer", array("path" => "views/"));
 <p><strong>Request::accepts()によるコンテンツ認証 :</strong>  Request オブジェクトはコンテンツ認証をサポートしました。認証にはHTTP Acceptedパラメーターを使います。アプリケーションの中で使われるコンテンツのタイプをMedia クラスで設定された設定をもとに返します。.<br />
 <strong>Model::update() と Model::remove():</strong>  Model クラスに２つのメソッドが追加されました。これは複数のドキュメントやレコードを一度に操作できます。<br />
 <strong>MongoDBスキーマサポート:</strong> このリリースではMongoDBのスキーマサポートが改良されました。Mongoオブジェクトを簡単に記録するだけではなく、 $_schema プロパティを使ってLithiumに期待するフィールドの情報を伝えることできます。MongoIDを文字列で渡す事で自動的にMongoIDオブジェクトを生成し問い合わせや更新に使います。<br />
-<strong>APIドキュメンテーション:</strong> その他の機能の為にこのリリースには多くのAPIドキュメントがf組まれます。これらは間もなく <a href="http://lithify.me/docs">docs page</a>で公開されます。(訳注、反映済み)さらにドキュメントは新しい<a href="http://dev.lithify.me/li3_docs">li3_docs</a>で提供されます。<br />
+<strong>APIドキュメンテーション:</strong> その他の機能の為にこのリリースには多くのAPIドキュメントがf組まれます。これらは間もなく <a href="http://lithify.me/docs">docs page</a>で公開されます。(訳注、反映済���)さらにドキュメントは新しい<a href="http://dev.lithify.me/li3_docs">li3_docs</a>で提供されます。<br />
 <strong>HTTPメタデータによるルーティング:</strong> これまではルーティングはURL内のパターンでのみマッチしていました。現在は全てのRequestオブジェクトのプロパティに拡大されました。これはおなじみのRouter APIで指定します:</p>
 <pre lang="php">
 // Only allow POST requests to FooController::create():

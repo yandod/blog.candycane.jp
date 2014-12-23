@@ -19,7 +19,7 @@ author:
   first_name: Yusuke
   last_name: Ando
 ---
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/05/ccbug99.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/05/ccbug99-300x170.png" alt="" title="ccbug99" width="300" height="170" class="aligncenter size-medium wp-image-676" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/05/ccbug99.png"><img src="/wp-content/uploads/2011/05/ccbug99-300x170.png" alt="" title="ccbug99" width="300" height="170" class="aligncenter size-medium wp-image-676" /></a></p>
 <p><a href="http://my.candycane.jp/issues/show/99">バグ #99 ロードマップの件数をクリック後に検索条件が適用されていない</a></p>
 <p>比較的やっかいな修正。<br />
 チケットの一覧ページへ絞り込み条件がクエリストリングで与えられるとうまく動いていなかった。問題は２つ。まず１つがクエリストリング付きのURL生成の方法が間違っていること。routesの設定をカスタマイズしていることもあり、パスパラメータとクエリストリングをきちんと分ける必要がある。routesが何も設定されていなかった頃は動いていたのかもしれないが。クエリストリングに渡したいパラメータは？の下にハッシュでぶら下げればよい。[<a href="https://github.com/yandod/candycane/commit/c60a72d1276c22dafcef66272db9de3236169b1d#diff-0">diff</a>]</p>

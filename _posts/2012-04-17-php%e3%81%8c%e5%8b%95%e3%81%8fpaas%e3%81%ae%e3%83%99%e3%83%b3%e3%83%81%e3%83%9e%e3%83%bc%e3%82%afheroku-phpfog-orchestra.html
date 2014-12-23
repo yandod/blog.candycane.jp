@@ -19,7 +19,7 @@ author:
   first_name: Yusuke
   last_name: Ando
 ---
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/04/2.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/04/2.png" alt="" title="---_2" width="590" height="371" class="aligncenter size-full wp-image-1392" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/04/2.png"><img src="/wp-content/uploads/2012/04/2.png" alt="" title="---_2" width="590" height="371" class="aligncenter size-full wp-image-1392" /></a></p>
 <p>PHPが動くPaaSの中でも知名度の高いheroku phpfog orchestraのそれぞれ実際のところどの程度のパフォーマンスが出るのか気になったので調べてみました。結論から言うとどのプラットフォームもAmazon EC2内のネットワークがボトルネックになっており<strong>パフォーマンスの差はほとんどありませんでした</strong>。</p>
 <p>テストは下記の簡単なスクリプトに対してabで並列数１でリクエストを投げるという形で行いました。下記のグラフは１秒間あたりに処理したリクエスト数です。</p>
 <pre lang="php">
@@ -56,7 +56,7 @@ traceroute to argon-stack-1879049447.us-east-1.elb.amazonaws.com (107.20.154.48)
 18  * * *
 </pre>
 <p>参考までにさくらのレンタルサーバー（スタンダード）とロリポップも一緒に同じテストをしてみると圧倒的なパフォーマンスを見せたのはロリポップでした。<strong style="color:Red">特にロリポップは秒間20リクエスト以上、並列数を増やしていくと80リクエストを処理する事もあり想像以上のパフォーマンスでした。</strong></p>
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/04/1.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/04/1.png" alt="" title="---_1" width="600" height="371" class="aligncenter size-full wp-image-1393" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/04/1.png"><img src="/wp-content/uploads/2012/04/1.png" alt="" title="---_1" width="600" height="371" class="aligncenter size-full wp-image-1393" /></a></p>
 <p>パフォーマンスが高い時もある一方で不調時の落ち込みも大きく、結果のばらつきでいえばさくらインターネットの方が安定した数値が出ています。</p>
 <p>東海岸のAmazon以外で稼働するPaaSがあれば良いのですが、現状ではパフォーマンス面でPaaSには差がつかない状況です。一方で無料で作れるアプリの数やツールの充実度、拡張などではherokuが群を抜いています。パフォーマンスをさらに引き出すようなノウハウをご存知の方がいたら是非教えて下さい。</p>
 <p>ベンチマークの結果は下記に公開しておきます。<br />

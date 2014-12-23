@@ -19,7 +19,7 @@ author:
   first_name: Yusuke
   last_name: Ando
 ---
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/05/cc1.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/05/cc1-300x110.png" alt="" title="cc" width="300" height="110" class="aligncenter size-medium wp-image-680" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/05/cc1.png"><img src="/wp-content/uploads/2011/05/cc1-300x110.png" alt="" title="cc" width="300" height="110" class="aligncenter size-medium wp-image-680" /></a></p>
 <p><a href="http://my.candycane.jp/issues/show/110">バグ #110 カスタムフィールドの登録が出来ない</a><br />
 カスタムフィールドが登録できないバグを治しました。修正は1行ですが原因の特定に<a href="http://my.candycane.jp/projects/candycane-alpha/timelog/details?issue_id=110">2時間近く</a>掛かりました。カスタムフィールドは表示順をpostionという項目で制御しており、管理画面の矢印をクリックすることでソートすることができます。この機能を実装しているのがlistビヘイビアで、このビヘイビアを実装すればどんなテーブルでもたちまち並び替えが出来るようになるというものです。このビヘイビアのbeforeSaveに問題がありました。（答えはコードの後にあるので、じっくり見てから読み進めても良いですよ）</p>
 <pre lang="php" line="1">

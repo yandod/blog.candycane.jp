@@ -19,12 +19,12 @@ author:
   first_name: Yusuke
   last_name: Ando
 ---
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアななめ3.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアななめ3-264x300.jpg" alt="" title="クラウディアななめ3" width="264" height="300" class="aligncenter size-medium wp-image-978" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアななめ3.jpg"><img src="/wp-content/uploads/2011/11/クラウディアななめ3-264x300.jpg" alt="" title="クラウディアななめ3" width="264" height="300" class="aligncenter size-medium wp-image-978" /></a></p>
 <p>Windows Azure上でPHPを動かしてみています。SDKからそのまま作ったプロジェクトの場合、PHPのバージョンは5.3.4になっており、これをアップデートする方法を調べたのでメモ。</p>
 <h3>Windows Azure PHPの正体</h3>
 <p>Windows Azure PHPプロジェクトとしてプロジェクトを作った場合、プロジェクト内のphpというディレクトリの配下にWindows版のPHPのバイナリとおぼしきファイル群が自動的にコピーされる。このPHPはAzure SDKに同梱されていると思われるPHPかシステムにインストール済みのPHPのいずれかから選択してコピーする。またビルド日時から見て、<a href="http://windows.php.net/download/" target="_blank">通常配布されているWindows版PHP</a>と同一とみなしてよさそうだ。<br />
 プロジェクトに同梱されたPHPはそのままデプロイ用のcspkg形式のパッケージに同梱されてAzure環境上にデプロイされる。</p>
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image4.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/Image4-300x53.png" alt="" title="Image4" width="300" height="53" class="aligncenter size-medium wp-image-930" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image4.png"><img src="/wp-content/uploads/2011/11/Image4-300x53.png" alt="" title="Image4" width="300" height="53" class="aligncenter size-medium wp-image-930" /></a></p>
 <p>このPHPの導入は単純なコピーだけではなく、Azure Storageなどへのアクセスを実現するためのphp_azure.dll の導入も合わせて行っている。これに伴って php/php.ini には下記の記述が挿入されている。</p>
 <pre style="background:#EEE;overflow:auto">
 extension="php_azure.dll"
@@ -64,5 +64,5 @@ php/php.exe (ユニットテストなどで使っているなら)
 ext/ (APIの互換が保たれているバージョンであれば更新しなくても大丈夫)
 </pre>
 <p>開発ファブリックで動作確認してみたところ、最新のPHPが動作している事が確認できた。同様の手順でパッチを当ててビルドしたPHPのバイナリを動作させることもできるかもしれない。<br />
-<a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image7.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/Image7-300x110.png" alt="" title="Image7" width="300" height="110" class="aligncenter size-medium wp-image-941" /></a></p>
+<a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image7.png"><img src="/wp-content/uploads/2011/11/Image7-300x110.png" alt="" title="Image7" width="300" height="110" class="aligncenter size-medium wp-image-941" /></a></p>
 <p>※Windows版PHPにあまり詳しくないので正しい知識をお持ちの方がいればお知らせください。</p>

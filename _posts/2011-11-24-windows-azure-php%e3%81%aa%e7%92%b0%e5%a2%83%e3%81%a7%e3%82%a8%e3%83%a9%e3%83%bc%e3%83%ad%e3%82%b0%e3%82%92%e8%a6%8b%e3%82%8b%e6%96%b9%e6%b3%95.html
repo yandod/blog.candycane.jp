@@ -19,17 +19,17 @@ author:
   first_name: Yusuke
   last_name: Ando
 ---
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアデスク.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアデスク-300x239.jpg" alt="" title="クラウディアデスク" width="300" height="239" class="aligncenter size-medium wp-image-964" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアデスク.jpg"><img src="/wp-content/uploads/2011/11/クラウディアデスク-300x239.jpg" alt="" title="クラウディアデスク" width="300" height="239" class="aligncenter size-medium wp-image-964" /></a></p>
 <p><a href="http://www.forest.impress.co.jp/docs/news/20111121_492756.html" target="_blank">異色のマーケティング</a>で注目を集めているWindows AzureですがPHPの動作環境として真面目に取り組んでみています。今回は開発時に必ず必要になるログの確認方法を見てみようと思います。</p>
 <p>Azure上のPHPの正体は<a href="http://blog.candycane.jp/archives/929" title="Windows Azureで動いているPHPのバイナリは普通のと同じ" target="_blank">FastCGIで動作するWindows上のPHP</a>ですが、FATALエラーなどが発生した場合は下記のようなエラー画面が表示されます。</p>
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/500.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/500-300x86.png" alt="" title="500" width="300" height="86" class="aligncenter size-medium wp-image-966" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/500.png"><img src="/wp-content/uploads/2011/11/500-300x86.png" alt="" title="500" width="300" height="86" class="aligncenter size-medium wp-image-966" /></a></p>
 <p>詳細なエラー情報が無い為、エラーへの対処が難しいです。この場合、通常の環境であればログファイルを確認する事になります。ですがAzureの場合は永続化されるファイルストレージは通常では存在しないので<strong>エラーログを出力しないように設定されています</strong>。この問題への根本的な対処は別にするとして、ひとまず画面へのエラー表示を行うように設定を変えます。</p>
 <p>エラーを詳細に表示するにはWEBロールのプロジェクト内にあるWeb.configの&lt;system.webServer&gt;の中に下記のノードを追加します。<strong style="color:red">(ペースト時にダブルクオートが全角に化けないように注意してください)</strong><br />
 <code><br />
  &lt;httpErrors errorMode="Detailed"/&gt;<br />
 </code><br />
 この設定を行えば下記のようにFATALエラーの内容が画面に表示されます。</p>
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/error.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/error-300x18.png" alt="" title="error" width="300" height="18" class="aligncenter size-medium wp-image-967" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/error.png"><img src="/wp-content/uploads/2011/11/error-300x18.png" alt="" title="error" width="300" height="18" class="aligncenter size-medium wp-image-967" /></a></p>
 <p>開発時はこの状態でよいですが、<strong style="color:red">本番環境にこの設定をデプロイしないように注意してください。</strong>ログを記録する方法については別途記事にします。</p>
 <p>元ネタは英語の記事から引用しました。<br />
 <a href="http://www.ben-waine.co.uk/blog/php-azure/launching-my-php-application-on-azure-take-one.php" target="_blank">Launching My PHP Application On Azure: Take One</a></p>

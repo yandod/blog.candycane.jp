@@ -19,7 +19,7 @@ author:
   first_name: Yusuke
   last_name: Ando
 ---
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディア石.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディア石-209x300.jpg" alt="" title="クラウディア石" width="209" height="300" class="aligncenter size-medium wp-image-1047" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディア石.jpg"><img src="/wp-content/uploads/2011/11/クラウディア石-209x300.jpg" alt="" title="クラウディア石" width="209" height="300" class="aligncenter size-medium wp-image-1047" /></a></p>
 <p>PHPの動作を高速化させる技術としてはAPCが知られています。スクリプトのコンパイル結果をキャッシュする事で構文解析をスキップすることができ、また任意のデータをキャッシュする事も出来る拡張モジュールです。今回はこのAPCをWindows Azure環境で導入を試みました。</p>
 <h3>拡張モジュールの入手</h3>
 <p>理由は不明ですが、APCの拡張モジュールはWindows版PHPにバンドルされていません。<a href="http://blog.candycane.jp/archives/929" title="Windows Azure + PHPな環境で動いているバイナリは普通のと同じ" target="_blank">AzureのPHPはWindows版のPHP</a>ですから、やはり標準では含まれていません。とはいえWindows上でPHPの拡張をビルドするというのはなかなかチャレンジングです。いろいろと調べてみたところ下記のページでWindows用のAPCのバイナリが配布されていました。</p>
@@ -27,12 +27,12 @@ author:
 <p>Azureに添付されているPHPに適合するのはVC9でビルドされたNon Thread Safeなバイナリですので該当するものをダウンロードして php/ext 以下にコピーし、php.iniからモジュールを読み込みます。</p>
 <h3>動作確認</h3>
 <p>さてphp.iniに設定を書きこんだのでphpinfo()にて読み込まれていることを確認してみます。</p>
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image14.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/Image14-300x162.png" alt="" title="Image14" width="300" height="162" class="aligncenter size-medium wp-image-1052" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image14.png"><img src="/wp-content/uploads/2011/11/Image14-300x162.png" alt="" title="Image14" width="300" height="162" class="aligncenter size-medium wp-image-1052" /></a></p>
 <p>動作しているようです。がしかし、何度かリロードを繰り返すと、、、</p>
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image15.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/Image15-300x148.png" alt="" title="Image15" width="300" height="148" class="aligncenter size-medium wp-image-1055" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image15.png"><img src="/wp-content/uploads/2011/11/Image15-300x148.png" alt="" title="Image15" width="300" height="148" class="aligncenter size-medium wp-image-1055" /></a></p>
 <p>クラッシュしてしまいました。このレベルでクラッシュしてしまうと<a href="http://blog.candycane.jp/archives/983" title="Windows Azure + PHPな環境でDiagnosticsを使ってログを記録する" target="_blank">前述した方法</a>ではログが取れません。気になるのがAzureのローカルファイルに書き込めないという制限に対してAPCのWindows版についている注釈。</p>
 <blockquote><p>
 注意: Windows 版の APC では、temp パスが存在し、 Web サーバから書き込み可能になっていることが必要です。 APC は環境変数 TMP、TEMP、USERPROFILE の内容をこの順に調べ、 どれも設定されていない場合は WINDOWS ディレクトリを使用します。</p></blockquote>
 <p>該当の環境変数が指しているディレクトリを見てみると下記のような状態。</p>
-<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image12.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/Image12-300x200.png" alt="" title="Image12" width="300" height="200" class="aligncenter size-medium wp-image-1056" /></a></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image12.png"><img src="/wp-content/uploads/2011/11/Image12-300x200.png" alt="" title="Image12" width="300" height="200" class="aligncenter size-medium wp-image-1056" /></a></p>
 <p>いくつかファイルは出来ていますがサイズが0です。どうにかしてこの状況を打開したい所ですがログが見れないという問題がある為、そこから考え直す必要がありそうです。現在の予想としてはファイルシステムがらみ（ロックとか）の問題が起きているかAPCとPHPの相性、スレッドセーフなどを疑っていますが果たして。。</p>
