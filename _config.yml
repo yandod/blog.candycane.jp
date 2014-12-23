@@ -1,14 +1,15 @@
 # Site settings
-title: Your awesome title
-email: your-email@domain.com
+title: candycane development blog
+email: yandod@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  CakePHP version of Redmine: CandyCane.
+  I also started another blog in English.
+  海外テックネタ中心の別ブログ、A-Listersも更新中です。あわせてどうぞ。
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://yourdomain.com" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username:  jekyll
+url: "http://blog.candycane.jp" # the base hostname & protocol for your site
+twitter_username: yando
+github_username:  yandod
+timezone: Asia/Tokyo
 
 # Build settings
 markdown: kramdown
