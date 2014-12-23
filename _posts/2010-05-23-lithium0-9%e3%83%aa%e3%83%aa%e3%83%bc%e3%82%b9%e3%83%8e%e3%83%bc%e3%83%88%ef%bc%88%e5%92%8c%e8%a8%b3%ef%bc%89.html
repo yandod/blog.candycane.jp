@@ -1,0 +1,143 @@
+---
+layout: post
+title: Lithium0.9リリースノート（和訳）
+date: 2010-05-23 05:24:11.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Lithium
+- PHP
+- 和訳
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png"><img src="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png" alt="designall.dll" title="designall.dll" width="500" height="150" class="aligncenter size-full wp-image-188" /></a></p>
+<p>ちょっと作業時間が取れなかったので大幅に遅れてしまいましたが、Lithiumの0.9のリリースノートの和訳です。すでに0.9.5が出ていますのでそちらも追って和訳している所です。また末尾で触れられているTekXでのセッションも見てきました。同じ内容のセッションを近日中にustreamで中継する事を相談しているので近々お目にかけられるかもしれません。</p>
+<h3>原文</h3>
+<p><a href="http://rad-dev.org/lithium/wiki/blog/Lithium-0-9-The-Lambdas-are-awesome-Edition">http://rad-dev.org/lithium/wiki/blog/Lithium-0-9-The-Lambdas-are-awesome-Edition</a></p>
+<h3>Lithium0.9 ラムダは素晴らしいエディション</h3>
+<p>私はLithium0.9を迅速にリリースできた事にとても興奮しています。[<a href="http://rad-dev.org/lithium/versions">今すぐダウンロード！</a>]。0.8からの3週間で、私たちに1.0にかなり近いところまで来ました。いくつかの新機能が含まれます：</p>
+<p><strong>ErrorHandler：</strong>`ErrorHandler`クラスは、アプリケーション全体のPHPのエラーと例外をキャプチャして処理するための高度な設定を提供します。その革新的なデザインは、エラーを型（エラーまたは例外）を含む様々なパラメータ/例外を捕捉することができます。エラーコード、例外クラス名（継承関係を含む）、エラー発生元のクラス名メソッド名のバックトレースも含まれます。<br />
+あなたは0.9にアプリケーションを更新する場合は、今すぐ次の例を試すことができます：<br />
+アプリケーション内に新しい設定ファイルを作成します。`config/bootstrap/error.php`をブートストラップからincludeしてから以下を追加します：</p>
+<pre lang="php" line="1">
+/**
+ * First, import the relevant Lithium core classes.
+ */
+use \lithium\core\ErrorHandler;
+use \lithium\analysis\Logger;
+use \lithium\template\View;
+
+/**
+ * Then, set up a basic logging configuration that will write to a file.
+ */
+Logger::config(array('error' => array('adapter' => 'File')));
+
+/**
+ * Configure an error page renderer function that we can use to render 404 and 500 error pages (for
+ * this part to work, you need to create errors/404.html.php and errors/500.html.php in your views/
+ * directory).
+ */
+$render = function($template, $content) {
+    $view = new View(array(
+        'paths' => array(
+            'template' => '{:library}/views/{:controller}/{:template}.{:type}.php',
+            'layout'   => '{:library}/views/layouts/{:layout}.{:type}.php',
+        )
+    ));
+    echo $view->render('all', compact('content'), compact('template') + array(
+        'controller' => 'errors',
+        'layout' => 'default',
+        'type' => 'html'
+    ));
+};
+
+/**
+ * Finally, wire up the error configuration. The first rule captures any exceptions where the
+ * message matches one of the given regular expressions: eitheer a template or controller wasn't
+ * found. In either case, render a 404.
+ *
+ * For all other exceptions, log them to the error log, and show the user a 500 error.
+ */
+ErrorHandler::config(array(
+    array(
+        'type' => 'Exception',
+        'message' => '/(^Template not found|^Controller \w+ not found)/',
+        'handler' => function($info) use ($render) {
+            $render('404', $info);
+        }
+    ),
+    array(
+        'type' => 'Exception',
+        'handler' => function($info) use ($render) {
+            Logger::write('error', "{$info['file']} : {$info['line']} : {$info['message']}");
+            $render('500', $info);
+        }
+    )
+));
+
+/**
+ * Last but not least, tell the ErrorHandler to start capturing errors.
+ */
+ErrorHandler::run();
+</pre>
+<p>これで、あなたは完全にカスタマイズ可能なエラー管理ソリューションを即座に利用できます。ハンドラはエラーに対して独自に対応を行えるようにします。通常これは、それらをロギングしエラーページをレンダリングするという事になるでしょう。</p>
+<p><strong>永続的パラメータ：</strong>多くの拡張機能の中で永続的なパラメータを追加しルーティングします。新しいルートを設置すると、あなたはルートがマッチした際の引数のリストを指定することができ、このリクエストの間は永続的に利用され後続のリンクでも使用されます。これらの2つのルートを考えてみましょう：</p>
+<pre lang="php" line="1">
+Router::connect('/admin/{:controller}/{:action}', array('admin' => true), array('persist' => array(
+    'admin', 'controller'
+)));
+Router::connect('/{:controller}/{:action}');
+</pre>
+<p>さて、サイトのadminセクションを参照すると、生成された全てのリンクが永続化したプロパティを継承しています：</p>
+<pre lang="php" line="1">
+<?=$this->html->link('Add post', array('controller' => 'posts', 'action' => 'add')); // links to /admin/posts/add ?>
+</pre>
+<p>パラメータを無効するには、単に`null`を対応するキーの値に渡す：</p>
+<pre lang="php" line="1">
+<?=$this->html->link(
+    'Add post', array('controller' => 'posts', 'action' => 'add', 'admin' => null
+)); // links to /posts/add ?>
+</pre>
+<p><strong>ルートハンドラ：</strong>最も重要な新機能、ルートハンドラを使用すると、アプリケーションから直接のルートにコントローラロジックを実装することができます。これにより、いくつかのクールな実装や、小型で高速マイクロアプリケーションを実現できます。以前このプラグインはフレームワークの外部でしたが、この機能はコアに移動されているアプリケーションから直接利用できるようになりました。この単純な例を考えてみましょう：</p>
+<pre lang="php" line="1">
+use lithium\action\Response;
+use \lithium\net\http\Router;
+
+Router::connect('/hello/{:name}', array('name' => null), function($request) {
+    $name = $request->name ?: 'World';
+    return new Response(array('body' => "Hello {$name}!"));
+});
+
+Router::connect('/redirect', array('name' => null), function($request) {
+    return new Response(array('location' => '/'));
+});
+</pre>
+<p>このルーティングでまず注意する点はルートハンドラーは全てのフレームワークの処理をバイパスして直接、Responseオブジェクトを返してレンダリングする事です。またハンドラは$requestパラメータを返し、処理を通常どおり継続することもできます。最初の例では /hello にアクセスした際に誰かわからないユーザへのあいさつ、"Hello World!" を画面に書いています。または`/hello/Nate`にアクセスし `{:name}`パラメータがURLで指定されたな会いは"Hello Nate!"と表示します。<br />
+2番目の例では`/redirect`へのリクエストをキャプチャし、ハンドラはブラウザを別ページへリダイレクトするResponseオブジェクトを返しています。Responseオブジェクト（また、コントローラのプロパティとしても使用可能なオブジェクトです）では、レスポンスがブラウザに返される方法を直接コントロールします。</p>
+<p><strong>テンプレート変数展開：</strong>コミュニティの一部の開発者が明示のテンプレートを作成したいので、テンプレート変数をアクセスするための代替構文を実装しました。また $titleというテンプレート変数は $this['title']としてアクセスすることも出来るようになりました。<br />
+また、このテンプレート変数の展開を無効にするオプションもあります。設定に`extract`パラメータを追加することによって、我々は簡単に通常のテンプレート変数を無効にすることができます：</p>
+<pre lang="php" line="1">
+Media::type('html', 'text/html', array(
+    'view'    => '\lithium\template\View',
+    'extract' => false,
+    'paths'   => array(
+        'template' => '{:library}/views/{:controller}/{:template}.{:type}.php',
+        'layout'   => '{:library}/views/layouts/{:layout}.{:type}.php',
+    )
+));
+</pre>
+<p>この設定を適用すると、 $this['title']は引き続き動きますが、 $titleは動かなくなります。<br />
+最後に、<a href="http://twitter.com/jperras">Joel</a>と私は一カ月後の<a href="http://tek.phparch.com/">TEK・X</a>のカンファレンスで講演する予定です。我々はLithiumについての合同セッションと、それぞれコードの品質やソーシャルグラフについての講演をする予定です。今すぐ登録して、会場で会ったら声をかけてください。シカゴでお会いしましょう。</p>
+<p>~nate~</p>
+<p>--翻訳ここまで</p>
+<p>機能の断片を紹介しているのでちょっとピンと来にくいかもしれません。セッションでも語られていましたが、Lithiumはアスペクト指向を実装に取り入れている部分があり、従来のスタイルのフレームワークの知識を前提にして考えると分かりづらい所があります。これらの例は全体の継承関係や処理のフローを考慮することなく、断片的な修正をクロージャなどを使って実現できるという点がすごい所と言えるでしょう。</p>

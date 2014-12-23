@@ -1,0 +1,99 @@
+---
+layout: post
+title: PHPが動くPaaSのベンチマーク(heroku phpfog orchestra)
+date: 2012-04-17 14:50:29.000000000 +09:00
+categories:
+- ブログ
+tags:
+- heroku
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/04/2.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/04/2.png" alt="" title="---_2" width="590" height="371" class="aligncenter size-full wp-image-1392" /></a></p>
+<p>PHPが動くPaaSの中でも知名度の高いheroku phpfog orchestraのそれぞれ実際のところどの程度のパフォーマンスが出るのか気になったので調べてみました。結論から言うとどのプラットフォームもAmazon EC2内のネットワークがボトルネックになっており<strong>パフォーマンスの差はほとんどありませんでした</strong>。</p>
+<p>テストは下記の簡単なスクリプトに対してabで並列数１でリクエストを投げるという形で行いました。下記のグラフは１秒間あたりに処理したリクエスト数です。</p>
+<pre lang="php">
+<?php echo json_encode(getdate());
+</pr?>
+
+結果が頭打ちになってしまっている原因はおそらくネットワークです。今回のテストは日本から行なっているので海を越えて東海岸のEC2に到達するまでの部分がボトルネックになっていると思われます。３プラットフォームに対してtracerouteを取ってみましたがどれもAmazonのネットワークに入った後に追跡ができなくなっています。どのプラットフォームも連続的に接続を行うと接続がリセットされてしまう現象が起こるのですが、<strong>とくにphpfogはその頻度が高くテスト自体が難しい状況でした。</strong>
+
+<pre lang="txt">
+traceroute to argon-stack-1879049447.us-east-1.elb.amazonaws.com (107.20.154.48), 64 hops max, 72 byte packets
+ 1  1.1.1.1 (#######)  2.618 ms  0.738 ms  0.699 ms
+ 2  hoge.nttpc.ne.jp (######)  2.966 ms  3.323 ms  3.011 ms
+ 3  210.153.249.209 (210.153.249.209)  3.511 ms  3.650 ms  3.476 ms
+ 4  210.153.249.161 (210.153.249.161)  4.049 ms  5.707 ms  4.542 ms
+ 5  210.165.252.145 (210.165.252.145)  3.617 ms  4.084 ms  4.376 ms
+ 6  xg5-0-n-otemachi-core6.sphere.ad.jp (202.239.114.173)  3.881 ms  3.082 ms  3.075 ms
+ 7  xe-7-1-3.a20.tokyjp01.jp.ra.gin.ntt.net (203.105.72.161)  3.596 ms  3.251 ms  2.967 ms
+ 8  ae-6.r25.tokyjp01.jp.bb.gin.ntt.net (61.213.162.169)  2.919 ms
+    ae-6.r24.tokyjp01.jp.bb.gin.ntt.net (61.213.162.161)  3.240 ms  3.238 ms
+ 9  ae-1.r20.tokyjp01.jp.bb.gin.ntt.net (129.250.2.20)  5.840 ms  9.010 ms
+    ae-9.r20.tokyjp01.jp.bb.gin.ntt.net (129.250.2.92)  3.462 ms
+10  as-1.r20.sttlwa01.us.bb.gin.ntt.net (129.250.4.189)  108.546 ms  101.626 ms  101.496 ms
+11  ae-0.r21.sttlwa01.us.bb.gin.ntt.net (129.250.2.54)  96.991 ms  100.001 ms  100.137 ms
+12  ae-5.r21.asbnva02.us.bb.gin.ntt.net (129.250.4.181)  175.298 ms  202.796 ms  167.169 ms
+13  ae-2.r00.asbnva02.us.bb.gin.ntt.net (129.250.3.114)  163.586 ms
+    ae-2.r04.asbnva02.us.bb.gin.ntt.net (129.250.4.207)  169.794 ms  173.062 ms
+14  ae-1.amazon.asbnva02.us.bb.gin.ntt.net (168.143.191.26)  164.108 ms  168.722 ms
+    ae-2.amazon.asbnva02.us.bb.gin.ntt.net (168.143.228.38)  184.965 ms
+15  205.251.245.1 (205.251.245.1)  184.698 ms
+    72.21.220.45 (72.21.220.45)  179.675 ms  169.800 ms
+16  72.21.222.149 (72.21.222.149)  169.540 ms  170.406 ms
+    205.251.245.47 (205.251.245.47)  175.874 ms
+17  216.182.224.203 (216.182.224.203)  164.258 ms  176.473 ms  167.645 ms
+18  * * *
+</pre>
+<p>参考までにさくらのレンタルサーバー（スタンダード）とロリポップも一緒に同じテストをしてみると圧倒的なパフォーマンスを見せたのはロリポップでした。<strong style="color:Red">特にロリポップは秒間20リクエスト以上、並列数を増やしていくと80リクエストを処理する事もあり想像以上のパフォーマンスでした。</strong></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/04/1.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/04/1.png" alt="" title="---_1" width="600" height="371" class="aligncenter size-full wp-image-1393" /></a></p>
+<p>パフォーマンスが高い時もある一方で不調時の落ち込みも大きく、結果のばらつきでいえばさくらインターネットの方が安定した数値が出ています。</p>
+<p>東海岸のAmazon以外で稼働するPaaSがあれば良いのですが、現状ではパフォーマンス面でPaaSには差がつかない状況です。一方で無料で作れるアプリの数やツールの充実度、拡張などではherokuが群を抜いています。パフォーマンスをさらに引き出すようなノウハウをご存知の方がいたら是非教えて下さい。</p>
+<p>ベンチマークの結果は下記に公開しておきます。<br />
+<a href="https://docs.google.com/spreadsheet/ccc?key=0AtzgmVoGQP6zdEZFeEJ2Zm1BUm1NYVN0aGFhMVB4bGc#gid=0">PaaS bench</a></p>
+<p>追記<br />
+サンフランシスコに出張中の元同僚に同じコマンドを投げてもらったところ、2倍近く性能が向上していました。</p>
+<pre lang="txt">
+Concurrency Level: 1
+Time taken for tests: 6.670 seconds
+Complete requests: 30
+Failed requests: 0
+Write errors: 0
+Total transferred: 9780 bytes
+HTML transferred: 4140 bytes
+Requests per second: 4.50 [#/sec] (mean)
+Time per request: 222.325 [ms] (mean)
+Time per request: 222.325 [ms] (mean, across all concurrent requests)
+Transfer rate: 1.43 [Kbytes/sec] received
+
+Connection Times (ms)
+
+
+
+min mean[+/-sd] median max
+Connect: 180 215 23.6 210 267
+Processing: 1 8 5.6 5 24
+Waiting: 1 7 5.5 5 23
+Total: 186 222 25.0 217 274
+
+Percentage of the requests served within a certain time (ms)
+50% 217
+66% 228
+75% 240
+80% 251
+90% 261
+95% 270
+98% 274
+99% 274
+100% 274 (longest request)
+</pre>

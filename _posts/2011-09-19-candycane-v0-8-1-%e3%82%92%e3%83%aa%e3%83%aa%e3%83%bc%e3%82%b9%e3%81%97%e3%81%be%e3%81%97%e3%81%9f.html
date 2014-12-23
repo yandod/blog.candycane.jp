@@ -1,0 +1,42 @@
+---
+layout: post
+title: CandyCane v0.8.1 をリリースしました
+date: 2011-09-19 07:19:10.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/09/397328922.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/09/397328922.png" alt="" title="397328922" width="408" height="307" class="aligncenter size-full wp-image-852" /></a></p>
+<p><a href="https://github.com/yandod/candycane/archives/v0.8.1">v0.8.1ダウンロードページ</a><br />
+<a href="https://github.com/yandod/candycane">CakePHPで作られた第3のRedmine、CandyCane</a>のバージョンをv0.8.1のバージョンを打ちました。</p>
+<p>ご存知の方もいると思いますが、<strong>github上でウォッチされたPHPのプロジェクトのランキングで4位にCandyCaneが入りました！</strong>(※ただし、１日限り)。<a href="http://blog.candycane.jp/archives/796" title="日本のCakePHP使いが死力を尽くしたCandyCaneにブレイクの兆し">前回のエントリ</a>で一連の流れについて書きましたが、CakeFestでの発表で認知度が高まった事が数字に現れたようです。またCakePHPのコアデベロッパのグラハムが開発に協力してくれているのでかなり開発速度が上がっています。</p>
+<p>今回は世界中でインストールしてみた人が増えた事から得られたフィードバックを中心に修正しています。やはりインストーラーでWordPressのようにインストールできる点についてはうまくいっているようです。<br />
+また既存のRedmineのスキーマを流用する場合は<strong>RedmineのV0.8以降に行われたスキーマ変更に追従していない部分</strong>があることが分かっています。この部分のキャッチアップについてはスキーマを更新するMigrateをインストーラーに統合してからの対応になるでしょう。</p>
+<p>延べ作業時間は16時間、11のバグ修正と1つの機能追加です。また次回のリリースからはPHP5向けにコードを記述していきます。困る人も殆どいないと思いますが、PHP4向けの修正が継続できるようにブランチだけは作っています。</p>
+<ul>
+<li><a href="http://my.candycane.jp/issues/show/97" class=" issue closed">Bug #97</a>: チケットの複数編集時に選択内容が保持されない</li>
+<li><a href="http://my.candycane.jp/issues/show/103" class=" issue closed">Bug #103</a>: チケットの状態を終了にした際に進捗率が100％になっていない</li>
+<li><a href="http://my.candycane.jp/issues/show/114" class=" issue closed">Bug #114</a>: 最近のプロジェクトにアーカイブされたプロジェクトが表示されている</li>
+<li><a href="http://my.candycane.jp/issues/show/138" class=" issue closed">Bug #138</a>: 複数のチケットを編集した際に履歴が1つしか作られていない</li>
+<li><a href="http://my.candycane.jp/issues/show/153" class=" issue closed">Bug #153</a>: 送信元メールアドレスとフッタの設定が機能していない</li>
+<li><a href="http://my.candycane.jp/issues/show/154" class=" issue closed">Bug #154</a>: 活動のアイテムの並び順が日付の降順になっていない</li>
+<li><a href="http://my.candycane.jp/issues/show/160" class=" issue closed">Bug #160</a>: 非公開プロジェクトのwikiがメンバー外から見える</li>
+<li><a href="http://my.candycane.jp/issues/show/164" class=" issue closed">Bug #164</a>: Search hits against wiki of pravate project for unlogged in user.</li>
+<li><a href="http://my.candycane.jp/issues/show/166" class=" issue closed">Bug #166</a>: (user/edit)  don't load user's language</li>
+<li><a href="http://my.candycane.jp/issues/show/167" class=" issue closed">Enhancement  #167</a>: (user/edit) Option without password</li>
+<li><a href="http://my.candycane.jp/issues/show/168" class=" issue closed">Bug #168</a>: Issue priority changes when adding update/comment to issue</li>
+<li><a href="http://my.candycane.jp/issues/show/170" class=" issue closed">Bug #170</a>: Emain wont be sent on bulk edit of issue.</li>
+</ul>

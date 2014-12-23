@@ -1,0 +1,32 @@
+---
+layout: post
+title: candycaneのユニットテストを復旧中
+date: 2011-05-14 14:36:42.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/05/tc.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/05/tc-300x52.png" alt="" title="tc" width="300" height="52" class="aligncenter size-medium wp-image-692" /></a></p>
+<p>ユニットテストをそろそろ復旧させてCI環境に載せるべく作業。<br />
+テスト実行時に app配下ではなく、 cake配下の app_model.phpを読んでしまいエラーになっていた部分を対応。またfixtureの設定の漏れがあったのでそのあたりも修正。<br />
+さらにテーブル名がべた書きされていたケースがあったので設定に追随するように修正といった所。</p>
+<p>テスト実行用の環境の作り方が何パターンかあるのでその全てをカバーするにはまだ調整が必要そう。ちなみにテスト環境の組み合わせは</p>
+<ul>
+<li>動作用とは別のDB名＋通常と同じテーブル名</li>
+<li>動作用と同じDB名＋プリフィクス付きのテーブル名</li>
+<li>動作用と別のDB名＋プリフィクス付きのテーブル名</li>
+</ul>
+<p>いずれにせよ正しい方法でテーブル名を取得していれば問題ないのですが、ひとまず独自のメソッドがあるので底に寄せて行く予定です。なお開発合宿時は各自バラバラの設定で、PostgreSQLも使っていたくらいなのでわりかしどの環境でも動いていました。</p>

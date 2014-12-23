@@ -1,0 +1,28 @@
+---
+layout: post
+title: 'candycaneバグ修正 #99'
+date: 2011-05-11 13:45:14.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/05/ccbug99.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/05/ccbug99-300x170.png" alt="" title="ccbug99" width="300" height="170" class="aligncenter size-medium wp-image-676" /></a></p>
+<p><a href="http://my.candycane.jp/issues/show/99">バグ #99 ロードマップの件数をクリック後に検索条件が適用されていない</a></p>
+<p>比較的やっかいな修正。<br />
+チケットの一覧ページへ絞り込み条件がクエリストリングで与えられるとうまく動いていなかった。問題は２つ。まず１つがクエリストリング付きのURL生成の方法が間違っていること。routesの設定をカスタマイズしていることもあり、パスパラメータとクエリストリングをきちんと分ける必要がある。routesが何も設定されていなかった頃は動いていたのかもしれないが。クエリストリングに渡したいパラメータは？の下にハッシュでぶら下げればよい。[<a href="https://github.com/yandod/candycane/commit/c60a72d1276c22dafcef66272db9de3236169b1d#diff-0">diff</a>]</p>
+<p>2つめの問題はクエリストリングを解釈してくれる処理が存在していない事による。フォームで送信された場合は受け取れるのだが、フォームの場合は比較を「等しい」「等しくない」のように選べるがクエリストリングの場合は取り扱いが異なる。なのでそのまま代入するわけにもいかず分岐を作った。これはもうすこしスマートにマージできる気もする。[<a href="https://github.com/yandod/candycane/commit/02076e7cde2eb3c572419217ca2ce4bab1941168#diff-0">diff</a>]<br />
+またこれだけでは適用できるフィルターのリストに「バージョン」が表示されないので、Queryモデルのフィルタ一覧を取得する処理内を他のフィルタを見習って設定する。おそらく<a href="https://github.com/yandod/candycane/commit/756c491e020a48696b6e515d511c269e9a0d74f2#diff-2">akiyanが書いた処理</a>なのだが空気を読んで書くだけで動いた。助かる。</p>
+<p>これで<a href="http://my.candycane.jp/projects/roadmap/candycane-alpha">ロードマップから貼られているリンク</a>をクリックした際に<a href="http://my.candycane.jp/projects/candycane-alpha/issues/index?status_id=c&fixed_version_id=13&set_filter=1">絞り込みが動くようになった</a>。解決。</p>

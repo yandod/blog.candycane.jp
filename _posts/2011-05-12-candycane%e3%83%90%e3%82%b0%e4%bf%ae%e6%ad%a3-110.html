@@ -1,0 +1,42 @@
+---
+layout: post
+title: 'candycaneバグ修正 #110'
+date: 2011-05-12 13:47:15.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/05/cc1.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/05/cc1-300x110.png" alt="" title="cc" width="300" height="110" class="aligncenter size-medium wp-image-680" /></a></p>
+<p><a href="http://my.candycane.jp/issues/show/110">バグ #110 カスタムフィールドの登録が出来ない</a><br />
+カスタムフィールドが登録できないバグを治しました。修正は1行ですが原因の特定に<a href="http://my.candycane.jp/projects/candycane-alpha/timelog/details?issue_id=110">2時間近く</a>掛かりました。カスタムフィールドは表示順をpostionという項目で制御しており、管理画面の矢印をクリックすることでソートすることができます。この機能を実装しているのがlistビヘイビアで、このビヘイビアを実装すればどんなテーブルでもたちまち並び替えが出来るようになるというものです。このビヘイビアのbeforeSaveに問題がありました。（答えはコードの後にあるので、じっくり見てから読み進めても良いですよ）</p>
+<pre lang="php" line="1">
+  function beforeSave(&$Model) {
+    $result = true;
+    if(empty($Model->id)) {
+      $position_column = $this->settings[$Model->alias]['column'];
+      $conditions = $this->settings[$Model->alias]['scope'];
+      $result = $Model->find('first', array('conditions'=>$conditions, 'order'=>"$position_column DESC"));
+      if($result) {
+        $Model->data[$Model->alias][$position_column] = $result[$Model->alias][$position_column] + 1;
+      }
+    }
+    return $result;
+  }
+</pre>
+<p></p>
+<p>さて、わかりましたか？<br />
+問題があったのは11行目。挿入しようとしたデータと同じpostionの行があった場合は番号をインクリメントするのですが、テーブルが空の場合などデータが無いと$resultがfalseになりbeforeSaveが異常終了してしまいます。なので修正はこれを<a href="https://github.com/yandod/candycane/commit/2981c9e5ce0d098bd062310f4b31964e6b9e0582">trueに変えただけ</a>です。モデルのコールバックやバリデーションを自作した場合は最後の戻り値に注意深くなければならないという事を再確認しました。</p>
+<p>でもこれでチケットやプロジェクト、ユーザーに好きな項目を拡張する事ができるようになりましたね！</p>

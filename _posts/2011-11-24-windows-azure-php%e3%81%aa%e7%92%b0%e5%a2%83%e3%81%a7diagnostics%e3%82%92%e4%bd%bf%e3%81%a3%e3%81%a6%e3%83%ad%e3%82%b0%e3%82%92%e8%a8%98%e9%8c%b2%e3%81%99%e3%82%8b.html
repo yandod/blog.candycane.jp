@@ -1,0 +1,74 @@
+---
+layout: post
+title: Windows Azure + PHPな環境でDiagnosticsを使ってログを記録する
+date: 2011-11-24 18:42:01.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Azure
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアデスク.jpg"><img class="aligncenter size-medium wp-image-964" title="クラウディアデスク" src="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアデスク-300x239.jpg" alt="" width="300" height="239" /></a></p>
+<p>前回はとりあえず<a href="http://blog.candycane.jp/archives/963" title="Windows Azure + PHPな環境でエラーログを見る方法" target="_blank">エラーの情報を画面に表示する設定</a>をしてみましたが、今回はエラーの情報を記録できるように設定してみます。インスタンスの再起動の際にディスクの内容が初期化されるAzureではログの情報は<strong>Azure Storageに記録する</strong>事になります。</p>
+<p><a href="http://www.microsoft.com/japan/powerpro/TF/column/nt_01_2.mspx" target="_blank">Azure 運用時の考慮点 | Tech Fielders コラム</a></p>
+<blockquote><p>
+Windows Azure のインスタンスにはローカルディスクが用意されていますが、ここに保存されたデータは再起動時にクリアされてしまいます。つまり、永続的なデータについては Azure ストレージの使用を検討し、コンピューティングに関してはあくまで計算やサービスの提供窓口としての機能しか持たせないようにすることをお勧めします。
+</p></blockquote>
+<p>Azure StorageにアクセスするAPIを使ってログを書く事もできますが、<strong>Azure StorageはRESTでアクセスするサービス</strong>になっているのでログを一行出力する度にAPIをコールするというような使い方は現実的ではありません。そこでAzureではログなどの情報をトラッキングする為の<strong>Diagnostics(診断)</strong>という機能を持っています。この機能を有効にする事で任意のログをローカル側で貯めながら随時同期するという仕組みを実現できます。このログの仕組みそのものについては<a href="http://d.hatena.ne.jp/waritohutsu/20100603/1275586879" target="_blank">waritohutsuさんのブログの記事</a>が詳しいです。</p>
+<p><a href="http://d.hatena.ne.jp/waritohutsu/20100603/1275586879" target="_blank">Windows Azure ログ講座第一弾 ～Windows Azure logs～</a><br />
+<a href="http://blog.candycane.jp/wp-content/uploads/2011/11/20100604022124.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/20100604022124-300x163.jpg" alt="" title="20100604022124" width="300" height="163" class="aligncenter size-medium wp-image-1023" /></a></p>
+<p>上記の記事はC#での実装方法になっていますが、同様の挙動をPHPで試してみます。</p>
+<h3>Diagnosticsの設定と動作確認</h3>
+<p>Diagnosticsの設定を行うには新規にプロジェクトを作る際のウィザードの中で設定をするのが最も手軽です。ウィザードで設定した内容を元に各種設定が記述されています。既存のプロジェクトに設定を行う場合は、設定ファイルに該当の記述を追加する事でDiagnosticsを有効にすることができます。</p>
+<p>まずは<strong>ServiceDefinition.csdef</strong>のImport設定からDiagnosticsを読み込みます。何もImportしていない場合は開始タグと終了タグが存在していないので該当部分を置き換えてください。</p>
+<pre lang="xml">
+    <imports>
+      <import modulename="Diagnostics" />
+    </imports>
+</pre>
+<p>次に<strong>ServiceConfiguration.cscfg</strong>(関係する部分だけ抜粋しています)にログの転送設定などを記述します。今回は開発用ストレージを対象にした設定を記述していますが、クラウド環境のストレージを利用する場合は適切なアカウント情報などに置き換えてください。ログの転送頻度を表す<strong>ScheduledTransferPeriodInSeconds</strong>に有効な値が設定されていないと記録されたログがストレージに転送されなくなるので特に注意が必要です。</p>
+<pre lang="xml">
+    <configurationsettings>
+      <setting name="StorageAccountName" value="devstoreaccount1" />
+      <setting name="StorageAccountKey" value="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" />
+      <setting name="UseDevelopmentStorage" value="true" />
+      <setting name="LogLevel" value="Error" />
+      <setting name="ScheduledTransferPeriodInSeconds" value="10" />
+      <setting name="WindowsAzureStorageConnectionString" value="UseDevelopmentStorage=true" />
+      <setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+    </configurationsettings>
+</pre>
+<p>設定に文法エラーが無ければプロジェクトをパッケージして開発ファブリックにデプロイできるはずです。</p>
+<h3>PHPのエラーをDiagnosticsへ流し込む</h3>
+<p>では次にPHPからDiagnosticsに対してログ情報を送ってみます。PHPからAzure Logを記録するには<a href="http://phpazurecontrib.codeplex.com/wikipage?title=php_azure.dll&referringTitle=Home" target="_blank">php_azure.dll</a>が提供するazure_log関数を使います。</p>
+<pre lang="php">
+azure_log(AZURE_LOG_CRITICAL,"This is error log.");
+</pre>
+<p>実行後にしばらく待つとログがWADLogsTableに記録されます。ログの情報の確認は<a href="http://azurestorageexplorer.codeplex.com/" target="_blank">Azure Storage Explorer</a>が便利です。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image9.png"><img class="aligncenter size-medium wp-image-991" title="Image9" src="http://blog.candycane.jp/wp-content/uploads/2011/11/Image9-300x149.png" alt="" width="300" height="149" /></a></p>
+<p>次にこの関数を使ってPHPのエラーログをAzure Logに記録してみたいと思います。この為にはPHPのエラーハンドリング機構を使って自作したエラーハンドラーからazure_log関数を呼び出す形になります。これによりPHPから発せられた警告や任意にトリガーしたエラーを記録できるようになります。</p>
+<pre lang="php">
+function azure_log_handler($errno, $errstr, $errfile, $errline){
+	$string = sprintf("%s %s %s %s", $errno, $errstr, $errfile, $errline);
+	azure_log(AZURE_LOG_CRITICAL, $string);
+	return false;
+}
+set_error_handler("azure_log_handler",E_ALL);
+trigger_error("PHP ERROR");
+</pre>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image10.png"><img class="aligncenter size-medium wp-image-992" title="Image10" src="http://blog.candycane.jp/wp-content/uploads/2011/11/Image10-300x149.png" alt="" width="300" height="149" /></a></p>
+<p>ログのフォーマットはのちに検索する事なども考慮して使いやすそうなフォーマットにするとよいでしょう。</p>
+<h3>現存するライブラリについて</h3>
+<p>上記の方法では自前の実装でDiagnosticsを使っていますが、Azure向けの関数を活用するライブラリとして<a href="http://phpazure.codeplex.com/" target="_blank">Windows Azure SDK for PHP</a>があり、このライブラリにもDiagnosticsのクライアントが含まれています。このクライアントを使う事でパフォーマンスログなどをBlobオブジェクトで記録できます。このライブラリの活用方法については別の機会に紹介しようと思います。</p>
+<p><strong style="color:red">Diagnosticsは設定を行ってもそれだけでは何も記録しません。</strong>ウィザードからとりあえず設定をしてみても何も起きていないので機能の存在に気がついていないケースもあるような気がします。なんらかの形でログを記録する処理を実装する必要があるとう点を留意する必要があります。</p>

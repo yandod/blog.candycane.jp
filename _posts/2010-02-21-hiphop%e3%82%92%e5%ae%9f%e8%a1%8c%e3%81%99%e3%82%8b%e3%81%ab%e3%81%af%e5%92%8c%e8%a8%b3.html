@@ -1,0 +1,151 @@
+---
+layout: post
+title: HipHopを実行するには(和訳)
+date: 2010-02-21 16:20:53.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Facebook
+- HipHop
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p>こちらはHipHopの利用法のドキュメントの和訳です。</p>
+<ul>
+<li><a href="http://blog.candycane.jp/archives/275">PHPをC++に変換して高速化する「HipHop for PHP」をFacebookが公開</a></li>
+<li><a href="http://blog.candycane.jp/archives/295">HipHopのビルドとインストール方法(和訳)</a></li>
+<li>HipHopを実行するには(和訳)</li>
+</ul>
+<h3>原文</h3>
+<p><a href="http://wiki.github.com/facebook/hiphop-php/running-hiphop">http://wiki.github.com/facebook/hiphop-php/running-hiphop</a></p>
+<h3>HipHopを実行するには</h3>
+<p><strong>注：</strong>これらのコード例では、HipHopコンパイラが完全に組み込まれていると仮定します。</p>
+<h3>環境設定</h3>
+<p>まず最初に、2つの環境変数の設定が必要です。</p>
+<p><code>cd .. # into the root of the hphp checkout<br />
+export HPHP_HOME=`pwd`<br />
+export HPHP_LIB=`pwd`/bin</code><br />
+<h3>HipHopを実行するモードの選択</h3>
+<p>HipHopは5つの異なるモードで実行することができます。これらはHello Worldの例をそれぞれ示しています。すべてのコマンドはこれらの例では、src /ディレクトリから実行されます。</p>
+<p>まず、test.phpをと呼ばれるファイルを作成します。テキストを下記のように流し込むなら、"echo Hello World!&gt; test.php"のような感じです。次に、以下のようにモードを選択します：</p>
+<p><strong>モード1：</strong>HipHopでコンパイルし、直接実行する。</p>
+<p> <code>hphp/hphp test.php</code>
+<p><strong>モード2：</strong>HipHopで一時ディレクトリにコンパイルし、コマンドラインからコンパイルしたプログラムを実行する。</p>
+<p> <code>hphp/hphp test.php --keep-tempdir=1 --log=3<br />
+/tmp/hphp_p6vSsP/program    (use your own temporary directory name from output)</code>
+<p><code>--keep-tempdir=1</code>も<code>-k 1</code>で指定することができます。ハイフン一つとkのあとにスペースが空いている事に注意してください。これは、boostのコマンドラインオプションでの作業を監視するものです。</p>
+<p><code>--log=3</code>いくつかの冗長な情報の出力。どの一時ディレクトリが作成されたかを見つけることができる。<code>--output-dir=mypath</code>または<code>-o mypath</code>で独自の出力ディレクトリを指定することができます。</p>
+<p><strong>モード3：</strong>HipHopで一時ディレクトリにコンパイルし、Webサーバーとしてコンパイルしたプログラムを実行する。</p>
+<p> <code>hphp/hphp test.php --keep-tempdir=1 --log=3<br />
+sudo /tmp/hphp_p6vSsP/program -m server</code>
+<p>その後、別のウィンドウから実行：</p>
+<p> <code>curl localhost/test.php</code>
+<p>sudoを使用しない場合は、ポート8080上でHipHopを実行することができます。</p>
+<p> <code>hphp/hphp test.php --keep-tempdir=1 --log=3<br />
+/tmp/hphp_p6vSsP/program -m server -p 8080<br />
+GET http://localhost:8080/test.php</code>
+<p>あなたのサーバーを管理するにはこのコマンドを実行：</p>
+<p> <code>GET http://localhost:8088</code>
+<p>また、デーモンとしてサーバを実行することができます：</p>
+<p> <code>sudo /tmp/hphp_p6vSsP/program -m daemon</code>
+<p><strong>モード4：</strong>HipHopインタプリタで直接実行する。</p>
+<p> <code>hphpi/hphpi -f test.php  (note the "-f" flag)</code>
+<p><strong>モード5：</strong>HipHopインタプリタを逐次変換Webサーバかデーモンとして起動する。</p>
+<p> <code>sudo hphpi/hphpi -m server (or daemon)<br />
+curl localhost/test.php<br />
+curl localhost:8088</code><br />
+<h3>大きなコードベースのコンパイル</h3>
+<p>まずコンパイラの様々なスイッチを理解しましょう：</p>
+<p> <code>hphp/hphp --help</code>
+<p>いくつかのフラグを指定する方法が３つあります。 <span class="caps">（1）HDF</span>形式の設定ファイル。hdf形式の詳細については doc/hdf をお読みください。次に、<code>--config</code>で、使用する設定ファイルを指定します。<span class="caps">（2）HDF</span>ファイル内のほぼすべてのオプションは、直接ドット表記形式で列挙することができます。たとえば<code>-v "node.subnode=value"</code> のように。（3）我々は、最も頻繁に使用されるものをいくつかのショートカットを作成しました。このようになります<code>--force</code> 。</p>
+<p>最も重要なフラグはインクルードまたは除外するファイルやディレクトリを指定するものです。これらはきれいに設計されていないので、今後改善する必要があると感じています。疑問がある場合は、単にファイル名のリストを別のファイルに準備して<code>--input-list</code>のスイッチを使用します。</p>
+<h3>オンデマンド解析モード使用する（オプション）</h3>
+<p>コマンドラインから指定されていないファイルは、コンパイラがそれらを見つける事が出来る場合<strong>のみ</strong> 、インクルードされます。あなたの書いたinclude文下記のように扱われる事になります：</p>
+<ul>
+<li>単純なリテラルの結合、コンパイラはコンパイル時にそれを計算することができます。</li>
+<li><code>"include_once $MY_ROOT.'/path/file.php';"</code>のような単純な形式で記述<br /><strong>注：</strong>ここでいう、$ MY_ROOTはこのような内容の設定ファイルを作成する事でコンパイラに指示することができます：</li>
+</ul>
+<p> <code>IncludeRoots {<br />
+  * {<br />
+    root = $MY_ROOT<br />
+    path = lib/my_code<br />
+  }<br />
+  * {<br />
+    root = $ANOTHER_ROOT<br />
+    path = anotherlib<br />
+  }<br />
+}</code>
+<p>この設定ファイルを含むように<code>--config</code>を使用する 。コンパイラは、上記のinclude文を"lib / my_code/path/file.php"として解決します。</p>
+<p><strong>注：</strong>オンデマンドモードを設定することが困難な場合、すべてのコンパイルしたい<span class="caps">PHP</span>ファイル含めるように<code>--input-list</code>を使用してください。</p>
+<h3>distccの使用</h3>
+<p>大規模なコンパイルについては、我々は<a href="http://distcc.samba.org">distccの</a>セットアップをお勧めします。</p>
+<h3>例：PHPUnitのコンパイル</h3>
+<p>1. <span class="caps">PHPUnit</span>の PHPファイルをチェックアウトする：</p>
+<p> <code>git clone git://github.com/sebastianbergmann/phpunit.git<br />
+cd phpunit<br />
+git checkout -b 3.4 origin/3.4</code>
+<p>2.確実かつ安全な方法として入力ファイルを指定します。</p>
+<p> <code>find . -name "*.php" &gt; files.list</code>
+<p>これはコンパイルしたいすべてPHPファイルのリストです。</p>
+<p>3.プロジェクトをコンパイルする準備が整いました。</p>
+<p> <code>$HPHP_HOME/src/hphp/hphp --input-list=files.list -k 1 --log=3 \<br />
+  --include-path="." --force=1 --cluster-count=50 \<br />
+  -v "AllDynamic=true" -v "AllVolatile=true" </code>
+<p><code>-k 1</code>または<code>--keep-tempdir=1</code>で、新しい一時的なディレクトリが毎回作成されます。この方法はコンパイルを試している時に便利です。</p>
+<p>PHPUnitはPHPUnitのルートディレクトリから相対的にインクルードを行っているので、<code>--include-path</code>が必要です。このオプションを指定しない場合、すべてのこのような形式 "include 'somepath/file.php';" はそれを含むファイルからの相対パスとして扱われます。</p>
+<p>HipHopがコードに発見した警告やエラーを無視するには<code>--force=1</code>が必要です。このオプションがなければ、コンパイラはエラーがあれば画面上にダンプして停止します。<code>--force=1</code>を使った場合、これらのエラーのほとんどは実行時エラーでしょう。この場合もあなたはまだ出力ディレクトリの下に生成された CodeError.js でそれらを確認できます。</p>
+<p><code>--cluster-count=50</code>distcc無しでのコンパイルに役立ちます。このフラグがなければ、それぞれの<span class="caps">PHP</span>ファイルに対してcppファイルが1つ生成されます。PHPファイルの数が多い場合、cppファイルのコンパイルがToo Manyで終わる可能性があります。clusteringを使えばPHPファイルの数は重要ではありません。HipHopは指定された数の.cppファイルを生成し、より簡単にdistccに少ない回数でこれを渡す事ができます。クラスタの数はdistccのワーカー数より少し少ないくらいにすべきです。例えば20台のマシンで8つずつのdistccワーカーを動かしている場合はクラスタ数は100がよいでしょう。しかし、ある種の最適値を見つけるにはコンパイル時間を比較しながらにクラスタ数を上げたり下げたりしてください。</p>
+<p><code>-v "AllDynamic=true"</code>このオプションにより 、動的な関数や、動的メソッド呼び出しを問題なくサポートすることができます。コーディング中に動的関数呼び出しや動的メソッド呼び出しをしている場合はオンを推奨します。少しパフォーマンスが犠牲になりますが、それが安全です。</p>
+<p><code>-v "AllVolatile=true"</code>このオプションにより、関数やクラスの動的な宣言を問題なくサポートすることができます。<code>function_exists()</code>や<code>class_exits()</code>を宣言の前後で実行したり、その順序に意味があるような異常なテストを実行しない限りはオンにすることを推奨します。PHPUnitは、いくつかのクラスファイルをロードした後、新しいクラスを見つけるためその戻り値を比較する為に<code>get_declared_classes()</code>を呼び出すことがあります。したがって、PHPUnitにはこのスイッチを追加する必要があります。ほとんどの場合は、オンにする必要はありません。これは、パフォーマンスが場合によって犠牲になります。</p>
+<p>4.これでコンパイルされたPHPUnitのバイナリができたはずです。もしここまで到達することはできない場合は、私たちに報告してください。バイナリを実行するには、</p>
+<p> <code>php phpunit.php (in PHP)<br />
+/tmp/hphp_po33pK/program -f phpunit.php (in HipHop, note the -f flag)</code> <code>php phpunit.php PHPUnit/Tests/Framework/SuiteTest.php<br />
+/tmp/hphp_po33pK/program -v "Server.SourceRoot=`pwd`" \<br />
+   -f phpunit.php PHPUnit/Tests/Framework/SuiteTest.php</code>
+<p>コンパイルされたバイナリの"プログラム"は、通常<code>phpunit.php</code>と同じディレクトリから実行するよう注意してください。PHPUnitは、ローカルディスクから.phpファイルを探す際に<code>file_exists()</code>を使っているからです。より高度な設定をし静的ファイルキャッシュを構築することで、ディスク上の場所の依存関係を削除する事もできます。</p>
+<p>注意<code>-v "Server.</code><code>SourceRoot=`pwd`"</code>は、通常は必要ありません。しかし、PHPUnitのかなりの数のファイル操作はいくつかのファイルの場所に基づく、ローカルディスク上にへの<code>realpath()</code>を呼び出しています。だから我々はテストを実行する場合にこれを追加する必要がありました。</p>
+<p>5.いくつかの役に立つヒント：</p>
+<p>（1）<code>--keep-tempdir=1</code>でバイナリを作ったが、その名前を忘れてしまった場合は、単純なコマンドは、通常それを見つけることができます。</p>
+<p> <code>ls -altrd /tmp/hphp_* | tail -1</code>
+<p>（2）多くの一時的なディレクトリがディスク容量を使い切る事があります。全てのHipHopの一時ファイルはこのよう削除できます。</p>
+<p> <code>rm -fR /tmp/hphp_*</code><br />
+<h2>例：HPHPiの下でPHPUnitの実行</h2>
+<p> <code>$HPHP_HOME/src/hphpi/hphpi -f phpunit.php<br />
+$HPHP_HOME/src/hphpi/hphpi -f phpunit.php PHPUnit/Tests/Framework/SuiteTest.php</code>
+<p><font color="red">海平：私たちは、すべてのSuiteTest.php渡すことができますが、我々は、我々はまだ完全に、PHPUnitのいくつかのローカルディスク上の推定といくつかのマイナーなバグをのために、PHPUnit/Tests/Frameworkの下で完全にパスすることはできていません。</font><font color="red">全ての問題を修正する為に今もデバッグ中です。</font></p>
+<h3>例：WordPressのコンパイル</h3>
+<p>1.WordPressのコピーを取得します。注意、私たちはHipHopでWordPressをコンパイルする前に修正する必要がある2つ、3つの問題を見つけました。これらは、Wordpressの<span class="caps">SVN</span>のトランクにも反映されていますがバックポートはされていません。</p>
+<p> <code>wget http://wordpress.org/latest.tar.gz<br />
+tar zxvf wordpress-2.9.1.tar.gz<br />
+cd wordpress<br />
+[patch to fix some PHP coding problems that will cause compilation errors]</code>
+<p>2.config.sample.phpをコピーするなどしてconfig.phpを作成し、データベース情報を設定します。このファイルは、 コンパイル<span class="caps">前に</span>準備しなければならないので、最終的なバイナリにされます。このファイルの変更がある場合はパッケージ全体の再コンパイルが必要です。</p>
+<p>3.すべてのコンパイルしたいPHPファイルのリストを作成：</p>
+<p> <code>find . -name "*.php" &gt; files.list</code>
+<p>4.プロジェクトをコンパイルする準備が整いました。</p>
+<p> <code>$HPHP_HOME/src/hphp/hphp --input-list=files.list -k 1 --log=3 \<br />
+  --force=1 --cluster-count=50</code>
+<p>WordPressはPHPUnitほど動的なコーディングを持っていないためPHPUnitよりも簡単です。</p>
+<p>5.コンパイル済みのバイナリが出来たはずです。それを実行するには</p>
+<p> <code>sudo /tmp/hphp_xpl7hT/program -m server -v "Server.SourceRoot=`pwd`" \<br />
+  -v "Server.DefaultDocument=index.php" -c $HPHP_HOME/bin/mime.hdf</code>
+<p><code>sudo</code> WordPressがそのポートのみで動作するのでポート80にListenする為に必要です。</p>
+<p><code>-m server</code>  サーバーモードでプログラムを実行します<code>-m daemon</code>としても大丈夫です。</p>
+<p><code>-v "Server.SourceRoot=`pwd`"</code> 画像やcssファイルを見つけるには、依然として必要です。</p>
+<p><code>-v "Server.DefaultDocument=index.php"</code> http://server/ として動作する為に必要。</p>
+<p><code>-c $HPHP_HOME/bin/mime.hdf</code>静的なコンテンツのファイル拡張子に応じて<span class="caps">異なる</span> MIMEヘッダを提供する必要とするサーバーではロードする必要がある。</p>
+<p>冗長なログを参照するには、</p>
+<p><code>-v "Log.Level=Verbose"</code>これはエラー、警告、情報よりも多く出力します。<br /><code>-v "Log.NoSilencer=on"</code>は、WordPressのコードで多く使用される@演算子でエラーを出力します 。<br /><code>-v "Log.Header=on"</code>ログの各行のヘッダに出力されます 。ほとんどのヘッダは16進数による長い文字列です。これは16進エンコードされたスタックトレースです。これを読めるように変換するには以下のコマンドを実行します。</p>
+<p> <code>/tmp/hphp_xpl7hT/program -m translate the-long-hex-string-without-brackets<br />
+</code></p>
+<p>--訳ここまで</p>

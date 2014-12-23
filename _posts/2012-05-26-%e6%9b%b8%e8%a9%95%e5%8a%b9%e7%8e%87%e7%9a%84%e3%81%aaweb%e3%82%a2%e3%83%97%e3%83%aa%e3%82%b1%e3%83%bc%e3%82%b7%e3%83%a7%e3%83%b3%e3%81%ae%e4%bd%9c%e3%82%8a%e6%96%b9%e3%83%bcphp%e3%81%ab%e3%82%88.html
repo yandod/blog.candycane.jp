@@ -1,0 +1,38 @@
+---
+layout: post
+title: '[書評]効率的なWebアプリケーションの作り方ーPHPによるモダン開発入門ー'
+date: 2012-05-26 11:44:09.000000000 +09:00
+categories:
+- ブログ
+tags:
+- PHP
+- 書評
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/05/FxCam_1337994154884.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/05/FxCam_1337994154884-600x400.jpg" alt="" title="FxCam_1337994154884" width="600" height="400" class="aligncenter size-medium wp-image-1460" /></a></p>
+<p>小川雄大さんの新刊、<a href="http://www.amazon.co.jp/gp/product/4774150827/ref=as_li_ss_tl?ie=UTF8&tag=waveando13-22&linkCode=as2&camp=247&creative=7399&creativeASIN=4774150827">効率的なWebアプリケーションの作り方 ~PHPによるモダン開発入門</a><img src="http://www.assoc-amazon.jp/e/ir?t=waveando13-22&l=as2&o=9&a=4774150827" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /><br />
+を<a href="https://gist.github.com/2789077" target="_blank">PHP勉強会のarray_randのお陰</a>で頂いたので読んでみたので感想を。</p>
+<h2>実質的にはSymfony2の貴重な日本語書籍</h2>
+<p>この書籍はMVCやオブジェクト指向の基礎からスタートして、<strong>Symfony2(Symfony Standard Edition)、Doctrine、Twigやgit、git-flow、Twitter bootstrap(v2)、PHPUnit、Stagehand_TestRunner</strong>といったツールを駆使してアプリケーションの開発を行う流れをソースコードを発展させながら解説するという書籍です。見ての通り最新のツール群を取り揃えた形の解説書籍になっています。<strong><span style="color:red">特にSymfony2を使ったコードが（namespaceが付いたコード）書籍で確認できるという意味では貴重</span></strong>なのではと思いました。<br />
+またgitにはgit-flow、PHPUnitにはStagehand_TestRunnerとツールに対して拡張ツールを併用して活用する方法を解説しているというのもかなり珍しいと思います。</p>
+<h2>特に良さ気なところ</h2>
+<p>書籍の序盤部分ではオブジェクト指向を使わないコードをリファクタリングしながらオブジェクト指向にしていく流れが解説されています。単なる文法の解説でもなく、安易なメタファーを使うわけでもなく最適解としてオブジェクト指向を解説しています。<br />
+また実際の解説の部分ではTwigやbootstrapなどを使ったコードになっているのでいわゆる<strong>「サンプルだからしょうがない」的な妥協がかなり少なくなっている</strong>ように思います。最小限のステップで開発を進めているのでSymfony2難しそう、セットアップ大変そうといった感触はかなり少なくなっているのでSymfony2の概略を知った上で雰囲気はどうなの？みたいに思っている人にはすごく良いと思います。<br />
+またユニットテストについてもSymfonyの強みとも言えるブラウザをエミュレーションしたテストとコントローラーなどの各モジュールのテストが解説されています。dataproviderなどのアノテーションもさり気なく使っているのがすごいですね。<br />
+Symfonyについてもバンドルやコンソールの利用方法が提示されているので<strong>この書籍のスタイルで開発すれば拡張性を担保しながらCronから起動される処理なども開発できそう</strong>です。</p>
+<h2>Symfonyなどのリファレンスではない</h2>
+<p>流れを解説していく構成になっているので、<strong>一般的なSymfonyの特徴や機能を網羅するパートはありません。</strong>とはいえそういった情報はWeb上の公式ドキュメントを見れば簡単に入手できるので紙面の構成としては正しいと思います。またコードの内容にかなり着目した内容になっているのでセキュリティやパフォーマンスチューニング、クラウド環境の利用といった外部環境に関する記述は基本的にありません。gitの扱いについてもgit-flowを使って抽象化しているのでごく基本的な操作が取り上げられています。gitを初めて活用する場合は別の資料も合わせて利用することになるでしょう。</p>
+<h2>総評「当たり前を定義しなおす本」</h2>
+<p>以上のように中上級者向けといった書籍ですが、それ以上に<strong><span style="color:red">今後の開発のスタンダードをgitやユニットテスト、bootstrapという所まで一気に水準を引き上げる意味がある</span></strong>書籍でしょう。過去の経緯やメンバーが未経験であるからといった理由でSmartyやSvn、ユニットテストはしないといった技術的な妥協をする誘惑は数多くありますが、やはり時代は確実により便利なツールセットに流れています。<br />
+軸足をPHPに置いて活動するようなエンジニアにとっては腕試し的に内容を理解できるか使えるかを確認してみるのによい一冊ではないでしょうか。</p>
+<p><iframe src="http://rcm-jp.amazon.co.jp/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=waveando13-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=ss_til&asins=4774150827" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe></p>

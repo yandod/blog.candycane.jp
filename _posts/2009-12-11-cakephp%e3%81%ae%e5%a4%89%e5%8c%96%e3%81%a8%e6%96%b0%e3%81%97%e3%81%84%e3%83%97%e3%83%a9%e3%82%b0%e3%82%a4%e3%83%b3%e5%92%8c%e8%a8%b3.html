@@ -1,0 +1,38 @@
+---
+layout: post
+title: CakePHPの変化と新しいプラグイン(和訳)
+date: 2009-12-11 13:59:05.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- 和訳
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2009/12/octocat.png"><img src="http://blog.candycane.jp/wp-content/uploads/2009/12/octocat-300x300.png" alt="octocat" title="octocat" width="300" height="300" class="alignnone size-medium wp-image-183" /></a></p>
+<p>CakePHPの開発体制の変更がbakeryでアナウンスされました。Tracで開発されていた頃が懐かしく思えてきます。これまではツール自体をフレームワークで開発する事で完成度を高めていくアプローチでしたが、今後は外部のサービスなどを積極的に採用していくのでしょうか。<br />
+という事で詳細は現リードデベロッパのMark Storyさんのポストをどうぞ。</p>
+<h3>原文</h3>
+<p>Changes in CakePHP and new plugins<br />
+<a href="http://bakery.cakephp.org/articles/view/changes-in-cakephp-and-new-plugins">http://bakery.cakephp.org/articles/view/changes-in-cakephp-and-new-plugins</a></p>
+<h3>CakePHPの変化と新しいプラグイン by Mark Story</h3>
+<p>1.3と2.0の開発が本格化する中でCakePHPチームはチームとコミュニティが使うツールについて再評価と検討を行っていました。近年、CakePHPはSubversionからGitへ移行や、問題の管理をTracからcode.cakephp.orgへの移行などの変化がありました。それらの変化はコミュニティとプロジェクトの成長に良い影響をもたらしてきました。</p>
+<p>現在、我々は thechaw.comのソフトウェアを使ったcode.cakephp.orgへの移行は全てにおいて有益な変更ではなかったと感じています。code.cakephp.orgのコードベースはいくつかの問題を抱えており、現在のコアチームはこのコードを改良して我々のニーズにあう、幾多のソリューションのようにする事に興味を欠いています。さまざまな選択肢と道について何時間もの議論と検討を重ね、多くのオープンソースプロジェクトを管理するWEBアプリケーションのうちの一つを活用することが最良の手段であると決断しました。私たちはソースコードの管理にgithub<a href="http://github.com/cakephp">[1]</a>を使います。加えて、問題の管理と一時的なドキュメントをWiki上で管理する為にlighthouse<a href="http://cakephp.lighthouseapp.com/projects/42648-cakephp-1x/overview">[2]</a><a href="http://cakephp.lighthouseapp.com/projects/42649-cakephp-2x/overview">[3]</a>も使っていきます。</p>
+<p>これまでも<a href="http://github.com/cakephp/cakephp1x">CakePHP1.x</a>と<a href="http://github.com/cakephp/cakephp2x">CakePHP2.x</a>が別のリポジトリに分かれていました。同様にlighthouse上のプロジェクトも分かれます。この変化によりコミュニティにから求められていた必要なツールとリソースを提供する事が出来ると我々は感じています。さらにこれによってコアチームの負担は少なくなり、我々がベストなフレームワークと関連するツールを創る事に全力を尽くす事に集中できるようになります。あなた -コミュニティ- が私たちの移行への思いとご不便をおかけすることを誠に申し訳なく思っている事を理解してもらえる事を望みます。</p>
+<p>移行が終わった際は、tracとcode.cakephp.orgは停止し、CakePHPに関する全ての活動はgithubとlighthouse上に移ります。この移行には数日かかる予定です。github上のリポジトリのいくつかの履歴は過去に起きたエラーや不規則さを書き直しています。もしあなたがローカルにクローンを作って変更を加えているならrebaseによってこれらの変更を移行するようにしてください。</p>
+<p>また今回、２つの新しいプロジェクトをアナウンスしたいと思います。その名は <a href="http://github.com/cakephp/localized">localized</a> と <a href="http://github.com/cakephp/datasources">datasources</a> です。Localizedは全ての国々固有の1.3用のバリデータを包括するように設計されています。この記事の執筆時点で13の国が部分的、または完全に実装されています。もしあなたの国がリポジトリに無ければプロジェクトをフォークして、あなたの国を追加した後にプルリクエストを送ってください。</p>
+<p>Datasourcesはコミュニティによるデータソースクラスを包括するように設計されています。当初はこのリポジトリは1.3で非推奨または取り除かれたデータソースが含まれています。時間とともにこのデータソースのリポジトリが成長し洗練されていく事を期待しています。またこれらの２つのプロジェクトはCakePHPからは分離した状態のままにします。これによりCakePHP自身に左右されない自由なリリーススケジュールを提供できます。</p>
+<p>datasourcesとlocalizedの双方は問題の管理の為にlighthouseのプロジェクトを持っています。<a href="http://cakephp.lighthouseapp.com/projects/42658-localized/">[8]</a><a href="http://cakephp.lighthouseapp.com/projects/42657-datasources">[9]</a>これらのプラグインに何か問題があればlighthouseに登録してください。またこれらのプロジェクトに関わることに興味があればgithub上でプロジェクトをフォークして、プルリクエストを送ってください。</p>
+<p>--翻訳ここまで</p>
+<p>これまでCakePHPの本体に貢献する為にはチケットを書いたり、コアチームに入るなどの障壁がありましたがgithubに移行した事でforkしてプルリクエストを送るという簡便な方法で貢献できるようになります。また日本にとってはlocalizedは全力を尽くすべきところでしょうし、まだgithubのアカウントをお持ちでない方は登録して強力に日本からのコードで貢献していけるとハッピーなのではないでしょうか。</p>
+<p>Twitterを見ると大量のプルリクエストにさっそく<a href="http://twitter.com/mark_story/status/6556995413">markが驚いている</a>ようですよ！</p>

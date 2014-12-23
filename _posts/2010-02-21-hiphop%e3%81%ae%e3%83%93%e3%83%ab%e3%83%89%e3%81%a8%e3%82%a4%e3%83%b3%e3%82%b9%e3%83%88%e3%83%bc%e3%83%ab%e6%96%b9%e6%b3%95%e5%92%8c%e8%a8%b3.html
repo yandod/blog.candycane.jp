@@ -1,0 +1,91 @@
+---
+layout: post
+title: HipHopのビルドとインストール方法(和訳)
+date: 2010-02-21 13:18:54.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Facebook
+- HipHop
+- 和訳
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p>ソースコードがついに公開されたHipHop for PHPのビルドとインストール方法のドキュメントの和訳を作成しました。CentOSかFedoraの環境をお持ちの方は早速ビルドに挑戦してみてはいかがでしょうか。利用法のドキュメントの和訳は引き続きアップします。</p>
+<ul>
+<li><a href="http://blog.candycane.jp/archives/275">PHPをC++に変換して高速化する「HipHop for PHP」をFacebookが公開</a></li>
+<li>HipHopのビルドとインストール方法(和訳)</li>
+<li><a href="http://blog.candycane.jp/archives/300">HipHopを実行するには(和訳)</a></li>
+</ul>
+<h3>原文</h3>
+<p><a href="http://wiki.github.com/facebook/hiphop-php/building-and-installing">http://wiki.github.com/facebook/hiphop-php/building-and-installing</a></p>
+<h3>ビルドとインストール</h3>
+<p>HipHopはCentOSとFedora向けに開発されており、他のオペレーティングシステム上でのビルドは現在のところ機能しません。他のオペレーティングシステム向けのサポートは準備ができ次第追加されます。</p>
+<h2>前提条件</h2>
+<p>HipHopの前提条件はすべてをを静的にビルドする事です。ほとんどのパッケージは直接あなたのディストリビューションのパッケージ管理システムからインストールすることができます。</p>
+<h3>必要なパッケージ</h3>
+<ul>
+<li>cmakeの<i>2.6以上のバージョン</i></li>
+<li>g++ / gccの<i>4.1以上のバージョン</i></li>
+<li>Boost <i>1.37以上のバージョン</i></li>
+<li>flex</li>
+<li>bison</li>
+<li>{re2cの{0}0.13.0以上のバージョン</li>
+<li>libmysql</li>
+<li>libxml2</li>
+<li>libmcrypt</li>
+<li>libicu <i>4.2以上のバージョン</i></li>
+<li>openssl</li>
+<li>binutils 及び binutils-dev</li>
+<li>libcap</li>
+<li>gd</li>
+<li>zlib</li>
+<li>tbb <i>インテルのスレッドビルディングブロック</i></li>
+<li>libmbfl： git clone git：/ /github.com/scottmac/libmbfl.git</li>
+<li><a href="http://www.geocities.jp/kosako3/oniguruma/">Oniguruma</a></li>
+<li>libpcre3</li>
+<li>libexpat</li>
+</ul>
+<h3>カスタムパッケージ</h3>
+<p>以下のパッケージは若干の変更が加えられており、最新のソースのコピーに対して提供されているパッチを当てる必要があります。</p>
+<ul>
+<li><a href="http://curl.haxx.se/download.html">libcurl</a> <i>src/ third_party/libcurl.fb-changes.diff</i></li>
+<li><a href="http://www.monkey.org/%7Eprovos/libevent/">libevent 1.4</a> <i>src/third_party/libevent.fb-changes.diff</i></li>
+</ul>
+<p>パッチを適用するにはあなたのビルド環境は：<br /> <code>curl-7.20.0 hiphop-php libevent-1.4.13-stable</code></p>
+<p>次のコマンドを入力します：<br /> <code>cd libevent-1.4.13-stable</code><br /> <code>cp ../hiphop-php/src/third_party/libevent.fb-changes.diff .</code><br /> <code>patch &lt; libevent.fb-changes.diff</code><br /> <code>cd ..</code><br /> <code>cd curl-7.20.0</code><br /> <code>cp ../hiphop-php/src/third_party/libcurl.fb-changes.diff .</code><br /> <code>patch -p0 &lt; libcurl.fb-changes.diff</code></p>
+<p>パッチ処理中にエラーが表示される場合は -p0 を入力しないでください。</p>
+<h3>バンドルパッケージ</h3>
+<ul>
+<li>src/third_party
+<ul>
+<li>libafdt</li>
+<li>libmbfl</li>
+<li>sqlite3</li>
+<li>timelib</li>
+</ul>
+</li>
+</ul>
+<h2>ビルド</h2>
+<h3>ソースからIntel <span class="caps">TBB</span>を使用する</h3>
+<p>ソースから<span class="caps">TBBの</span>構築した場合や、、手動でバイナリをインストールした場合はいくつかの変数をバージョンと場所のヒントを与えるためにエクスポートする必要があります。</p>
+<p><code>export TBB_INSTALL_DIR="/home/user/tbb22_012oss"</code><br /> <code>export TBB_ARCH_PLATFORM="intel64/cc4.1.2_libc2.5_kernel2.6.20"</code></p>
+<p>目的は<code>ls $TBB_INSTALL_DIR/$TBB_ARCH_PLATFORM</code>　に対してリンクするファイルが表示される事です。</p>
+<h3>ビルド</h3>
+<p>CMakeは、現在の選択されているビルドツールです。</p>
+<p>あなたのカスタムのlibcurl、libeventや、必要に応じてインストールした他のライブラリの場所をCMakeに指し示す必要があります。<i>CMAKE_PREFIX_PATH</i>変数は場所のヒントを与えるために使用されます。</p>
+<p><code>export CMAKE_PREFIX_PATH=/home/user</code></p>
+<p>HipHopのビルドは下記のように行います。</p>
+<p><code>cd /home/user/hiphop</code><br /> <code>git clone git://github.com/facebook/hiphop-php.git</code><br /> <code>cd hiphop-php</code><br /> <code>git submodule init</code><br /> <code>git submodule update</code><br /> <code>export HPHP_HOME=`pwd`</code><br /> <code>export HPHP_LIB=`pwd`/bin</code><br /> <code>cmake .</code></p>
+<p>これが終わるとビルドに必要なファイルが生成されシェルに処理が戻ります。最後にmakeを実行します。エラーが発生した場合は、チェックアウトしたディレクトリ内のCMakeCache.txtの削除が必要です。</p>
+<p><code>make</code></p>
+<p>--訳ここまで</p>

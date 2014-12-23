@@ -1,0 +1,53 @@
+---
+layout: post
+title: 'Windows Azure + PHPな環境でSymfonyを動かす #symfonyadvent'
+date: 2011-12-22 00:00:33.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Azure
+- PHP
+- symfony
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアデスク.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアデスク-300x239.jpg" alt="" title="クラウディアデスク" width="300" height="239" class="aligncenter size-medium wp-image-964" /></a></p>
+<p>このエントリーは<a href="http://atnd.org/events/22378" target="_blank">Symfonyアドベントカレンダー2011</a>に参加しています。CakePHPの人として知られている私ですがSymfonyも業務では4年以上利用し続けております。今回は22日目担当とWindows Azure + PHPの環境でSymfonyを動かしてみました。いろいろと面倒なところがありそうな予感もしますが、これまでの知識を元に公式のチュートリアルを動かす事を目標にやってみます。</p>
+<h3>SQLite拡張の有効化</h3>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/12/symfony-azure1.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/12/symfony-azure1-300x138.png" alt="" title="symfony-azure1" width="300" height="138" class="aligncenter size-medium wp-image-1132" /></a><br />
+ではWindws Azure PHPプロジェクトを新規に作成し、<a href="http://symfony.com/download" target="_blank">Symfony2.0.7をダウンロードしたもの</a>をソースに取込んで動かしてみます。画面のようにSQLiteの拡張が見つからないというメッセージが表示されます。Azure SDKに同梱されたPHPではSQLiteが有効になっていなかったので、php/php.ini 内のコメントを外し、SQLiteを有効にします。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/12/symfony-azure3.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/12/symfony-azure3-300x146.png" alt="" title="symfony-azure3" width="300" height="146" class="aligncenter size-medium wp-image-1134" /></a><br />
+これでフレームワーク部分は動作していますので、デモ用のバンドルに含まれている画面などは上記のように動作しています。</p>
+<h3>データベースの接続設定</h3>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/12/symfony-azure2.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/12/symfony-azure2-300x172.png" alt="" title="symfony-azure2" width="300" height="172" class="aligncenter size-medium wp-image-1133" /></a><br />
+SQLiteを有効にした事で開発用のブートストラップからダッシュボードにアクセスできます。ここからデータベースの接続設定をしていきますが、残念ながらここにはMySQLやPDO_MSSqlといった選択肢しかありません。もちろんMySQLなどをAzureで動作させればここから設定をすれば問題はありません。とはいえせっかくAzureですからAzureSQLに接続して動かしたいですよね。<br />
+AzureSQLに接続するには<a href="http://www.microsoft.com/download/en/confirmation.aspx?id=20098" target="_blank">microsoftから配布されているsqlsrv拡張</a>を導入する必要があります。Azureプロジェクトに同梱されているバージョンに併せた拡張をプロジェクト内にコピーして、これもphp.iniから正しく読み込まれるように設定します。</p>
+<pre lang="txt">
+extension="php_azure.dll"
+extension="php_mysql.dll"
+extension="php_sqlsrv_53_nts_vc9.dll"
+extension="php_pdo_sqlsrv_53_nts_vc9.dll"
+</pre>
+<p>またデータベースへの接続設定はダッシュボードからではなく直接設定ファイルを編集して設定します。</p>
+<pre lang="txt">
+[parameters]
+    database_driver   = pdo_sqlsrv
+    database_host     = YOUR-PC\SQLEXPRESS
+    database_port     =
+    database_name     = symfony
+    database_user     = sa
+    database_password = yourpassword
+</pre>
+<h3>Doctrineの操作</h3>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/12/symfony-azure4.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/12/symfony-azure4-300x218.png" alt="" title="symfony-azure4" width="300" height="218" class="aligncenter size-medium wp-image-1135" /></a><br />
+ここまでの設定を行った事でDoctrine経由でのスキーマ操作等が行えます。シェルを実行した際には少しエラーが出てしまいますが、タスクの実行自体に問題はありません。ソースコードの変更を伴うようなタスクを実行した後はプロジェクトを開発ファブリックに再度反映する必要がある点には注意してください。</p>
+<p>ここまでの動作確認は開発ファブリック上で行っています。このプロジェクトを本当にデプロイできるかどうかを試してみたいのは山々なのですが、残念ながらAzureのアカウントを持っていません。とはいえ<a href="http://blogs.msdn.com/b/brian_swan/archive/2010/02/12/getting-started-with-php-and-sql-azure.aspx" target="_blank">sqlsrv拡張を通じてAzure SQLにアクセスできる事</a>は周知されているので問題ないと言って差し支えないでしょう。</p>

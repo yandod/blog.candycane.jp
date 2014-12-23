@@ -1,0 +1,53 @@
+---
+layout: post
+title: CandyCane v0.7
+date: 2011-05-02 10:24:14.000000000 +09:00
+categories:
+- ブログ
+tags:
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/05/candycane0.7.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/05/candycane0.7-300x133.png" alt="" title="candycane0.7" width="300" height="133" class="aligncenter size-medium wp-image-643" /></a></p>
+<p><a href="https://github.com/yandod/candycane/archives/v0.7">CandyCane v0.7</a></p>
+<p>Rubyで作られたバグトラッキングシステム、RedmineをPHPに移植したcandycaneの公開されているソースコードをバージョン0.7としました。Redmineの構造が複雑で規模が大きかった事もあり移植の範囲をかなり限定していますが、candycaneのバグ管理をしてみてひとまず使えている範囲になったのでバージョンを打つ事にしました。またバグ管理を始めて以降、<a href="http://my.candycane.jp/versions/show/11">33のバグが修正され、延べ作業時間は24.75時間</a>でした。</p>
+<p>今回が初めてのリリースバージョンですが、延べ9人の開発者のコードが刻み込まれた内容になっています。個人や小規模にバグトラッキングをしてみたい方やRedmineを試してみたいけれどRubyの環境が無いような方に遊んで頂けると幸いです。(パフォーマンスチューニングやリファクタリング前かつ、PHP4にもまだ対応していて処理が重いです)</p>
+<h4>現在のcandycaneでできること</h4>
+<ul>
+<li>ブラウザベースでのインストール</li>
+<li>ユーザー登録、管理</li>
+<li>プロジェクトの登録、管理</li>
+<li>チケットの登録、管理</li>
+<li>カスタムクエリの登録、管理</li>
+<li>添付ファイルの登録、管理</li>
+<li>バージョンの登録、管理</li>
+<li>Wikiの記述(履歴の管理は未実装)</li>
+<li>ニュースの登録、管理</li>
+<li>タイムトラッキングとレポート</li>
+</ul>
+<h4>現在のcandycaneでできないこと</h4>
+<ul>
+<li>検索</li>
+<li>フォーラム機能(プラグインで対応)</li>
+<li>リポジトリビューアー(プラグインで対応)</li>
+<li>カスタムフィールド</li>
+<li>文書機能(プラグインで対応)</li>
+<li>メール通知</li>
+</ul>
+<h4>今後の予定</h4>
+<p>今後も継続して開発を行い未完成機能の実装やパフォーマンスチューニング、プラグイン対応などを行いながら1.0を目指します。特にフォーラムや文書といった周辺機能についてはプラグインで追加できるような構造にできるようにリファクタリングを行いたいと思っています。<br />
+興味を持って頂ける方にはぜひとも<a href="http://my.candycane.jp/versions/show/11">バグの報告</a>や開発やドキュメントの執筆などへの参加などをお願いします。<del datetime="2011-05-02T00:55:59+00:00">(というか全然手が足りません）</del></p>
+<p>よろしくお願いします。</p>
+<h4>おまけ　開発の歴史とか</h4>
+<p><a href="http://d.hatena.ne.jp/yandod/archive?word=candycane">旧ブログでの記事</a><br />
+<a href="http://events.php.gr.jp/events/show/74">開発合宿の参加者の方々の記事へのリンク等</a></p>

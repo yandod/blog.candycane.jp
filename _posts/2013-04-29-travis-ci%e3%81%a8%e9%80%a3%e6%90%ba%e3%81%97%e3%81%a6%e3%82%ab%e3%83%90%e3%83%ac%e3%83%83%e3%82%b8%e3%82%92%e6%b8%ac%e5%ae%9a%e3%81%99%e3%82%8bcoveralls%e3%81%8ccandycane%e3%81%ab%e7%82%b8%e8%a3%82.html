@@ -1,0 +1,70 @@
+---
+layout: post
+title: Travis CIと連携してカバレッジを測定するCoverallsがCandyCaneに炸裂した件
+date: 2013-04-29 00:13:14.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _wpas_done_all: '1'
+  _blackbirdpie-328518418917642240: |-
+    a:13:{s:2:"id";s:18:"328518418917642240";s:11:"screen_name";s:11:"satooshi_jp";s:9:"real_name";s:73:"&#12365;&#12383;&#12416;&#12540;&#12425; &#12373;&#12392;&#12540;&#12375;";s:10:"tweet_text";s:247:"CandyCane&#12395;&#12418;Coveralls&#12364;&#39087;&#29245;&#12392;&#29694;&#12428;&#12427;&#12424;&#12358;&#12395;&#12394;&#12387;&#12383;&#12435;&#12384;&#12424;&#12290;
+    <a href="https://t.co/SiP3B9RjAV" rel="nofollow">https://t.co/SiP3B9RjAV</a>";s:6:"source";s:63:"<a href="http://www.tweetdeck.com" rel="nofollow">TweetDeck</a>";s:11:"profile_pic";s:68:"http://a0.twimg.com/profile_images/1723022490/IMG_6672_T1_normal.jpg";s:16:"profile_bg_color";s:6:"FFFFFF";s:15:"profile_bg_tile";b:0;s:16:"profile_bg_image";s:48:"http://a0.twimg.com/images/themes/theme13/bg.gif";s:18:"profile_text_color";s:6:"333333";s:18:"profile_link_color";s:6:"44A682";s:10:"time_stamp";i:1367159869;s:10:"utc_offset";i:32400;}
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><img src="http://blog.candycane.jp/wp-content/uploads/2013/04/candycane.gif" alt="candycane" width="640" height="427" class="aligncenter size-full wp-image-1912" /></p>
+<p><a href="http://blog.candycane.jp/archives/1906" target="_blank">先日告知したCandyCaneの開発会</a>が無事に執り行われました。参加者の皆様にはCandyCaneの特製パーカーと肉たくさんカレーを進呈させていただきました。Hamacoさんの動きっぷりにイベントの盛況さが現れています。</p>
+<h2>丸一日のTDDは強烈な成果</h2>
+<p><img src="http://blog.candycane.jp/wp-content/uploads/2013/04/Pulse-·-yandod_candycane-600x328.png" alt="Pulse · yandod_candycane" width="600" height="328" class="aligncenter size-medium wp-image-1916" /><br />
+今回は新しく開発に加わってもらう方を募るという事も兼ねて、ユニットテストを厚くするという作業を中心に丸一日の開発を行いました。よって1日で20以上のプルリクエストをマージしましたが、昨日は何も増えていません。とはいえ実際に稼働するアプリケーションのソースコードにテストを書き、プリリクエストとCIを併用したチーム開発を行うという内容は実にチャレンジでTDD未経験の方にとっても実りある内容になったようです。</p>
+<h2>Travis CIは最強</h2>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2013/04/cc.png"><img src="http://blog.candycane.jp/wp-content/uploads/2013/04/cc-600x410.png" alt="cc" width="600" height="410" class="aligncenter size-medium wp-image-1923" /></a></p>
+<p>コミットがプッシュされる度に自動的にユニットテストを実行して結果をレポートしてくれるTravis CIですがやはり便利です。<a href="https://travis-ci.org/yandod/candycane/builds" target="_blank">もちろんCandyCaneでも利用しています。</a>特にオープンソースプロジェクトでは気になるPHPの各バージョンや各DBとの組み合わせでのテスト実行も自動的に行なってくれるのは驚異的です。CI環境を自力で構築する手間を考えると本当にありがたいサービスです。またPHPがバージョンアップの度に動作速度が早くなり、テストにかかる時間が短くなっていくのも体感できる点も面白いですね。もしあなたのプロジェクトがユニットテストを実行できる状態になっているのであれば、<code>.travis.yml</code>を記述するだけでTravis上でのビルドを実行できます。例えばCandyCaneで使っているtravis.ymlを抜粋すると下記のような感じです。</p>
+<pre lang="yaml">
+language: php
+
+php:
+#  - 5.2 # travis doesn't suppport php5.2 with open_ssl
+  - 5.3
+  - 5.4
+  - 5.5
+
+env:
+  - DB=mysql
+#  - DB=pgsql
+#  - DB=sqlite
+
+before_script:
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
+  - chmod -R 777 ./app/tmp
+  - echo "<?php class DATABASE_CONFIG {
+/** database.php の中身 **/
+    }"?> app/Config/database.php
+  - mysql cakephp_test < app/Config/sql/mysql.sql
+script:
+  - cd ./app; ./Console/cake test app All --stderr
+  - cd ../
+</pre>
+<p>基本的にlanguageとバージョン、データベースを設定すればテスト環境の設定をbefore_script、テストの実行をscriptにシェルスクリプト的に記述するだけです。AntやPhingを使っている場合はさらに記述をシンプルに出来ますが特に設定が困難な部分は無いと言ってよいでしょう。設定が済むとGitHub上で<span style="color:red"><strong>プルリクエストを受けた場合にそのプルリクエストがテストを通るかどうかなどが各プルリクエストのページに自動で埋め込まれる</strong></span>ようになり、マージ作業前に手動でテスト実行する必要がなくなります。これは産業革命レベルで作業効率が上がりますのでオープンソースプロジェクトであれば必ず導入するべきだと思います。</p>
+<h2>Coverallsを使えばPHPプロジェクトだってカバレッジが見れちゃう</h2>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2013/04/cover.png"><img src="http://blog.candycane.jp/wp-content/uploads/2013/04/cover-600x344.png" alt="cover" width="600" height="344" class="aligncenter size-medium wp-image-1934" /></a></p>
+<p>Travisの欠点はカバレッジレポートの公開が出来ない事、しかしその欠点を補うサービス<a href="https://coveralls.io/" target="_blank"> Coveralls</a>が始まりさらにPHP用のライブラリを<a href="https://twitter.com/satooshi_jp" target="_blank">satooshi_jp</a>さんが公開しています。このライブラリをCandyCaneがComposer対応した事もあって<a href="https://coveralls.io/r/yandod/candycane" target="_blank">組み込んだ結果がこのレポートです</a>。うおおおおおお！！！</p>
+<h2>Satooshiさんの対応は神レベル</h2>
+<p>https://twitter.com/satooshi_jp/status/328518418917642240<br />
+当初、組み込んでみた所うまくレポートが生成されないという問題がありました。最終的にはテスト実行時のカレントディレクトリや相対パスの記述などが原因だったわけなのですがなんとこの辺りの問題を察知してSatooshiさんが直してプルリクを送ってくれました。</p>
+<p>このライブラリは神レベルなので全PHPerは是非GitHubでスターしましょう。<br />
+<a href="https://github.com/satooshi/php-coveralls">satooshi/php-coveralls · GitHub</a></p>
+<p>実際にCandyCaneで生成しているTravis CIとCoverallsのレポートを見るともう普通に業務で利用しているCIサーバと遜色の無いレベルなのがわかると思います。またCIサーバはメモリ不足でのダウンやら環境のトラブルが発生しやすいので独自での構築を行う努力を止めて、外部サービスに全力で移行すべきだと思います。CIサーバの構築と運用に費やした労力って多くの場合エンドユーザにはなんのメリットにもならないですからね。プライベートリポジトリを対象にしたレポートやテストについてもあまりお金を掛けずに実行可能ですので、GitHubを業務に活用する流れの次の段階はTravisなどのツールの活用ではないでしょうか。</p>

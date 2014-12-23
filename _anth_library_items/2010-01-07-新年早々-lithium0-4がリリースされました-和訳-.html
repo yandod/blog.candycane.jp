@@ -1,0 +1,43 @@
+---
+layout: anth_library_item
+title: 新年早々、Lithium0.4がリリースされました！(和訳)
+date: 2010-01-07 02:58:48.000000000 +09:00
+categories: []
+tags: []
+status: draft
+type: anth_library_item
+published: false
+meta:
+  anthologize_meta: a:4:{s:11:"author_name";s:6:"yandod";s:17:"author_name_array";a:1:{i:0;s:6:"yandod";}s:9:"author_id";s:1:"2";s:16:"original_post_id";s:3:"232";}
+  author_name: yandod
+  author_name_array: a:1:{i:0;s:6:"yandod";}
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2010/01/nate.jpeg"><img src="http://blog.candycane.jp/wp-content/uploads/2010/01/nate-219x300.jpg" alt="nate" title="nate" width="219" height="300" class="alignnone size-medium wp-image-236" /></a></p>
+<p>あけましておめでとうございます。<br />
+まだ正月ボケが冷めやらずといった時期ですが、Lithium0.4のリリースの知らせが<a href="http://twitter.com/nateabele">nate</a>から飛び込んできました。前回のリリースが12/9なので1か月たたずのリリースということで開発の活発さが伝わってきます。Lithiumの特徴である究極の拡張性を推し進める為の変更が行われているようです。という事で内容の方を見てみましょう。</p>
+<h3>原文</h3>
+<p><a href="http://rad-dev.org/lithium/wiki/blog/Happy_New_Release_of_Lithium_0_4">http://rad-dev.org/lithium/wiki/blog/Happy_New_Release_of_Lithium_0_4</a></p>
+<h3>Happy New Release (of Lithium 0.4):</h3>
+<p>ホリデーシーズン中は少し静かでしたが、Lithium0.4が利用可能になった事をご案内します。前回のリリースから<a href="http://rad-dev.org/lithium/wiki/releases/0_4">100以上の変更</a>が行われ、バージョン1.0に向けた執拗な前進は全速力で続いています。リリースのハイライトは以下の通りです。</p>
+<ul>
+<li><strong>キャッシュレイヤーの著しい改善:</strong><br />さらにXCacheとRadis用の新しいアダプタの追加。アトミックなインクリメントとデクリメントのサポートと複数キーの読み書きの基礎の追加。</li>
+<li><strong>アダプタ設定を扱うベースクラスのリファクタリング:</strong><br />合理的で一貫性のあるAPIを提供する為の努力によりいくつかのフレームワークの設定を扱う <em>core/Adaptable</em> クラスがリファクタリングされました。また <em>data/Connections</em> がこれを継承して書き直され、LithiumのコアAPIがより統一されています。</li>
+<li><strong>コンソールコマンド:</strong><br /> <em>li3 build</em> コンソールでアプリケーションとライブラリの配布に便利な .phar アーカイブのビルドと展開ができるように。また <em>li3 build test <test> <name /></test></em> を起動することでモックを生成できます。有効なオプションについてはAPIドキュメントをご覧ください。</li>
+<li><strong>さらなる拡張性の為のリファクタリング:</strong><br />僕らは開発者がカスタムクラスで殆どの依存要素を置き換えられる極めて拡張性の高い柔軟なコアを自負してきました。先週、このコアがどれだけ拡張性に富んでいるかをテストする事を決めました。そのためにフレームワーク内の静的結合を計測する為の小さなツールを書きました。このツールにより僕らはより動的にする事が可能な静的な結合を認識できるようになりました。
+<p>この変更の後の分析結果はcoreとutilの二つのパッケージ(フレームワークの基礎を構成するパッケージ)を除いてとても満足いくものでした。たった２つのパッケージだけが内部のパッケージに静的に依存しているのです。これが意味するのはフレームワークのほぼすべてのパッケージを展開し、自分自身のクラスを使う事が出来ると言う事です。それだけではなく、coreとutilのパッケージ小さなアプリケーションやミニフレームワークの基礎やユーティリティとして利用できるフレームワークのマイクロカーネルとして振舞う事に気が付きました。
+</li>
+</ul>
+<p>別のニュースとして、Joëlが<a href="http://rad-dev.org/li3_queue">li3_queue</a>プラグインの作業を開始し<a href="http://kr.github.com/beanstalkd/">Beanstalk</a>をサポートしようとしています。また<a href="http://twitter.com/mgiglesias">Mariano Iglesias</a>が<a href="http://www.doctrine-project.org/">DoctrineORマッパ</a>をLithiumと共に使う<a href="http://marianoiglesias.com.ar/li3-lithium/building-a-blog-with-lithium-and-doctrine/">チュートリアルを執筆</a>しました。<br />
+という事で、<a href="http://rad-dev.org/lithium/versions">リリースが冷めないうち</a>に試してみる事をお忘れなく。0.5でもこれ以上の変更を予定していますので。</p>
+<p>最後にLithiumプロジェクトに集まってくれたり、コードや助言、激励などを頂いた皆さんに感謝を述べたいと思います。これがLithiumコミュニティの始まりならば、僕はとてもとても大きな希望をこのプロジェクトに抱いています。</p>
+<p>2010年を大きな年に<br />
+~ Nate ~</p>
+<p>--翻訳ここまで</p>
+<p>Nate達、開発チームが究極の拡張性を追求しているライブ感が伝わってきますね。またその拡張性の高さ故に一部分を他のプロダクトで差し替えたり、また逆にLithiumの一部分だけを再利用する事も容易になっています。そろそろフィルター機能などを実例を交えて説明できればと思っています。また日本でもおなじみのJoelが作業をしているBeanstalkも興味深いですね。（初めて聞く名前でした）<br />
+とはいえ、まずはフレームワークが発展していくこのライブ感を楽しみたいところですね。</p>

@@ -1,0 +1,66 @@
+---
+layout: post
+title: PHPをC++に変換して高速化する「HipHop for PHP」をFacebookが公開
+date: 2010-02-03 12:19:26.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Facebook
+- HipHop
+- PHP
+- 和訳
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p>アメリカ時間の昼ごろに僕のTwitter上が一つのニュースで埋め尽くされました。<br />
+PHPをC++に変換して高速化する技術をFacebookが公開したというものです。世界中のPHPハッカーが注目する興味深いリリースという事でちょっと長いですが、リリースノートの和訳を行いました。</p>
+<p>2/21追記:<br />
+マニュアルなどの和訳も行いました。</p>
+<ul>
+<li>PHPをC++に変換して高速化する「HipHop for PHP」をFacebookが公開</li>
+<li><a href="http://blog.candycane.jp/archives/295">HipHopのビルドとインストール方法(和訳)</a></li>
+<li><a href="http://blog.candycane.jp/archives/300">HipHopを実行するには(和訳)</a></li>
+</ul>
+<h4>原文</h4>
+<p><a href="http://developers.facebook.com/news.php?blog=1&story=358">http://developers.facebook.com/news.php?blog=1&story=358</a></p>
+<p>Facebookにおいて重要なことのひとつが開発スピードが早いことです。過去6年間にわたって、PHPが提供する高速な開発ペースによって多くを成し遂げてきました。プログラミング言語としてみると、PHPはシンプルです。簡単に習得し、簡単に書き、簡単に読み、簡単にデバッグする事ができます。我々は他の言語よりも早くエンジニアを獲得し、それによってより早いイノベーションをすることができます。</p>
+<p> <img src="http://wiki.developers.facebook.com/images/a/ac/HipHop_logo_white.png" style="float: left; padding-right: 10px;" />
+<p>今日、私は2年に渡って作業してきた素晴らし小さなチームのプロジェクトを共有することに興奮しています。<br />
+HipHop for PHP。HipHopにより私たちはページによっては、Webサーバー上で約50パーセントのCPU使用量を削減できました。CPUの使用量の少なさは、サーバー台数の削減につながり、それはより少ないオーバーヘッドを意味します。このプロジェクトは、Facebook上で多大な影響を及ぼしました。私たちはHipHopがウェブに大きな利益をもたらすと感じ、今晩オープンソースとしてリリースしPHPによる大規模WEBサイトのスケーリングに新たな方向性が提示されると期待します。いまだ完全ではないHipHopでも信じれれないような結果を残しており、ベータ版であっても心地よいものであるでしょう。</p>
+<p>HipHop for PHPは技術的にはコンパイラではありません。むしろ、ソースコードの変換機です。HipHopはあなたのPHPのソースコードをC++に最適化された形に機械的に変換します。そしてg++でコンパイルされます。HipHopは意味的に同等の方法でソースコードを実行しますが、いくつかのまれに使われる機能(eval など)を犠牲としてパフォーマンスを向上させます。HipHopコード変換機は、PHPランタイムの再実装であり、また多くのパフォーマンス向上の為のPHPエクステンションを書き直したものです。</p>
+<h2>スクリプト言語としてのスケーリングPHP</h2>
+<p>PHPのルーツは、PerlやPython、Rubyのような<a href="http://en.wikipedia.org/wiki/Server-side_scripting">スクリプト言語</a>で、すべてのプログラマの生産性の面で大きな利点があり、迅速かつ継続的な開発を可能にします。これはC++やような伝統的な<a href="http://en.wikipedia.org/wiki/Compiled_language">コンパイル言語</a>やJavaのような<a href="http://en.wikipedia.org/wiki/Interpreted_language">中間言語</a>と比較した場合です 。一方、スクリプト言語は一般的にCPUおよびメモリの使用に関して効率的でないことが知られています。このため、月間4000億以上のページビューでPHPをベースにしたFacebookをスケールするという事は挑戦的な事でした。</p>
+<p>これらの非効率性に対処する1つの一般的な解決法はPHPアプリケーションの複雑な部分をPHPエクステンションとしてC++で書き直す事です。これによりPHPはフロントエンドのHTMLとC++のロジックをつなぎ合わせる糊のような言語に大きく変化します。技術的な観点はうまくいきますが、アプリケーションに携わる事ができるエンジニアの数を劇的に減らしてしまう事になります。C++を学ぶ事はPHPエクステンションを書くための最初の一歩にすぎません。次に<a href="http://theserverpages.com/php/manual/en/zend.php">Zend API</a>を理解しなければいけません。我々のエンジニアリングチームは100万ユーザ当たり1人と比較的小さいものですが、私たちのコードベースの一部を他のものよりアクセシブルにするわけにはいかないと考えました。</p>
+<p>ほとんどのページがログインしたユーザによってカスタマイズされるFacebookのスケーリングはとりわけ挑戦的です。あなたのホームページを表示する際はすべてのあなたの友人のルックアップする必要があり、関連する更新を検索し、（マルチフィードと呼ばれているカスタムサービス）、お客様のプライバシー設定に基づいてフィルタリングし、コメントや写真などの豊富なデータを補います。そのような豊富なデータが、人々がFacebookの愛している部分です。これらすべてが１秒以下で行われます。HipHopによって最終的にPHPとして組み立てられるロジックを、迅速かつ継続的に書く事ができます。またこのロジックはC++やErlangやJava、Pythonで書かれたバックエンドサービス、ニュースフィード、検索、チャットサービスおよび他のコア部分などと連携しています。</p>
+<p>2007年には、これらの問題を解決するための、いくつかの異なる方法を考案しそのうちいくつかの実装を試みました。共通の改善案はFacebookを別の言語で書き換える事でした。ですが、サイト開発の複雑さと速度を達成するためにいくらかの時間がかかると思われました。我々はPHP内部の<a href="http://en.wikipedia.org/wiki/Zend_Engine">Zendエンジン</a>も書き換えそれらのパッチを寄付しましたが、最終的に必要としてパフォーマンス向上には至りませんでした。HipHopの利益は我々の開発スピードがほとんど変わらない事です</p>
+<h2>HipHopの誕生</h2>
+<p>数年前のhackathonでの一夜に（<a href="http://www.facebook.com/video/video.php?v=124728580468&amp;ref=mf">プライムタイムのハック</a>）、PHPをC++に変換するコードを書き始めました。かなりの構文の似ているC++は、CPUとメモリ使用量に関してはPHPを大きく凌いでいます。PHP自体もCで書かれています。我々はこれほどの量のコードを書き直すのが不可能な事はわかっていましたが、もしプログラム的にこれを行うシステムを構築したらどうなるだろうと思いました。</p>
+<p>PHPのパフォーマンスを改善するための新しい方法を見つける事は新しいコンセプトではありません。実行時には、Zend EngineはあなたのPHPソースをオペコードに変換し、その後、Zendの仮想マシンを介して実行されます。<a href="http://pecl.php.net/package/APC">APC</a>と<a href="http://eaccelerator.net/">eAcceleratorの</a>は、この出力をキャッシュしPHPで提供される大多数のウェブサイトで使用されます。また<a href="http://en.wikipedia.org/wiki/Zend_Server">Zend Server</a>は、オペコードの最適化とキャッシュを介してPHPを高速化する商用製品です。その代わりに、我々はPHPのソースコードを直接C++に変換した後にネイティブのマシンコードに変換することを考えました。PHPをコンパイルする事も新しいアイデアではありません。<a href="http://www.roadsend.com/">Roadsend</a>と<a href="http://www.phpcompiler.org/">phc</a>はPHPをCにコンパイルし、 <a href="http://www.caucho.com/resin-3.0/quercus/">Quercus</a>はPHPをJavaにコンパイルし、 <a href="http://www.php-compiler.net/">Phalanger</a> はPHPを.Netにコンパイルします。</p>
+<p>言うまでもなく、一度のhackathonだけでは終わりませんでした。8ヵ月後、私は速くコンパイルされたコードを実行することが可能であることを示すのに十分なコードを得ました。我々はプロジェクトのスピードアップにイアン・プロクターとミンハイ・ヤンをプロジェクトのスピードアップの為にメンバーに加えました。我々は、続く10カ月をすべてのコーディングに、次の6ヶ月を本番サーバー上でのテストに費やしました。我々はリリースから6か月の時点で、Webトラフィックの90％以上のHipHopを使用して提供していると事を誇りに思っています。</p>
+<h2>HipHopの動作</h2>
+<p>プロジェクトの主な課題は、PHPとC++の間のギャップを埋めることでした。PHPは動的な弱い型付けを持つスクリプト言語です。C++は静的型付けのコンパイルされた言語です。一方、PHPは魔法のように動的な機能を記述することができ、ほとんどのPHPは比較的簡単です。if(...){...} else {..}はfunction foo($x) { include $x; } よりも好ましいです。これは、我々がパフォーマンスを稼いでいるところです。私たちの生成したコードは変数や関数の静的バインディングをいつでも使用可能です。また、変数のほとんどに型推定を用いてメモリを節約します。</p>
+<p>変換プロセスは3つの主な手順が含まれます：</p>
+<ol>
+<li>収集した情報から何が宣言され、何に依存しているかの静的分析</li>
+<li>C++の特定のタイプを、スカラー、文字列、配列、クラス、オブジェクト、およびバリアント型から選ぶ型推定</li>
+<li>ほとんどの部分のPHPのステートメントと式をC++のステートメントと式に直接対応されたコード生成</li>
+</ol>
+<p> <a href="http://wiki.developers.facebook.com/images/2/23/HipHop_transformation_process.png"><img src="http://wiki.developers.facebook.com/images/2/23/HipHop_transformation_process.png" width="450" height="281" /></a>
+<p>また我々はHPHPi も実験的なインタプリタとして設計し開発しました。HPHPiを使用すれば、PHPのソースコードを実行前にコンパイルする必要はありません。これは私達がヒップホップ自体のバグをキャッチする事と、技術者がコードを書く方法を変更せずにPHPコードを書けるようにします。</p>
+<p>全体的にはHipHopはC++のパフォーマンス上のメリットを活用しつつ、PHPの良い面を維持することができます。合計では我々30万行のコードとと5000以上のユニットテストを書きました。今夜GitHub上で、全てがPHPライセンスの下でリリースされます。</p>
+<h2>今夜のお楽しみ</h2>
+<p>今夜、我々はHipHopの深部へ飛び込む開発者の小さな集まりをストリーミングします。ご覧になりたい場合は太平洋時間19:30に再度こちらのページをご覧ください。</p>
+<p>今夜、多くの質問があると思いますが、HipHop wikiを見てください。（リンクを後ほど公開するつもりです）あるいは、 <a href="http://groups.google.com/group/hiphop-php-dev">HipHopの開発者メーリングリスト</a>に参加してください。また今後数ヶ月、<a href="http://www.fosdem.org/2010/schedule/events/scalingfacebook">FOSDEM</a> 、 <a href="http://www.socallinuxexpo.org/scale8x/">SCALE</a> 、<a href="http://www.phpconference.co.uk/">PHP UK</a>、 <a href="http://www.confoo.ca/">ConFoo</a>、<a href="http://tek.phparch.com/">TEX　X</a>、<a href="http://en.oreilly.com/oscon2010">OSCON</a>などのイベントで、でHipHop for PHPについて講演をします。我々は非常に盛んなオープンソースプロジェクトに皆さんと一緒にHip Hopが進化することに興奮しています。</p>
+<div style="text-align: center;"></div>
+<p><em>海平趙、シニアエンジニア、Facebookがプログラマの楽園と悟っています。</em></p>
+<p>---訳ここまで</p>
+<p>長文という事と、タッチが慣れないという事があって誤訳があるかもしれません。自分なりに咀嚼して書いてみたつもりですがご意見などあればTwitterなどで頂ければと思います。次はだれが最初に試すか、本番に投入するかという勝負ですね。とはいえFacebookでは90%のトラフィックで利用しているとの事ですからコードの書き方に気をつければ安定しているのでしょう。ということでみなさん、お試しあれ！</p>

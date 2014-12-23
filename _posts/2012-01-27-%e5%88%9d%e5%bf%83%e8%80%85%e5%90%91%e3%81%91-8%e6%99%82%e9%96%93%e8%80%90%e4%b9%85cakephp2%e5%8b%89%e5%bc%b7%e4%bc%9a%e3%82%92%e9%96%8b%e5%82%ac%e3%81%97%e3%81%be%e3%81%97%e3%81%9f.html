@@ -1,0 +1,66 @@
+---
+layout: post
+title: 初心者向け 8時間耐久CakePHP2勉強会を開催しました
+date: 2012-01-27 14:49:34.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- CakePHP2
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/01/399700_256092547797149_131130253626713_615087_1205903042_n.jpeg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/01/399700_256092547797149_131130253626713_615087_1205903042_n.jpeg" alt="" title="399700_256092547797149_131130253626713_615087_1205903042_n" width="600" height="398" class="aligncenter size-medium wp-image-1211" /></a></p>
+<p><strong style="color:red">追記）大阪でも2/5(日)に開催します！</strong><br />
+<a href="http://atnd.org/events/24800" target="_blank">http://atnd.org/events/24800</a></p>
+<p>CakePHPを勉強したいという@shinichiNさんの要望に応えて<a href="https://www.facebook.com/events/279943722066633/" target="_blank">8時間耐久でCakePHP2を学ぶという勉強会</a>を1/25に<a href="http://www.osscafe.net/" target="_blank">下北沢OSSCafe</a>で開催しました。当日はUStreamも常時30人前後の人が視聴しており、現地の参加者も含めて50人弱が耐久形式で最新のCakePHP2の利用方法を学びました。<br />
+なお今回のターゲットの<a href="https://twitter.com/#!/shinichiN" target="_blank">@shinichiN</a>さんはフレームワークなどは未経験とのことでしたので、<strong style="color:red">WordPressを使ったり簡単なPHPスクリプトを自分で書けるくらいの人がCakePHPの基本を理解する</strong>というのが今回の主旨です。</p>
+<h3>MVCモデルとは牛皿定食である</h3>
+<p><img src="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.0141-600x450.jpg" alt="" title="20120125_cakephp.014" width="600" height="450" class="aligncenter size-medium wp-image-1223" /><br />
+フレームワークを使ったことが無い人にとって、とっつきにくいのが<strong>MVCモデル</strong>の考え方です。ModelがデータベースでViewがHTMLでという説明を聞いているとまるでこれまで作っていたプログラムとまったく違うものを作らないと行けない気がしてきます。しかし実際のところMVCモデルは<strong style="color:red">大きくなったプログラムを分割する為の経験則</strong>です。牛丼を牛皿定食にしても内容物として肉、玉ねぎ、お米があることに変わりはないようにMVCモデルもこれまで作っていたプログラムを一定のルールに従って分割しただけです。</p>
+<p>普通のPHPスクリプトの例で考えてみましょう。(クリックで拡大)<br />
+<a href="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.012.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.012-600x450.jpg" alt="" title="20120125_cakephp.012" width="600" height="450" class="aligncenter size-medium wp-image-1225" /></a></p>
+<p>上記のスクリプトはなるべくシンプルにデータベースのデータを画面に表示するという普通のPHPスクリプトですが、このうち<strong style="color:red">データベースに関連する処理とHTMLに関連する処理を別の場所に移す</strong>というふうに考えます。（このスクリプトはDB処理とHTMLが一箇所にまとまるように書いてありますが、分散していた場合はそれぞれを抜き出して移動します）</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.013.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.013-600x450.jpg" alt="" title="20120125_cakephp.013" width="600" height="450" class="aligncenter size-medium wp-image-1227" /></a></p>
+<p>DB処理をモデルにHTMLをビューに移してみました。そしてそれでも残った元々の部分がコントローラーになり、モデルとビューを呼び出しています。<strong style="color:red">スクリプトの内容は分割してincludeで呼び出すようにしただけで全く同一です。</strong>こういったものが独自フレームワークと呼ばれCakePHPが一般的になる前からも大きなシステムでは活用されていました。また自分流でスクリプトを書いているとなんだかんだでこういった形を使うようになってきます。<br />
+フレームワークを使う場合は各フレームワークごとに決められた場所にMVCのそれぞれの部分を配置することになります。CakePHPの場合であれば下記のような形です。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.015.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.015-600x450.jpg" alt="" title="20120125_cakephp.015" width="600" height="450" class="aligncenter size-medium wp-image-1231" /></a></p>
+<h3>CakePHP2インストールの肝はPDOとmod_rewriteの確認</h3>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.019.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.019-600x450.jpg" alt="" title="20120125_cakephp.019" width="600" height="450" class="aligncenter size-medium wp-image-1234" /></a></p>
+<p>CakePHP2はCakePHP1やWordPressなどと違ってPDOというPHPの機能を使っています。インストールの際にはPDOが利用できることをphpinfo()で確認します。またXAMPPやMAMPPでは初期状態ではmod_rewriteが有効になっていません。mod_rewriteを有効にするか、core.phpのAPP.BaseUrlの設定を有効にしてください。<br />
+またYukio Saitohさんが<a href="http://www.fxfrog.com/?p=4818" target="_blank">Windowsの場合の設定のポイント</a>をまとめて下さいました！</p>
+<h3>Controller:: ディスパッチャを理解せよ</h3>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.029.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.029-600x450.jpg" alt="" title="20120125_cakephp.029" width="600" height="450" class="aligncenter size-medium wp-image-1241" /></a></p>
+<p>多くのフレームワークは指定されたURLに応じた所定のコントローラーを呼び出すという機構を採用しています。これをCakePHPではディスパッチャーが行なっており、指定されたURLに応じたコントローラーのメソッドを呼び出します。作ったコントローラーを呼び出す為のURLを考えたり、とあるURLに対応するコントローラーをどうすれば作れるのかを理解すれば自分で作った処理を自由に呼び出せるようになります。<br />
+この際に<strong style="color:red">命名規則に従う必要もありません</strong>。$usesやアクションの設定を省略した場合は命名規則に従ったデフォルトが呼び出されるだけですので。きちんと指定をすれば自由に名前をつけられます。</p>
+<h3>Model:: find()を極めろ</h3>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.045.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.045-600x450.jpg" alt="" title="20120125_cakephp.045" width="600" height="450" class="aligncenter size-medium wp-image-1243" /></a></p>
+<p>CakePHPはモデルの機能が中心といってもよいフレームワークです特にfind()メソッドを使えばほとんど全てのケースのデータベース処理を自動化できます。このfind()に慣れれば慣れるほどにCakePHPでの開発がスムーズになります。<br />
+またこのfind()が返却する結果と要求するオプションは大きな配列変数になっています。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.046.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.046-600x450.jpg" alt="" title="20120125_cakephp.046" width="600" height="450" class="aligncenter size-medium wp-image-1244" /></a></p>
+<p>配列に依存しすぎという批判もありますが、とにかく<strong style="color:red">えいやと配列を渡すとうりゃっと配列が返ってくるのがCakePHP流</strong>なのでそれに慣れるのが早道です。（そもそもPHP自体が配列中心なところがあるので僕はこの設計は成功していると思っています。)</p>
+<h3>View:: URLやフォームはヘルパーで自動生成せよ</h3>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.061.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/01/20120125_cakephp.061-600x450.jpg" alt="" title="20120125_cakephp.061" width="600" height="450" class="aligncenter size-medium wp-image-1246" /></a></p>
+<p>ビューに関しては app/View/Layouts/default.ctpを変更してヘッダ、フッタなどを変更する事と、ヘルパーを利用したタグの自動生成くらいしか覚えることはありません。とりあえずはヘッダなどを任意のデザインに差し替えて、テンプレート内にURLを書くようなタグでヘルパーを使うところから始めればよいでしょう。</p>
+<h3>お疲れ様でした</h3>
+<p>実際にはいろいろとデモンストレーションや質疑応答をしながらの8時間の勉強会でしたが、多くの方がCakePHPを好きなように動かせました。（ソースコードを一字一句書き写すのではなく、好きな名前をつけたりしながら各自が確認をしていました）細かいことを詳細に確認するのも大事ですが、まずは全体像を掴んでいじり回せるようになる事が第一歩かと思います。</p>
+<p>今回は下北沢OSSCafeという素晴らしい環境で、なおかつ<a href="https://twitter.com/#!/cognitom" target="_blank">@cognitom</a>さんのハイクオリティUStreamの録画が残っています。動画を全画面表示するとソースコードすら確認できる脅威のクオリティをご堪能ください。（残念ながら午前中のところは録画がありません）</p>
+<p><a href="http://www.ustream.tv/recorded/19991352" title="http://www.ustream.tv/recorded/19991352" target="_blank">8時間耐久CakePHP(1/4) - Controller編</a><br />
+<a href="http://www.ustream.tv/recorded/19992481" title="8時間耐久CakePHP(2/4) - Model編" target="_blank">8時間耐久CakePHP(2/4) - Model編</a><br />
+<a href="http://www.ustream.tv/recorded/19993514" target="_blank">8時間耐久CakePHP(3/4) - Model編の続き</a><br />
+<a href="http://www.ustream.tv/recorded/19994191" target="_blank">8時間耐久CakePHP(4/4) - View編</a></p>
+<div style="width:425px" id="__ss_11250849"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/yandod/8cakephp" title="8時間耐久CakePHP" target="_blank">8時間耐久CakePHP</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/11250849" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+<div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/yandod" target="_blank">yandod</a> </div>
+</p></div>
+<p>デモで使っていたプロジェクトはとりあえずgithubに置きました。<br />
+<a href="https://github.com/yandod/shimokita8" target="_blank">https://github.com/yandod/shimokita8</a><br />
+同様の勉強会を大阪と福岡でやろうかなと思っています。他にも開催の要望があれば場所さえあればなんとかなりますのでご相談ください。</p>

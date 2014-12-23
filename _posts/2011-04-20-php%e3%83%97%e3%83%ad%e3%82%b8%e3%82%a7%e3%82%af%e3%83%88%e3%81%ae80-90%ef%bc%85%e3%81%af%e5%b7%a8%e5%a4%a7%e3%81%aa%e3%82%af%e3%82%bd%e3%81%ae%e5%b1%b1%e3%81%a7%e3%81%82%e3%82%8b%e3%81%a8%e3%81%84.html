@@ -1,0 +1,71 @@
+---
+layout: post
+title: PHPプロジェクトの80-90％は巨大なクソの山であるという事実
+date: 2011-04-20 12:14:09.000000000 +09:00
+categories:
+- ブログ
+tags:
+- PHP
+- 和訳
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _blackbirdpie-60549434743857153: a:13:{s:2:"id";s:17:"60549434743857153";s:11:"screen_name";s:6:"rasmus";s:9:"real_name";s:14:"Rasmus
+    Lerdorf";s:10:"tweet_text";s:201:"Just for the record, I am not anti-frameworks
+    just anti the indiscriminate use of frameworks and the inefficiencies that often
+    brings. <a href="http://twitter.com/search?q=%23php" title="#php">#php</a>";s:6:"source";s:3:"web";s:11:"profile_pic";s:57:"http://a3.twimg.com/profile_images/52489510/rl_normal.jpg";s:16:"profile_bg_color";s:6:"1A1B1F";s:15:"profile_bg_tile";s:0:"";s:16:"profile_bg_image";s:60:"http://a3.twimg.com/a/1302214109/images/themes/theme9/bg.gif";s:18:"profile_text_color";s:6:"666666";s:18:"profile_link_color";s:6:"2FC2EF";s:10:"time_stamp";s:10:"1303271084";s:10:"utc_offset";s:6:"-28800";}
+  _oembed_59c18a46083708872f90c7d2d86ab1f0: '{{unknown}}'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/04/pG3q7.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2011/04/pG3q7-300x196.jpg" alt="" title="pG3q7" width="300" height="196" class="aligncenter size-medium wp-image-600" /></a></p>
+<p>面白いエントリを見つけたので和訳しました。PHPが使われていた歴史が古い事や開発者のコミュニティの観点から見たPHP論。読みやすいので早速どうぞ。<br />
+なお画像は「各プログラム言語からは各言語オタクがどう見えるか？」です。</p>
+<h3>原文 Why PHP Was a Ghetto</h3>
+<p><a href="http://codefury.net/2011/04/why-php-was-a-ghetto/">http://codefury.net/2011/04/why-php-was-a-ghetto/</a></p>
+<h2>なぜPHPはゲットーだったのか</h2>
+<p><a href="http://dumbonyc.com/">ダンボ地区</a>の<a href="http://www.saaspire.com/">かなりクールなス​​タートアップ</a>の創始者と私は世の中の多くのPHPの開発者でない人たちがPHPとその周囲のコミュニティを軽蔑するのかについて話す機会があった。彼はとても興味深い点に言及した事が私の印象に残った。なぜなら私はこれまで聞いた事がない指摘だったからだ。</p>
+<p>お気づきかもしれないが、開発者がPHPに対して通常抱く不満は、だいたい以下の通りである：</p>
+<ol>
+<li>醜い構文</li>
+<li>他の言語が備えているいくつかの必要な機能の欠如は（5.3以前における名​​前空間、クロージャ）</li>
+<li>一貫性のない関数の名前、使用法、およびその他の奇行</li>
+<li>手続き型とオブジェクト指向欠如のミックス</li>
+<li>PHPプロジェクトの80-90％は、おそらく巨大なクソの山であるという事実</li>
+</ol>
+<p>しかし、彼にとってのPHPの問題は少し違っていたようだ。彼は、言語自体が悪いのではなく- 象徴となっている言語の創始者によって悪いプラクティスが推奨されているように見える言語を取り巻く文化が問題だと指摘した。PHPのコードベースには、魔術的でメンテナンス性が低くなりがちである。</p>
+<p>言語やフレームワークを取り巻くコンセプトは作者の哲学が真実であるという事を具現化する。彼はRubyと<a href="http://en.wikipedia.org/wiki/Yukihiro_Matsumoto">Matz</a>を例に挙げた 。Matzは読みやすくおよび書きやすい言語、および強化されたプログラマの生産性を望んでいた。Rubyの開発者は迅速なアプリケーション開発とその言語の優雅さに共鳴しているように見えないだろうか？</p>
+<p>その後、 <a href="http://en.wikipedia.org/wiki/David_Heinemeier_Hansson">DHH</a>とRailsが登場し、 <a href="http://www.python.org/~guido/">Guido</a>とPythonが続いた。私は考えた：では<a href="http://en.wikipedia.org/wiki/Rasmus_Lerdorf">Rasmus</a>はどうだろう？</p>
+<p>Rasmus Lerdorfは興味深い人物だ。彼はPHPのオリジナルのバージョンを作り、貢献をし続けた事でコミュニティでは神とされPHPに関するほぼ全ての権威と見られている。彼は<a href="http://www.urbandictionary.com/define.php?term=rasmussed">カンファレンスの聴講者の別の講演者から奪取し</a> 、 <a href="http://yahoo.com">巨大なインターネットサイトに雇用された。</a>ほとんどの非PHP開発者がPHPを嫌悪しているという事実にも関わらず彼は敬意を集めた。</p>
+<p>Rasmusはフレームワークを使うのでなく、テンプレート言語としてPHPを使う事を推奨しているようだ。彼にとっては、これは生のPHPの速度とスケーラビリティという事だが、他の全ての人々には、手続き型スパゲッティコードの山、メンテナンス困難なプロジェクトを作る事であるという風に理解される事になる。1995年にPHPの誕生から約10年の間、PHPのプロジェクトはこのように書かれて来た。</p>
+<p>また別の問題にも言及した：ピザ顔の思春期の頃（5.0以前）、PHPは初心者の間で強く支持されていく。文法は素晴らしく敷居が低く誰でも*ampかwindows用のバイナリをダウンロードすれば2分で使い始める事ができる。と。またMVCパラダイムは、この時点ではWeb開発にはまだ多く見られなかった。初心者とベストプラクティスの欠如が合わさるとどうなるか？維持不可能なゴミ。そして、それが増殖する。</p>
+<p> 誤解しないで頂きたい。いくつかの素晴らしいPHP開発者は存在していた。しかし周囲は濾過されていない初心者のソースだらけだった。カウボーイPHP開発者達が何の規約も無しにプロ​​ジェクトを行えば、それはphpBBや、PHPNuke、またはPHP3のファイルの節くれだったマッシュアップのようになった。しかし、あなたはPHP開発者だけを非難することができるだろうか？いいえ! 他のWeb言語の巨人達、ASPやPerlも地獄のようなスパゲッティコードの促進に加わっていた。</p>
+<p>なぜPHPは、いわれのない非難を受けるのだろう？それは過去の遺産によるものだ。最古のPHP開発者達はPython、Rubyに逃亡した。そしてJavaはMVCの導入以前のWEB開発で何が起きていたかを知らない。超辛口の批評家でRuby野郎のZed Shawは”PHP脳(PHP Infected Brain)の開発者”の恐怖を訴え<a href="http://www.rubyinside.com/holiday-fun-how-programming-language-fanboys-see-each-others-languages-2911.html">RubyInsideでこのようなもの(訳注:上部の画像と同じもの)を発表した</a> 。</p>
+<p>
+<h3>PHPはゲットーだった。</h3></p>
+<p>しかし、ZendとCodeIgniterのようなフレームワークの開発は大幅に正しい方向に言語発達を後押ししている。だがそれはRasmusは望んでいるのとは<em>逆方向</em>に向かっているである。ZendかCodeIgniterのフレームワークをチェックアウトし、ドキュメントが無く、よく書かれていないコードが一部でもあれば教えて欲しい。</p>
+<p>ほとんどの開発者がRubyを知ったとき、彼らは同時にRailsとMVCを学んでいた。PHPは、その以前の10年間の間使われてきた。つまり(Rubyには)初心者によって凶悪なRubyが書かれていた期間は存在していない。Railsのために設立された規約があり、経験の少ない開発者を締め出すのに充分に敷居が高かった。</p>
+<p>事実として、PHPアプリケーションは他の言語のように奇麗に記述する事が可能で、なおかつ速度の面でアドバンテージをおそらく持っている。PHPの世界でのMVCスタイルの開発の普及は、比較的最近の現象であり、それはおそらくRailsのおかげだ。</p>
+<p>PHPが現在、備えているものはなんだろう？</p>
+<ol>
+<li>規約（一般的なほとんどのプロジェクトのためのMVCテイストと少し手続き的ながらくた）</li>
+<li>非常に低い参入障壁</li>
+<li>速度とスケーラビリティ（おそらく最高のスクリプトベースの言語の中で）</li>
+<li>偉大な単体テストフレームワーク</li>
+<li>任意の言語のためのおそらく最良のドキュメント</li>
+</ol>
+<p>さらにインターネットで最も影響力のあるWebサイトやツールでPHPは採用されている、FacebookやDigg、ウィキペディア、WordPress、Drupalなど、彼らは間違いなく他の多くの人々よりも確かな見識を持っている。</p>
+<p>あなたは上記に同意しない場合は、この記事のコメント欄か、私にメールで - あなたはそうは思わない理由を聞きたいと思います。</p>
+<p>私はPHPのおたくではない - 実際、私は非常に言語に対して懐疑論だ。私はPHPをよく書く。お分かりだろうが、それで金銭を得ている。だから、すべて、このようになる：</p>
+<p><em>あなたは賢明なソフトウェア設計の決定を行う場合、PHPはWebアプリケーションを構築するために優れた選択肢です。</em><br /><em> </em></p>
+<p>ちなみに、私はちょうどHPの次のWebアプリケーションを構築する為にCodeIgniterをチェックアウトしたところだ。<a href="http://codeigniter.com">PHPのための魔法のようで、超高速フレームワーク</a> 。CodeIgniterのことになると、私はミーハーです。</p>
+<p>--- 翻訳ここまで</p>
+<p>確かにラスマスは各カンファレンスでフレームワークの有効性や速度に対して懐疑的な姿勢を示しています。それにしても"PHP infected brain"なんてPHP脳の恐怖といって良い言葉が英語でもあったとはねぇ。。。「ゲットー」という言葉が日本語としては象徴的な意味が薄いのでタイトルは箇条書きから抜粋しました。<br />
+ちょうどこんなつぶやきでラスマスさんも反論。アンチフレームワークというわけではなく、適切に使えという主義のようです。<br />
+https://twitter.com/#!/rasmus/status/60549434743857153</p>

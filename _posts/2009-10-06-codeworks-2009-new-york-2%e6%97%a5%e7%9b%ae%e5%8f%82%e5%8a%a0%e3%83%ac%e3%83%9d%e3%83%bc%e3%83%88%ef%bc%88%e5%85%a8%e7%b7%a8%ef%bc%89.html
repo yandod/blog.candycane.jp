@@ -1,0 +1,60 @@
+---
+layout: post
+title: CodeWorks 2009 New York 2日目参加レポート（前編）
+date: 2009-10-06 12:23:30.000000000 +09:00
+categories:
+- ブログ
+tags:
+- PHP
+- イベント
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://photozou.jp/photo/show/50118/27380359"><img style="border:0" src="http://art15.photozou.jp/pub/118/50118/photo/27380359.jpg" alt="DSC04494" width="451" height="338" /></a></p>
+<p><a href="http://blog.candycane.jp/archives/34" target="_blank">昨日のレポート</a>に引き続き本日のCodeWorks09についてレポートをします。<br />
+正直なところかなり疲労感がありますが、今書かないと明日からの仕事で流されそうなので気合です。<br />
+長くなりますが、最後までお付き合いくださいませ。</p>
+<h3>会場入り</h3>
+<p><a href="http://photozou.jp/photo/show/50118/27380992"><img src="http://art13.photozou.jp/pub/118/50118/photo/27380992.jpg" alt="DSC04427" width="451" height="338" style="border:0" /></a></p>
+<p>今日はスムーズに会場入りする事ができました。ロビーに行くと昨日セッションをやってくれたSebastian Bergmanさんが居たのでごあいさつ。<br />
+2週間のツアーを終えてへとへとの様子でしたが、今日は観光してから帰国のスケジュールだったようです。<br />
+外観の写真を取る余裕もありました。<br />
+なお本日も３トラック構成だったのでレポートしているのは<strong>全体の3分の１</strong>です。</p>
+<h3>Extreme Scale: Thin Sever Architecture</h3>
+<p><a href="http://photozou.jp/photo/show/50118/27381971"><img src="http://art13.photozou.jp/pub/118/50118/photo/27381971.jpg" alt="DSC04434" width="451" height="338" style="border:0" /></a></p>
+<p>MTVやFoodNetworkなどのサイトで利用されている有名なCMS、<a href="http://www.joomla.org/">joomla</a>の作者でもある、Milch Pirteさんの発表です。<br />
+WEBサーバやDBサーバをスケールアウトするのではなく、極限までサーバーを薄くするアプローチについての講演です。<br />
+胆になるトピックはは２つ。</p>
+<p><strong>「MVCにおけるVの処理をサーバーでやらずにRIAに近づく」<br />
+「オブジェクトを異なるデータ構造にしてRDBに記録するのは何故」<br />
+</strong></p>
+<p>結果としてデータをmongoDBにJSONとしてストアする最低限の処理をサーバで担当し、ブラウザ側ではすべてを組み立てるというアプローチの紹介です。<br />
+実際にアクセス数の多いFoodNetworkのサイトの例を取って「ログインユーザー名の表示」も処理ではなく、単純なデータとしてストアしているというような話をしていました。<br />
+まだ主流とは言えないアプローチですが、海外ではドキュメント型のDBが流行りつつあり十分に説得力を感じました。<br />
+またジェスチャーなどが豊かで楽しいセッションでした。</p>
+<h3>Security-Centerd Design</h3>
+<p><a href="http://photozou.jp/photo/show/50118/27380926"><img src="http://art15.photozou.jp/pub/118/50118/photo/27380926.jpg" alt="DSC04438" width="451" height="338" style="border:0" /></a></p>
+<p><a href="http://www.amazon.co.jp/dp/059600656X/">Essential PHP Security</a>の著者でセキュリティの権威ともいえるChris Shiflettさんの講演です。<br />
+セキュリティというと攻撃手法などの紹介をイメージしますが、認知心理学という単語を持ち出して人間が気づける事、注意に関するトピックを通じてセキュリティについて解説していました。</p>
+<p>面白かったのが<br />
+「東京の地下鉄は複雑だが、路線によってチャイムが違うので乗り間違うと音で気が付く」<br />
+というJRと地下鉄を混同した話を友人の話として紹介していました。（まぁわかんないよね）<br />
+その話をする際に実際にJRのベルをiPhoneで再生したり、途中で映像を使ったりと抽象的な話を飽きずに聞かせる工夫が光っていました。<br />
+終了後も会場内は満場の拍手で、今回聞いたどのセッションよりも盛り上がりを感じることができました。</p>
+<h3>Alternative Database</h3>
+<p><a href="http://photozou.jp/photo/show/50118/27380871"><img src="http://art16.photozou.jp/pub/118/50118/photo/27380871.jpg" alt="DSC04445" width="451" height="338" style="border:0" /></a></p>
+<p>セッション前におもむろにタータンチェックのスカートに履き替える魂を感じさせる男性、Scott MacVicarさんの発表です。<br />
+SQLiteのプロジェクトにも参加されているとの事でデータストアに関する深い内容でした。</p>
+<p>ほぼ同じ内容のスライドが<a href="http://www.slideshare.net/smacvicar/alternative-databases">slideshare</a>にあります。</p>
+<p>おおまかな流れとしては「RDBMSはもうダメだ→memcache→tokyo cabinet→simpleDB」というような形でさまざまなデータストアの解説を行います。</p>
+<p>日本人としてはTokyo Cabinetを知っている事がうれしくもあり、さらにTokyo Tylantの名前が出た際に<strong>「日本で作られているから日本では Tylant Tokyoって呼ぶのかもね」</strong>とかネタにしていたのでやはり名前が良かったんだろうなと思います。</p>
+<p>長くなってきたので、次エントリに続く。。。</p>

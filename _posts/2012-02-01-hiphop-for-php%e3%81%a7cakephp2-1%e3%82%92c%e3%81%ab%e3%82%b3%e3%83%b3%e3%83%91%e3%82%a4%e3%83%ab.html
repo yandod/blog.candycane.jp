@@ -1,0 +1,39 @@
+---
+layout: post
+title: HipHop for PHPでCakePHP2.1をC++にコンパイル
+date: 2012-02-01 13:16:55.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP2
+- HipHop
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _blackbirdpie-163984577881313280: a:13:{s:2:"id";s:18:"163984577881313280";s:11:"screen_name";s:8:"jose_zap";s:9:"real_name";s:8:"jose_zap";s:10:"tweet_text";s:238:"So
+    I finally found the time and published how to run <a href="http://twitter.com/search?q=%23CakePHP"
+    title="#CakePHP">#CakePHP</a> with the facebook's hiphop compiler <a href="http://t.co/rGhmBWGX"
+    rel="nofollow">http://t.co/rGhmBWGX</a>";s:6:"source";s:101:"<a href="http://itunes.apple.com/us/app/twitter/id409789998?mt=12"
+    rel="nofollow">Twitter for Mac</a>";s:11:"profile_pic";s:73:"http://a1.twimg.com/profile_images/75591628/gran_sabanaaa__049_normal.jpg";s:16:"profile_bg_color";s:6:"352726";s:15:"profile_bg_tile";s:0:"";s:16:"profile_bg_image";s:67:"http://a2.twimg.com/profile_background_images/86436020/DSC_0163.JPG";s:18:"profile_text_color";s:6:"3E4415";s:18:"profile_link_color";s:6:"D02B55";s:10:"time_stamp";s:10:"1327931944";s:10:"utc_offset";s:6:"-16200";}
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://www.flickr.com/photos/cakephp/4960926853/" title="IMG_0546 by CakePHP, on Flickr"><img src="http://farm5.staticflickr.com/4149/4960926853_689710c692.jpg" width="500" height="333" alt="IMG_0546" /></a></p>
+<p>PHPをC++にコンパイルして高速化するHipHop for PHPですが、<a href="http://bakery.cakephp.org/articles/lorenzo/2012/01/30/running_cakephp_using_the_facebooks_hiphop_compiler" target="_blank">CakePHP2をHipHop上で実行したという話</a>が公開されていました。</p>
+<p>https://twitter.com/#!/jose_zap/status/163984577881313280</p>
+<p>JoseはCakePHPのコアデベロッパの一人でこのHipHopに対応させる為のブランチの管理は彼が行なっていたようです。そもそもの問題としてHipHopは全てのrequireなどを静的に解決させる必要があり、動的な読み込みを行うフレームワークとは大変相性が悪いです。<br />
+このJoseの作成したプラグインはクラスのrequireリストを作成し、HipHopのコンパイラに与えることでフレームワークの動作を可能にするというアプローチをとっています。</p>
+<p>大まかな手順は下記の通り。</p>
+<ul>
+<li>CakePHPのHipHopプラグインの導入</li>
+<li>クラスマップの生成 <code>app/Console/cake HipHop.ClassPath</code></li>
+<li>フロントコントローラーの差し替え <code>cp `app/Plugin/HipHop/Config/webroot/index.php app/webroot/index.php</code></li>
+<li>コンパイルの実行</li>
+</ul>
+<p>粘り強く個別の問題に対処した事が伺える手順が<a href="http://bakery.cakephp.org/articles/lorenzo/2012/01/30/running_cakephp_using_the_facebooks_hiphop_compiler" target="_blank">元のポスト</a>にあります。トリッキーな構造になっていなければCakePHP2のアプリをHipHop上で稼働させることができそうですね。ベンチマークが行われていないので興味がある方はぜひトライをしてみるといいのではないでしょうか。</p>

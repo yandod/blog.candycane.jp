@@ -1,0 +1,62 @@
+---
+layout: anth_library_item
+title: Lithium0.6リリースノート 和訳
+date: 2010-02-17 14:23:55.000000000 +09:00
+categories: []
+tags: []
+status: draft
+type: anth_library_item
+published: false
+meta:
+  anthologize_meta: a:4:{s:11:"author_name";s:6:"yandod";s:17:"author_name_array";a:1:{i:0;s:6:"yandod";}s:9:"author_id";s:1:"2";s:16:"original_post_id";s:3:"285";}
+  author_name: yandod
+  author_name_array: a:1:{i:0;s:6:"yandod";}
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png"><img src="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_-300x90.png" alt="designall.dll" title="designall.dll" width="300" height="90" class="alignnone size-medium wp-image-188" /></a></p>
+<p>PHP5.3以降専用の先進的フレームワーク、Lithiumの0.6がリリースされました。(Lithiumの基本情報は<a href="http://blog.candycane.jp/archives/261">こちらの記事</a>をどうぞ)<br />
+良好な開発体制に支えられて安定版のリリースに向けて着実にプロジェクトが進行しているようです。</p>
+<p>いつものようにリリースノートを和訳しました。<br />
+今回は2009年10月に来日したJoelがリリースノートを記述していますね。</p>
+<h3>原文</h3>
+<p><a href="http://rad-dev.org/lithium/wiki/blog/Lithium_0_6_Big_Improvements_A_Brewin">http://rad-dev.org/lithium/wiki/blog/Lithium_0_6_Big_Improvements_A_Brewin</a></p>
+<h3>Lithium0.6：大きな改良の醸造</h3>
+<p>過去3週間のタイムラインをご覧になっていたのであれば、安定版にむけたLithiumの活動が押し寄せている事にお気付きでしょう。<br />
+Lithium-0.6 では後方互換性のないいくつかの変更があります。：</p>
+<ul>
+<li>新しい最上位レベルの名前空間、`lithiumnet` が作成され、`lithiumutilSocket`、`lithiumutilSocket*`、`lithiumhttp` がこの新しい名前空間の下に移動しました。</li>
+<li>アプリケーションレベルのブートストラップ設定ディレクトリを `app configbootstrap` に作成。これはあなたにあなたのブートストラップシーケンスをより小さく、論理的な塊に分割することができます。そしてこれらはすべて、自動的にロードされます。</li>
+<li>すべてのプラットフォーム用のコンソール出力にカラー表示をサポート。POSIX互換性のあるエスケープ文字をサポートします。</li>
+<li>ほとんどの`li3`コマンド（`test` コマンドも含まれ、、テスト結果を緑赤で表現）で重要な情報をハイライトされカラーで出力されます。</li>
+<li>テンプレート層の完全な見直しを行いました。カスタムストリームクラスは今後はレンダリングに使用されません。APCとうまく動作するテンプレート層の為です。ビューテンプレートはコンパイルされて `app/resources/tmp/cache/templates/`に格納されるようになりました。古いバージョンからアップデートを行う場合は、このフォルダパスが存在している事を確認してください。</li>
+<li>マイナーなキャッシュの愛をLibrariesを `app/config/bootstrapcache.php`。(ロスのないフィルタとして)</li>
+<li>適切なロケールをアクション、コンソールへのリクエストから検出する機能の追加</li>
+<li>G11nの環境設定を一元的および世界的に有効なロケールの切り替えの導入。</li>
+<li>g11nのいくつかの名前とメソッドのシグネチャを、より合理的なAPIに変更しました。</li>
+<li>
+</li>
+<li>`Cache`アダプタのほとんどのAPIの変更：
+<ul>
+<li>MemcaceとAPCキャッシュアダプタでのマルチキーのサポート(どのメソッドがこの機能をサポートするかはドキュメントを見てください)。</li>
+<li>`Cache::write()`からのキー生成時の不要な'_expires'キーの削除。今後はキャッシュキーを汚染しません。</li>
+</ul>
+</li>
+<li>改善されたドキュメントとテストなど。</li>
+</ul>
+<p>Lithiumのハッキングから離れて、我々はいくつかの非常に有用なフィルタシステムのユースケースを管理しました：<br />
+<uｌ></p>
+<li>[プロファイリング]（http://pastium.org/view/cc7b5d11ced0c4e2ad8cf25227b0bd96用） [xhprof]（http://pecl.php.net/package/xhprof）を使用する。</li>
+<li>コンテンツの配信（http://pastium.org/view/e6d0c0cc88010822cb58a7fc4b7a6014） （画像、スタイルシートなど）のプラグインからなど。</li>
+<p>上記のような基本的な変更がありましたが、Lithiumのコア部分は確かな状態です。さらに新たな機能は毎日のように追加されています。われわれはフィニッシュライン中間地点より先を通過し、勢いはさらに増しています。<br />
+*[変更履歴]（http://rad-dev.org/lithium/wiki/releases/0_6）<br />
+*[ダウンロード 0.6]（http://rad-dev.org/lithium/versions）<br />
+最新の開発状況は[Rad-Dev]（http://rad-dev.org/lithium）をご覧ください。[APIドキュメント]（http://lithify.me/docs）、IRCチャンネルは`irc.freenode.net`上の`＃li3`と`＃li3-core`です。</p>
+<p>〜jperras</p>
+<p>---訳ここまで</p>
+<p>国際化対応やビュー、コンソールのカラー表示など出力系の変更が多く入っているようですね。ビュー層の変更がどのようにＡＰＣを考慮しているかなどは実際に動かしてみながらみるのがよいでしょうか。次回のリリース(3/8)ではMySQLやキュー、初期画面などが追加・改良されるようです。ますます楽しみですね。</p>
+<p><a href="http://blog.candycane.jp/archives/tag/lithium">Lithiumに関する過去の記事</a></p>

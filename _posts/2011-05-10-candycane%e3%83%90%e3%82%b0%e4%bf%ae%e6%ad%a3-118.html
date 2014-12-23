@@ -1,0 +1,32 @@
+---
+layout: post
+title: 'candycaneバグ修正 #118'
+date: 2011-05-10 13:22:25.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/05/cc.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/05/cc-300x201.png" alt="" title="cc" width="300" height="201" class="aligncenter size-medium wp-image-669" /></a></p>
+<p><a href="http://my.candycane.jp/issues/show/118">バグ #118: 全ての活動からニュースをクリックするとエラー</a><br />
+一つ一つのコミットにはCakePHPとcandycaneの実装を理解するエッセンスがあると思ったのでこまめにブログにしていく試み。<a href="http://my.candycane.jp/projects/activity/candycane-alpha">活動（アクティビティ）のページ</a>に表示される対象のデータにはActivityProviderビヘイビアを設定する必要があるが、設定が間違っていた。<br />
+岸田さん実装のこのあたりはかなりの神実装。つまりどんなモデルでも<a href="https://github.com/yandod/candycane/blob/master/app/models/behaviors/activity_provider.php">このビヘイビア</a>が設定してあれば、指定された条件で検索を行ってこの一覧ページに登場するのだから。ただビヘイビアは原理上、どんなモデルに設定しても動くようになっているので抽象度が高い。よってユニットテストを行いながらの実装が欠かせない。</p>
+<p><strong>修正した内容</strong></p>
+<ul>
+<li>プロジェクトが指定されていない場合を考慮してissetと分岐を追加 <a href="https://github.com/yandod/candycane/commit/75fdcd1979bec8900af6cbbe474565bb8861ef5d#diff-0">diff</a></li>
+<li>ビヘイビアで設定するURLの設定ルールにプロジェクトIDを含める様に変更 [<a href="https://github.com/yandod/candycane/commit/75fdcd1979bec8900af6cbbe474565bb8861ef5d#diff-1">diff</a>]</li>
+</ul>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/05/cc2.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/05/cc2-300x215.png" alt="" title="cc2" width="300" height="215" class="aligncenter size-medium wp-image-670" /></a></p>
+<p>普通に操作していて動かない場所は本当に少なくなって来た。あと少し。</p>

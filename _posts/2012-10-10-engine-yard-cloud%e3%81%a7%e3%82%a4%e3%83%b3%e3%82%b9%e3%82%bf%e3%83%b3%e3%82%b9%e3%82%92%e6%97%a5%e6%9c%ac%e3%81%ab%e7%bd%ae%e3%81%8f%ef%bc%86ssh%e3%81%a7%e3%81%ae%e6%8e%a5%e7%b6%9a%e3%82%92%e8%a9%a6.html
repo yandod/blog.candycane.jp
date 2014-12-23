@@ -1,0 +1,42 @@
+---
+layout: post
+title: Engine Yard Cloudでインスタンスを日本に置く＆sshでの接続を試す
+date: 2012-10-10 14:00:12.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Engine Yard
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _thumbnail_id: '1621'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/logo-engineyard-horizontal.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/logo-engineyard-horizontal.png" alt="" title="logo-engineyard-horizontal" width="387" height="116" class="aligncenter size-full wp-image-1621" /></a></p>
+<p><a href="http://blog.candycane.jp/archives/1619" title="Engine Yard Cloudの無料トライアルでアプリをデプロイするまでの流れ" target="_blank">前回の記事ではサンプルアプリケーションをデフォルトの設定でデプロイ</a>してみました。クリックだけでデプロイが出来る事は体験できましたが、インスタンスはアメリカ東海岸で稼働しており、sshでのログインもできる状態になっていませんでした。今回はEngine Yard Cloudの特徴である日本リージョンへのインスタンスの配置とsshのログインを通してもう少し詳しくEngine Yard Cloudを見てみましょう。</p>
+<h2>Environmentの再作成と日本リージョンへの配置</h2>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environment-todo_production-of-application-todo-2.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environment-todo_production-of-application-todo-2-600x264.png" alt="" title="Engine Yard Cloud — Environment todo_production of application todo-2" width="600" height="264" class="aligncenter size-medium wp-image-1674" /></a></p>
+<p>まずはアメリカ東海岸に割り当てされているEnvironment(インスタンス)を停止させ、Deleteボタンをクリックして削除します。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environments-for-todo.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environments-for-todo-600x314.png" alt="" title="Engine Yard Cloud — Environments for todo" width="600" height="314" class="aligncenter size-medium wp-image-1676" /></a></p>
+<p>無料トライアルの場合はEnvironmentを複数作成できないので。Environmentを削除する事でEnvironmentの追加が出来るようになります。日本にインスタンスを配置すべくCreate New Environmentをクリックして新規作成に進みます。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environments.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environments-600x572.png" alt="" title="Engine Yard Cloud — Environments" width="600" height="572" class="aligncenter size-medium wp-image-1677" /></a></p>
+<p>新規作成画面では設定する環境名や稼働させるスタックの設定、データベースの種別などが設定できます。その中にインスタンスの配置先のリージョンを設定するドロップダウンがあり、Japanを選択する事ができます。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environment-production_jp-of-application-todo.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environment-production_jp-of-application-todo-600x391.png" alt="" title="Engine Yard Cloud — Environment production_jp of application todo" width="600" height="391" class="aligncenter size-medium wp-image-1679" /></a></p>
+<p>これでインスタンスが新規に作成されChefによる構築とアプリケーションのデプロイが開始されます。そしてダッシュボードに燦然と輝くJapanの文字。無事に日本リージョンにデプロイが出来ました。</p>
+<h2>公開鍵の登録</h2>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Applications-2.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Applications-2-600x167.png" alt="" title="Engine Yard Cloud — Applications-2" width="600" height="167" class="aligncenter size-medium wp-image-1682" /></a></p>
+<p>稼働中のインスタンスにsshログインする為には公開鍵を登録し、各Environmentに割り当てる必要があります。公開鍵を登録するにはダッシュボード上のメニューからSSH Public Keysのページにアクセスします。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-SSH-Keys-1.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-SSH-Keys-1-600x345.png" alt="" title="Engine Yard Cloud — SSH Keys-1" width="600" height="345" class="aligncenter size-medium wp-image-1688" /></a></p>
+<p>公開鍵は管理用の名前を付けてフォーム内にコピーペーストして登録します。実際の運用を考えるとgithubに利用しているものなどリポジトリの管理に利用する鍵と共通化する場合が多いでしょう。作成済のEnvironmentがある場合はチェックボックスをクリックして同時に割り当てる事ができます。</p>
+<h2>sshでのログイン</h2>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environment-production-of-application-todo.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environment-production-of-application-todo-600x302.png" alt="" title="Engine Yard Cloud — Environment production of application todo" width="600" height="302" class="aligncenter size-medium wp-image-1691" /></a></p>
+<p>公開鍵をEnvironmentに紐付けてあれば稼働中の画面からSSHリンクをクリックする事でログインできます。ログインの際にはdeployユーザでログインする形になっています。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/deploy@ip-10-112-229-137_-—-ssh-—-83×25.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/deploy@ip-10-112-229-137_-—-ssh-—-83×25.png" alt="" title="deploy@ip-10-112-229-137_~ — ssh — 83×25" width="588" height="310" class="aligncenter size-full wp-image-1692" /></a></p>
+<p>ログイン後にはデータベースへの接続やログの確認などの必要な操作がプロンプトに表示されます。またプロンプトから読み取れるようにアプリケーションのコードやログが /data データベースのボリュームが /db にマウントされている事がわかります。デプロイしたアプリケーションの動作に問題がある場合などは直接サーバー内部を確認して調査できます。</p>

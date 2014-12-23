@@ -1,0 +1,41 @@
+---
+layout: post
+title: 検索機能を実装しました - candycane v0.8.0
+date: 2011-07-05 07:36:02.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/07/candy.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/07/candy-300x150.png" alt="" title="candy" width="300" height="150" class="aligncenter size-medium wp-image-736" /></a></p>
+<p><a href="https://github.com/yandod/candycane/archives/v0.8.0">v0.8.0ダウンロードページ</a><br />
+CakePHPで作られた第3のRedmine、candycaneのバージョンをv0.8.0に更新しました。今回はインストーラーの国際化やチケットの関連付け機能の有効化、検索機能の最初の実装といった機能を盛り込みより実用性が向上しています。機能の実装に伴って判明した問題点などもありますが、まずは日常の利用をカバーする事を優先しています。特にインストーラーについては<strong>3分程度でインストール可能で、気に入らなければフォルダごと捨てられます。</strong>この点についてはRedmineと比較してもかなりスムーズな所かなと思っています。</p>
+<p>なお先日のCakePHP2.0勉強会で発表した際にカウントしてみたところ<strong>現状で130を超えるアクションが実装されている</strong>事がわかりました。マニュアルの執筆をするのであれば当然この130のアクションに対してスクリーンショットの撮影や執筆が発生するとわかってしまい、戦慄しています。</p>
+<p><strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/yandod/candycane110625" title="Candycane110625" target="_blank">Candycane110625</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/8418508" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+<p style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/yandod" target="_blank">yandod</a> </p>
+<p><a href="http://my.candycane.jp/versions/show/14">延べ作業時間は52.50時間、4のバグ修正と5つの機能追加</a>というのが作業の概要です。なんというか、１週間は僕はcandycaneの為に働いているようですね。正直に申しましてこれだけの作業時間を確保するのは健康に支障があるレベルですので、細かなバグ修正から機能の実装まで参加してもらえる方をお待ちしております。。。。</p>
+<p>また検索の実装には<a href="https://github.com/CakeDC/Search">Search Plugin</a>を使っており、<a href="http://blog.fusic.co.jp/archives/156">k1Lowさんの記事</a>が大変参考になりました。ありとあらゆる検索機能を実装する方にこのプラグインをお勧めしますよ。</p>
+<ul>
+<li><a href="http://my.candycane.jp/issues/show/107" class=" issue closed">機能 #107</a>: パスワードリマインダーが動かない</li>
+<li><a href="http://my.candycane.jp/issues/show/119" class=" issue closed">機能 #119</a>: インストーラーが翻訳されていない</li>
+<li><a href="http://my.candycane.jp/issues/show/124" class=" issue closed">機能 #124</a>: CI環境の構築</li>
+<li><a href="http://my.candycane.jp/issues/show/139" class=" issue closed">バグ #139</a>: 優先度による色分けができてない</li>
+<li><a href="http://my.candycane.jp/issues/show/140" class=" issue closed">機能 #140</a>: チケットの関連付けができない</li>
+<li><a href="http://my.candycane.jp/issues/show/146" class=" issue closed">機能 #146</a>: チケット検索ができない</li>
+<li><a href="http://my.candycane.jp/issues/show/148" class=" issue closed">バグ #148</a>: Xampp上でインストール実行後のWelcome画面がErrrorとなり表示されない。</li>
+<li><a href="http://my.candycane.jp/issues/show/149" class=" issue closed">バグ #149</a>: 添付ファイルが添付できない？</li>
+<li><a href="http://my.candycane.jp/issues/show/150" class=" issue closed">バグ #150</a>: 言語リストに余分なdefault.potが表示される</li>
+</ul>
+<p><a href="http://blog.candycane.jp/archives/704">前回のリリースノート</a></p>

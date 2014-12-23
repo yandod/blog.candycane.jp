@@ -1,0 +1,64 @@
+---
+layout: post
+title: CandyCane v0.9.1をリリースしました。
+date: 2013-03-07 00:37:32.000000000 +09:00
+categories:
+- ブログ
+tags:
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _wpas_done_all: '1'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/09/IMG_2189.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/09/IMG_2189-600x450.jpg" alt="IMG_2189" width="600" height="450" class="aligncenter size-medium wp-image-1585" /></a></p>
+<p><a href="https://github.com/yandod/candycane/tags">Tags · yandod/candycane</a><br />
+GitHub上でダウンロード数が分からなくなってしまいましたが、v0.9.1を公開しました。</p>
+<p>ブログを書く時間もほとんど無い状況なのですが、おかげさまでバグの修正などは順次進んでいます。<br />
+また<a href="https://travis-ci.org/yandod/candycane" target="_blank">Travisでのテストがグリーン状態</a>になったのも喜ばしいニュースです。</p>
+<p>今回のバージョンで修正されたバグは下記の通りです。</p>
+<ul>
+<li><a href="http://my.candycane.jp/issues/show/308" class=" issue closed">Bug #308</a>: ウォッチャーの追加</li>
+<li><a href="http://my.candycane.jp/issues/show/345" class=" issue closed">Bug #345</a>: Comment edit is broken.</li>
+<li><a href="http://my.candycane.jp/issues/show/397" class=" issue closed">Bug #397</a>: Cannot edit and cannot quote</li>
+<li><a href="http://my.candycane.jp/issues/show/402" class=" issue closed">Bug #402</a>: Unable to quote from issue description</li>
+<li><a href="http://my.candycane.jp/issues/show/403" class=" issue closed">Bug #403</a>: Tags in description not handled correctly</li>
+<li><a href="http://my.candycane.jp/issues/show/411" class=" issue closed">Bug #411</a>: multiple delete doesn't work</li>
+<li><a href="http://my.candycane.jp/issues/show/412" class=" issue closed">Bug #412</a>: Wiki preview link stopped working</li>
+<li><a href="http://my.candycane.jp/issues/show/415" class=" issue closed">Bug #415</a>: error messge will thrown on Plugin dir is empty</li>
+<li><a href="http://my.candycane.jp/issues/show/420" class=" issue closed">Bug #420</a>: Jump to project not working</li>
+<li><a href="http://my.candycane.jp/issues/show/424" class=" issue closed">Bug #424</a>: Error after editing version on project preferences tab.</li>
+<li><a href="http://my.candycane.jp/issues/show/426" class=" issue closed">Bug #426</a>: Cannot search tickets by id</li>
+<li><a href="http://my.candycane.jp/issues/show/428" class=" issue closed">Bug #428</a>: Link in issues is wrong</li>
+<li><a href="http://my.candycane.jp/issues/show/429" class=" issue closed">Bug #429</a>: Access to "View all issues" must be limits by user's projects</li>
+<li><a href="http://my.candycane.jp/issues/show/431" class=" issue closed">Enhancement  #431</a>: Disable mail by setting.</li>
+</ul>
+<p>最近のリリースでの貢献者の顔ぶれもなんだかバラエティに富んでいます。</p>
+<pre lang="txt">
+$ git shortlog -sn v0.9-RC..HEAD
+    76  Yusuke Ando
+    19  hamaco
+    13  Thomas Bouchet (Mindiell)
+     8  okonomi
+     4  ialbors
+     2  ha1t
+     2  Mindiell
+     1  Yasuo Harada
+     1  Ando Munenori
+     1  Jose Diaz-Gonzalez
+     1  KOMATSU Seiji
+     1  Allan Freitas
+     1  arata
+</pre>
+<p>また最近はhamacoさんのがんばりにより待望のリポジトリビューワーなどのプラグインが大量に追加されています。詳細は下記のスライドをご覧ください。</p>
+<p><iframe src="http://www.slideshare.net/slideshow/embed_code/16765556" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe>
+<div style="margin-bottom:5px"> <strong> <a href="http://www.slideshare.net/yandod/candycane-phpredmine" title="最近のCandyCane - PHP版Redmineでタスク管理を始めよう" target="_blank">最近のCandyCane - PHP版Redmineでタスク管理を始めよう</a> </strong> from <strong><a href="http://www.slideshare.net/yandod" target="_blank">yandod</a></strong> </div>
+<p>開発用のサーバはさくらインターネットの500円のプランなのですが夜間はさすがに重たい事も多いのでそろそろEngine Yardに移設予定です。</p>

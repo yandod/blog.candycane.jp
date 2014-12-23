@@ -1,0 +1,33 @@
+---
+layout: post
+title: Heroku用に魔改造したphpPgAdminをHerokuで動かす
+date: 2012-05-31 00:07:50.000000000 +09:00
+categories:
+- ブログ
+tags:
+- heroku
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/05/phppgadmin.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/05/phppgadmin-600x231.png" alt="" title="phppgadmin" width="600" height="231" class="aligncenter size-medium wp-image-1490" /></a></p>
+<p>Herokuでは無料で使えるデータベースはPostgreSQLになります。Rubyなどであれば<code>db:migrate</code>などのツールでDBを管理しますが、PHPではデファクトといえるほどのツールがありません。ひとまず手早く管理するべく。phpPgAdminに<strong>魔改造を施して</strong><a href="https://github.com/yandod/phppgadmin-heroku" target="_blank">Herokuの環境変数を読み取って動作するフォーク</a>を作成しました。</p>
+<h3>導入方法</h3>
+<p>PHPを使って動作しますので、PHPスタックで初期化されたアプリ内で下記のコマンドを実行してください。(Facebook Developerから作成したPHPアプリなどでOKです。)</p>
+<pre lang="txt">
+heroku addons:add shared-database
+git submodule add git://github.com/yandod/phppgadmin-heroku.git
+git add .
+git commit -m "Add phppgadmin-heroku"
+git push origin master
+</pre>
+<p>ユーザ名とパスワードはかなり強固だとは思いますが、不要だと思ったらアプリから削除してプッシュしなおすのがいいかもしれません。</p>

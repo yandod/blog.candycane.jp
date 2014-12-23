@@ -1,0 +1,113 @@
+---
+layout: post
+title: '[和訳]Lithium0.9.9リリースノート'
+date: 2010-11-08 14:25:38.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Lithium
+- 和訳
+status: publish
+type: post
+published: true
+meta:
+  _wp_old_slug: ''
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png"><img src="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png" alt="" title="designall.dll" width="500" height="150" class="alignleft size-full wp-image-188" /></a></p>
+<p>PHP Matsuri以降、実は一度ブログの更新がありましたが、自分の事が書いてあったので照れくさくて翻訳していません。そして立て続けにLithiumの新しいリリースの知らせがありましたので和訳を作成しました。文中に出てくるスタートアップにはセキュリティの権威、<a href="http://twitter.com/#!/shiflett">Chris Shiflett</a>さんやPHPのUnicode実装に奮戦していた<a href="http://twitter.com/#!/a">Andrei Zmievski</a>さんが在籍し、さらには<a href="http://twitter.com/#!/coates">Sean Coates</a>さんが。またTostyのCTOの<a href="https://twitter.com/#!/mitchitized">Mitch Pirtle</a>さんは有名CMS Joomlaの作者です。PHP界のビッグネームがこぞってLithiumを実際に使い始めているというエキサイティングな様子が見て取れます。ではどうぞ。</p>
+<h4>原文</h4>
+<p><a href="http://dev.lithify.me/lithium/wiki/blog/Lithium-0-9-9-99-Problems-But-a-Framework-Aint-One">http://dev.lithify.me/lithium/wiki/blog/Lithium-0-9-9-99-Problems-But-a-Framework-Aint-One</a></p>
+<h3>Lithium 0.9.9: 99 Problems But a Framework Ain't One</h3>
+<p>ワオ、しばらくこのブログを不在にしてました。僕の時間は何処に行ったんだろう？夏の間はしようとしていた事が全て減速していました。僕自身や他のチームメンバーは新しい仕事やスタートアップの立ち上げで多忙でした。我らがプロジェクトマネージャー、<a href="http://twitter.com/#!/gwoo">Garret</a>は<a href="http://sourceforge.net/">SourceForge</a>内でプロダクトリーダーにポジションに就きました。我々もこれをとても嬉しく思います。これについては近いうちにもう少しわかると思います。</p>
+<p>また<a href="http://dev.lithify.me/lithium/wiki/blog/workshops-meetups-conferences">前回触れたよう</a>にいくつかのイベントを開催したり、参加してきたのでここ数ヶ月は忙しかったです。なんにせよはっきり言うと長いリリースをしないで時間が過ぎてしまいました。こういった事はもう起こしたくないとはっきり思っています。ええ、本当に済みませんでした。<br />
+それはさておき、今日は思いがけないリリース日です。ちょうど二日前にプロジェクト公開の記念日を迎えました。（以前からアナウンスはしていましたがコードとサイトが公開されたのは11月３日でした）また今日は<a href="http://vforvendetta.warnerbros.com/">Remember Remember</a>の日です。（訳注 映画Vフォーバンデッタの台詞 "Remember Remeber The 5th of November" ）<br />
+また色々な事がありましたが特に前回のリリース以降、将来的には高品質なアプリケーションの為のデファクトフレームワークになる為にがんばってきました。<a href="http://twitter.com/#!/bobthecow/status/29493213516">こんな事や</a>、<a href="http://twitter.com/#!/bobthecow/status/29494928076">こんな事</a>や<a href="http://sethgodin.typepad.com/seths_blog/2005/03/dont_shave_that.html">ヤクの毛狩り</a>が無いように。</p>
+<h3>立ち上げ</h3>
+<p>この８月にMongoDBを利用したトラフィックの多いプライベートセールEコマースサイト、<a href="http://www.totsy.com/">Tosty.com</a>が開始しました。そしてこのサイトはLithiumで構築されています。<a href="https://twitter.com/#!/mitchitized">Tosty.comのCTO</a>によるこのケーススタディの発表の<a href="http://www.10gen.com/video/mongoboston2010/totsy">ビデオ</a>を見る事もできます。<br />
+また個人的に喜ばしい事として今から2週間に<a href="http://brooklynbeta.org/">Brooklyn Beta</a>というカンファレンスに参加しました。多くの人がこれについて<a href="http://www.google.com/search?q=Brooklyn+Beta">既に記事を書いています</a>。ここでカンファレンスについてはまとめない事にします。このイベントは<a href="http://analog.coop/">Analog</a>と<a href="http://fictivekin.com/">Fictive Kin</a>のジョイントベンチャーで、彼ら一人一人を個人に敬意を持っています。なのでかれらが立ち上げたいくつかのベータ版のプロダクト<a href="https://mapalong.com/hello">Mapalong</a>と<a href="https://gimmebar.com/">Gimme Bar</a>にはわくわくしました。しかも彼らは両方ともLithiumを使っているんです！<br />
+彼らのフレームワーク上での実践と優れたアプリケーションを見るのはエキサイティングでした。そしてついに完成したわけです。これらのチームからのフィードバックは今のLithiumには不可欠でした。みなさんありがとうございました。</p>
+<h3>リリースハイライト</h3>
+<p>今回のリリースは予定したものではありませんでしたが、クオリティをさらに向上させています。約400のコミットが12人の有志によって行われました。これは過去２回のリリースの3倍以上です。また過去4回のリリースの合計に匹敵するくらいの大きさです。</p>
+<p>全ての変更を説明しても実用的ではないでしょう。ここに変更のハイライトをリストします。特にコアアーキテクチャとのやり取りに注目してみます。</p>
+<p><strong>Filters::apply():</strong>  Filters クラスはLithiumでメソッドに対してレイジーにフィルタ処理を行う為の新しい機構です。この新しいメソッドはまだ読み込まれていないスタティックなクラスへフィルタを適用します。例としてPOSTモデルがあり、クエリのログを取る場合はこうなります。:</p>
+<pre lang="php">
+use app\models\Posts;
+use lithium\analysis\Logger;
+
+Posts::applyFilter("find", function($self, $params, $chain) {
+Logger::info(json_encode(array("posts" => $params)));
+return$chain->next($self, $params, $chain);
+});
+</pre>
+<p>このフィルタはブートストラップ処理の中で適用されています。よってPOSTクラスはリクエスト中で使われているかどうかに関わらず常にロードされます。このフィルターをレイジーに適用すると以下のようになります。:</p>
+<pre lang="php">
+use lithium\analysis\Logger;
+use lithium\util\collection\Filters;
+
+Filters::apply('app\models\Posts', 'find', function($self, $params, $chain) {
+Logger::info(json_encode(array("posts" => $params)));
+return$chain->next($self, $params, $chain);
+});
+
+</pre>
+<p>このフィルタの効果は１つ上の例と同じです。ですが、Filtersクラスを通しているため、このフィルタはPostクラスが既に読み込まれていない場合はすぐには適用されません。この場合はPostsクラスのFindメソッドが呼びだされるまではフィルタは適用されません。</p>
+<p><strong>Object::_instance() と Libraries::instance():</strong> Lithiumは当初からクラス間の依存を定義する際に$_classes属性を使う規約を持っています。これらの依存関係を個別にコンストラクタで上書きする事ができます。<br />
+しかしこのインスタンス化のプロセスは少々ぎこちないものでした。クラスの名前を$_classes配列から取得し、 new $class() としていました。現在はObjectとStaticObjectをワンライナーでそれぞれの依存のキーに設定できます。また好きなパラメータも下記のように指定できます。:</p>
+<pre lang="php">
+class Foo {
+
+protected$_classes = array("renderer" => "app\extensions\template\Custom");
+
+publicfunction render() {
+$renderer = $this->_instance("renderer", array("path" => "views/"));
+// ...
+}
+}
+</pre>
+<p>Libraries::instance() もよく似た動きをします。クラス型か Libraries::locate()のような名前を受け取り、見つかったクラスを指定されたパラメーターでインスタンス化します。</p>
+<p><strong>Request::accepts()によるコンテンツ認証 :</strong>  Request オブジェクトはコンテンツ認証をサポートしました。認証にはHTTP Acceptedパラメーターを使います。アプリケーションの中で使われるコンテンツのタイプをMedia クラスで設定された設定をもとに返します。.<br />
+<strong>Model::update() と Model::remove():</strong>  Model クラスに２つのメソッドが追加されました。これは複数のドキュメントやレコードを一度に操作できます。<br />
+<strong>MongoDBスキーマサポート:</strong> このリリースではMongoDBのスキーマサポートが改良されました。Mongoオブジェクトを簡単に記録するだけではなく、 $_schema プロパティを使ってLithiumに期待するフィールドの情報を伝えることできます。MongoIDを文字列で渡す事で自動的にMongoIDオブジェクトを生成し問い合わせや更新に使います。<br />
+<strong>APIドキュメンテーション:</strong> その他の機能の為にこのリリースには多くのAPIドキュメントがf組まれます。これらは間もなく <a href="http://lithify.me/docs">docs page</a>で公開されます。(訳注、反映済み)さらにドキュメントは新しい<a href="http://dev.lithify.me/li3_docs">li3_docs</a>で提供されます。<br />
+<strong>HTTPメタデータによるルーティング:</strong> これまではルーティングはURL内のパターンでのみマッチしていました。現在は全てのRequestオブジェクトのプロパティに拡大されました。これはおなじみのRouter APIで指定します:</p>
+<pre lang="php">
+// Only allow POST requests to FooController::create():
+Router::connect("/create", array("Foo::create", "http:method" => "POST"));
+
+// Allow POST or PUT::
+Router::connect("/update", array("Foo::update", "http:method" => array("POST", "PUT")));
+
+// Only match if on the dev server:
+Router::connect("/secret", array("Secret::index", "http:host" => "dev.application.com"));
+
+// Only match if request is over HTTPS:
+Router::connect("/admin", array("Foo::index", "env:https" => true));
+</pre>
+<p>次のリリースのいくつかの変更もハイライトしようと思います。UUIDジェネレーターを再実装したDenis de Bernardy,に感謝します。これにより複雑なコードを明らかに減らす事ができました。これによりパスワードのセキュリティに使われるコアの暗号化を改良できます。また透過的なCSRF対策もフレームワーク上に間もなく実装されます。<br />
+さらに彼と何人かの才能ある日本の開発者がそれぞれPostgreSQLのサポートを実装しました。これも次回のリリースでデビューします。<br />
+最期に <a href="http://dev.lithify.me/lithium_textmate">TextMate plugin</a>に小さな改良がありました。アプリケーションで使いテストを実行した後、エラーが発生した場所にTextMate上でジャンプできます。Macユーザなら試してみてください。</p>
+<h3>API changes</h3>
+<p>大きなリリースなのでいくつかの後方互換性の無い変更があります。幸いにも小さな変更なので簡単に修正できます。</p>
+<ul>
+<li>$this-&gt;render('foo') の呼び出しはコントローラー内で動かなくなります。代わりにこの呼び出しは$this-&gt;render(array('template' =&gt; 'foo'))に変更してください。</li>
+<li>Inflector::camelize() は "_" と "-" を置換します。 (以前は "_"　だけを置換していました).</li>
+<li>データベース設定にカスタムポートを使う場合、 "port" キーはサポートしなくなります。その代わりに "host" キーのフォーマットを "host:port"としてください。</li>
+<li>Model::_connection() をバックエンドを直接呼び出すのに使っている場合、このメソッドが廃止予定である事に注意してください。かわりに新しい実装である Model::connection()を利用できます。</li>
+<li>LithiumのG11n機構を使っている場合、CatalogAPIの２つの変更に注意してください。:  read() と write() メソッドの最初のパラメータは反映したい設定の名前です。 read() の場合、 true をいつでも指定できます。こうすれば以前の実装と同じです。</li>
+<p>簡単に移行する場合は全ての read() の呼び出しをCatalog::read(...) から Catalog::read(true, ...)としてください。<br />
+write() を置き換える場合は動揺ですがやや自動的ではありません。 以前の呼び出しが: Catalog::write('message', 'en', $data, array('name' => 'runtime')), の場合、現在は:Catalog::write('runtime', 'message', 'en', $data)となります。</p>
+<h3>What's next?</h3>
+<p>このリリースが表に出ると、チームは次のリリースに向けて動く事に興奮しています。僕らはあと２つの大きな機能を安定版のリリース前に実装します。またいくつかの優れたプラグインがリリースの準備ができています。メーリングリストやフォーラムで沢山の質問を受けているのが、Lithiumの全てが集まっている所を探すことの難しさです。ブログやポッドキャスト、ビデオにプレゼンテーションです。僕らはちゃんと聞いています。来週のアナウンスを楽しみにしてください。<br />
+それじゃ、"remember, remember the 5th of November!" (訳注：台詞です。)<br />
+~ nate ~</p>
+<p><a href="http://dev.lithify.me/lithium/versions">リリースのダウンロード</a><br />
+<a href="http://dev.lithify.me/lithium/wiki/releases/0_9_9">全ての変更履歴</a></p>
+<p>-訳ここまで</p>
+<p>久々のリリースという事で情報量が多く、３時間強も掛かってしまいました。十分に集中していたとは言えないのですが。個人的にはNateの持っている交友関係の広さや彼がPHPのコミュニティでアクティブな様子が伺えます。また彼のポストには洋楽や洋画の引用がよくありますので、理解を深めるにはこういったものも嗜むと良さそうですね。近日中の次のアナウンスを楽しみにしましょう。</ul>

@@ -1,0 +1,68 @@
+---
+layout: post
+title: Windows Azure + PHPな環境で動いているバイナリは普通のと同じ
+date: 2011-11-16 17:57:43.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Azure
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアななめ3.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/クラウディアななめ3-264x300.jpg" alt="" title="クラウディアななめ3" width="264" height="300" class="aligncenter size-medium wp-image-978" /></a></p>
+<p>Windows Azure上でPHPを動かしてみています。SDKからそのまま作ったプロジェクトの場合、PHPのバージョンは5.3.4になっており、これをアップデートする方法を調べたのでメモ。</p>
+<h3>Windows Azure PHPの正体</h3>
+<p>Windows Azure PHPプロジェクトとしてプロジェクトを作った場合、プロジェクト内のphpというディレクトリの配下にWindows版のPHPのバイナリとおぼしきファイル群が自動的にコピーされる。このPHPはAzure SDKに同梱されていると思われるPHPかシステムにインストール済みのPHPのいずれかから選択してコピーする。またビルド日時から見て、<a href="http://windows.php.net/download/" target="_blank">通常配布されているWindows版PHP</a>と同一とみなしてよさそうだ。<br />
+プロジェクトに同梱されたPHPはそのままデプロイ用のcspkg形式のパッケージに同梱されてAzure環境上にデプロイされる。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image4.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/Image4-300x53.png" alt="" title="Image4" width="300" height="53" class="aligncenter size-medium wp-image-930" /></a></p>
+<p>このPHPの導入は単純なコピーだけではなく、Azure Storageなどへのアクセスを実現するためのphp_azure.dll の導入も合わせて行っている。これに伴って php/php.ini には下記の記述が挿入されている。</p>
+<pre style="background:#EEE;overflow:auto">
+extension="php_azure.dll"
+</pre>
+<p>phpinfo()の出力内容をみるとこのPHPはWindows版の非スレッドセーフ版PHPをVC9でビルドしたものであることが分かる。xDebugのようなExtensionなどを導入する際にはこれを前提として取り扱えばよさそうだ。</p>
+<pre style="background:#EEE;overflow:auto">
+PHP Version 5.3.4
+Build Date  Dec 9 2010 22:17:30  
+Compiler  MSVC9 (Visual C++ 2008)  
+Architecture  x86  
+Configure Command  cscript /nologo configure.js "--enable-snapshot-build" "--enable-debug-pack" "--disable-zts" "--disable-isapi" "--disable-nsapi" "--without-mssql" "--without-pdo-mssql" "--without-pi3web" "--with-pdo-oci=D:\php-sdk\oracle\instantclient10\sdk,shared" "--with-oci8=D:\php-sdk\oracle\instantclient10\sdk,shared" "--with-oci8-11g=D:\php-sdk\oracle\instantclient11\sdk,shared" "--with-enchant=shared" "--enable-object-out-dir=../obj/" "--enable-com-dotnet" "--with-mcrypt=static"  
+Server API  CGI/FastCGI  
+Virtual Directory Support  disabled  
+Configuration File (php.ini) Path  C:\Windows  
+Scan this dir for additional .ini files  (none)  
+Additional .ini files parsed  (none)  
+PHP API  20090626  
+PHP Extension  20090626  
+Zend Extension  220090626  
+Zend Extension Build  API220090626,NTS,VC9  
+PHP Extension Build  API20090626,NTS,VC9  
+Debug Build  no  
+Thread Safety  disabled  
+Zend Memory Manager  enabled  
+Zend Multibyte Support  disabled  
+IPv6 Support  enabled  
+Registered PHP Streams  php, file, glob, data, http, ftp, zip, compress.zlib, phar  
+Registered Stream Socket Transports  tcp, udp  
+Registered Stream Filters  convert.iconv.*, mcrypt.*, mdecrypt.*, string.rot13, string.toupper, string.tolower, string.strip_tags, convert.*, consumed, dechunk, zlib.*  
+</pre>
+<h3>プロジェクトに同梱されたPHPのアップデート</h3>
+<p>PHPのバージョンを上げる場合、該当のバイナリファイルを上書きする事でアップデートを行える。まずは利用したいバージョンの<strong>非スレッドセーフ版Windows版PHP</strong>をダウンロードしてくる。ダウンロードする際はインストーラー版ではなくZIPアーカイブをダウンロードしてファイルを展開する。次に展開したファイルをプロジェクト内のphpディレクトリに上書きしていく。この際にphpディレクトリごと上書きしてしまうとphp.iniが書き変わってしまう為、下記のファイルを個別に差し替える。</p>
+<pre style="background:#EEE;overflow:auto">
+php/php-cgi.exe
+php/php5.dll
+php/php.exe (ユニットテストなどで使っているなら)
+ext/ (APIの互換が保たれているバージョンであれば更新しなくても大丈夫)
+</pre>
+<p>開発ファブリックで動作確認してみたところ、最新のPHPが動作している事が確認できた。同様の手順でパッチを当ててビルドしたPHPのバイナリを動作させることもできるかもしれない。<br />
+<a href="http://blog.candycane.jp/wp-content/uploads/2011/11/Image7.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/11/Image7-300x110.png" alt="" title="Image7" width="300" height="110" class="aligncenter size-medium wp-image-941" /></a></p>
+<p>※Windows版PHPにあまり詳しくないので正しい知識をお持ちの方がいればお知らせください。</p>

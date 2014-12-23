@@ -1,0 +1,107 @@
+---
+layout: post
+title: CSSやJSファイルの配信を最適化するAsseticが便利そう
+date: 2011-03-02 13:15:58.000000000 +09:00
+categories:
+- ブログ
+tags:
+- symfony
+- イベント
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<div style="width:425px" id="__ss_7110376"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/kriswallsmith/introducing-assetic-nyphp" title="Introducing Assetic (NYPHP)">Introducing Assetic (NYPHP)</a></strong> <object id="__sse7110376" width="425" height="355"><param name="movie" value="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=assetic-110301213157-phpapp02&stripped_title=introducing-assetic-nyphp&userName=kriswallsmith" /><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><embed name="__sse7110376" src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=assetic-110301213157-phpapp02&stripped_title=introducing-assetic-nyphp&userName=kriswallsmith" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="355"></embed></object>
+<div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/">presentations</a> from <a href="http://www.slideshare.net/kriswallsmith">Kris Wallsmith</a> </div>
+</p></div>
+<p>ニューヨークのPHPコミュニティ、NYPHPに参加してきました。今回はSymfony Liveでも行われたAsseticのセッションに興味があったので参加してきました。（前回はカンファレンス2日目の最終セッションだったので疲れてあまり内容が頭に入らなかったので）今回は内容もすっきり理解できたのでセッションの内容を簡単にまとめて紹介します。</p>
+<h3>複数のCSSやJavaScriptを連結して1つにするAssetic</h3>
+<p>サイトの構造が複雑化するとさまざまなJSファイル(JQuery本体やプラグイン、独自のコード、アクセス解析用コードetc)やCSSファイルを外部ファイルとしてロードするようになります。そうする事によって簡単にリッチな機能を実現できる反面、ページを表示する際に複数のファイルを呼び出すリクエストが発生する為にページの読み込みは遅くなります。特に同一ドメインのファイルを複数読み込む場合や外部ドメインから読み込む場合に顕著です。このような問題をファイルを連結する事で解決するPythonのライブラリ<a href="https://github.com/miracle2k/webassets">webasset</a>にインスパイアされて作られたのがPHP5.3用(Symfony2用ではない事に注意)のライブラリ、<a href="https://github.com/kriswallsmith/assetic">assetic</a>です。</p>
+<h3>基本的な使い方</h3>
+<p>asseticはSymfonyのコアチームの一員であるKrisさんが開発していますが、あくまでスタンドアロンなライブラリです。Asseticのクラス群がロードできる用になっていれば、単純なスクリプトの中からも呼び出す事が出来ます。</p>
+<pre lang="php">
+$js = new AssetCollection(array(
+    new GlobAsset('/path/to/js/*'),
+    new FileAsset('/path/to/another.js'),
+));
+
+// the code is merged when the asset is dumped
+echo $js->dump();
+</pre>
+<p>この例では特定のパス以下にあるJSファイルと、指定したJSファイルをdumpする事で連結して出力します。JSが必要な各ページからは個別のJSを読み込むのではなく、このスクリプトをlinkタグなどで読み込めば単一のリクエストで複数のファイルをロードする事ができます。これによりレンダリング速度の向上やSEOの改善が期待できます。</p>
+<h3>ファイルの圧縮などを行うFilter</h3>
+<p>単純にファイルを連結するだけでもリクエスト数の削減は可能ですが、さらにファイルの余分な内容をはぶくといった操作を行う事でデータの量を小さくする事ができます。asseticではこのような処理をFilterを利用して適用できます。実際の圧縮に使うAPIはさまざまな物が利用可能です。</p>
+<pre lang="php">
+$css = new AssetCollection(array(
+    new FileAsset('/path/to/src/styles.less', array(new LessFilter())),
+    new GlobAsset('/path/to/css/*'),
+), array(
+    new Yui\CssCompressorFilter('/path/to/yuicompressor.jar'),
+));
+
+// this will echo CSS compiled by LESS and compressed by YUI
+echo $css->dump();
+</pre>
+<p>この例ではファイルをYUIの処理を使って圧縮しています。既に実装されているFilterは下記の通りとのことです。またJSファイルの圧縮はデバッグなどの妨げになるので開発時はオフになるようにオプションを指定するのが望ましいです。(スライドの63ページ目に例があります)</p>
+<pre>
+CoffeeScriptFilter: compiles CoffeeScript into Javascript
+CssRewriteFilter: fixes relative URLs in CSS assets when moving to a new URL
+GoogleClosure\CompilerApiFilter: compiles Javascript using the Google Closure Compiler API
+GoogleClosure\CompilerJarFilter: compiles Javascript using the Google Closure Compiler JAR
+LessFilter: parses LESS into CSS
+StylusFilter: parses STYL into CSS
+Sass\SassFilter: parses SASS into CSS
+Sass\ScssFilter: parses SCSS into CSS
+SprocketsFilter: Sprockets Javascript dependency management
+Yui\CssCompressorFilter: compresses CSS using the YUI compressor
+Yui\JsCompressorFilter: compresses Javascript using the YUI compressor
+</pre>
+<h3>キャッシュ、CDNの利用</h3>
+<p>ファイルの連結をリクエスト毎に行うのは非効率なのではと思った方もいるでしょう。実際に会場でもある女性がその質問をしていました。asseticにはキャッシュの仕組みも用意されています。下記は連結したファイルを特定のパスにキャッシュする実装の例です。</p>
+<pre lang="php">
+$yui = new Yui\JsCompressorFilter('/path/to/yuicompressor.jar');
+$js = new AssetCache(
+    new FileAsset('/path/to/some.js', array($yui)),
+    new FilesystemCache('/path/to/cache')
+);
+// the YUI compressor will only run on the first call
+$js->dump();
+$js->dump();
+$js->dump();
+</pre>
+<p>さらに連結したファイルをローカルファイルではなくAmazonS3のようなサービスに書き出す事も出来ます。</p>
+<pre lang="php">
+$am = new AssetManager();
+$am->set('foo', $foo);
+
+$writer = new AssetWriter('s3://mybucket');
+$writer->writeManagerAssets($am);
+</pre>
+<p>このような書き出し処理はコマンドラインスクリプトなどから叩く形でデプロイの手順に盛り込むのが良いでしょうね。</p>
+<h3>Symfony2との統合</h3>
+<p>最後にこれらの機能を簡単にSymfony2から呼び出せるように作られたのがAsseticBundleです。asseticそのものはファイルを置くパスや初期化の方法などはオープンですが、これをSymfony2の構造に併せて制御できるようにするのがBundleの役目ですね。PHP5.3であればasseticは動作するので他のフレームワーク用のプラグインなども誰かが作るかもしれません。<br />
+Symfony2から利用する場合、ひとまずは特定のパス以下のファイルを全て連結するように動作するようです。つまりファイルをweb配下に置けば全てが連結されてビューから読み込まれるという事ですね。</p>
+<p><strong>設定</strong></p>
+<pre lang="yml">
+assetic:
+    debug: %kernel.debug%
+    use_controller: %kernel.debug% 
+    read_from: %kernel.root_dir%../web
+    write_to: s3://mybucket
+</pre>
+<p><strong>ページからの読み込み</strong></p>
+<pre lang="html">
+<link href="{{ asset_url }} rel="stylesheet">
+</pre>
+<p>デフォルトのレイアウトに上記の記述があれば常に全てのCSSが連結されて読み込まれますね。そして設定さえすればファイルがS３から参照できたりもするという。</p>
+<h3>まとめ</h3>
+<p>問答無用でこの状態から開発が始まると戸惑うかもしれませんが、ページのレスポンスを向上させる仕組みをCDNまで考慮して実装してくれるというのは素晴らしい機能ですね。また質疑応答では画像ファイルをエンコードしてCSS内に埋め込む、スプライティングを行うと言った処理も組み込む予定があると言っていました。Symofony2的にはWEB以下の静的ファイルが全て連結されるようなイメージになる事になりますね。ということで効果的にアクセスを捌く必要がある場合にはasseticの利用を検討してみると良いのではないでしょうか。</p>
+<p><a href="http://www.ustream.tv/recorded/13030525">セッションの動画</a>もありました</p>

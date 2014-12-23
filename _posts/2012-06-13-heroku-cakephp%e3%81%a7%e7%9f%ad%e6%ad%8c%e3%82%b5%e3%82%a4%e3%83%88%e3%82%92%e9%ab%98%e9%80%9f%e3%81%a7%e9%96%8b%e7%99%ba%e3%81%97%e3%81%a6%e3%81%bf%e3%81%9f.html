@@ -1,0 +1,37 @@
+---
+layout: post
+title: Heroku + CakePHPで短歌サイトを高速で開発してみた
+date: 2012-06-13 19:26:55.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- heroku
+- みんなの短歌 Hinetter
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/06/IMG_2029.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/06/IMG_2029.jpg" alt="" title="IMG_2029" width="320" height="480" class="aligncenter size-full wp-image-1506" /></a></p>
+<p><a href="http://hinetter.herokuapp.com/">みんなの短歌 Hinetter</a>という短歌を投稿できるサイトを作ってみました。ここのところよく解説していたHerokuのPHPスタックの上にCakePHP2.1とJQuery Mobileを載せて開発しています。アイデアを思いついてからは24時間くらい、実質の開発時間は半日ほどで特にFacebook連携と見た目の部分に時間をかけた感じです。</p>
+<h3>Herokuによる開発速度はとんでもない</h3>
+<p>月曜の朝にFacebookのウォールになんとなく短歌を投稿したのですが、その後なんとなく話しが盛り上がり名前の案が出た所で<strong>heroku create</strong>しています。当日の夜は何もせず、翌日下北沢オープンソースカフェで作業を始めました。環境の構築などが必要なく、ただひたすらにGitでpushするだけでいいのでお昼すぎには動くアプリをデプロイする事ができました。また副産物として<a href="https://github.com/yandod/cakephp-heroku-plugin" target="_blank">CakePHP2をHerokuで動かす為のプラグイン</a>も作成しました。<br />
+CakePHPのスキーマ管理機能も一応動くのでCakePHPを使ってローカルで開発した内容を超高速で公開する流れが整っている事を自分自身で確認できました。</p>
+<h3>JQuery Mobile + Facebook</h3>
+<p>[caption id="attachment_1513" align="aligncenter" width="320" caption="一覧画面ではまず上の句だけが表示され、表示画面で下の句も表示します。"]<a href="http://blog.candycane.jp/wp-content/uploads/2012/06/IMG_2033.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/06/IMG_2033.jpg" alt="" title="IMG_2033" width="320" height="480" class="size-full wp-image-1513" /></a>[/caption]<br />
+画面のレイアウトなどはJQuery Mobileのテーマをとりあえず使っています。和風なテーマになっていたりはしないので入れ替えの必要はありますが、ひとまずモバイルとPCから使えるレベルのUIはすぐに作れます。ただ画面の遷移やリダイレクトなどJQuery Mobileはハマりどころがそれなりにあるので、エラーの確認などで手こずった部分があります。<br />
+同様にFacebookのウォールでどのように見えるのかといった部分もトライアンドエラーになったので時間を取られた印象です。</p>
+<h3>短歌は面白い！</h3>
+<p>[caption id="attachment_1515" align="aligncenter" width="320" caption="公開初日の昨日、一番人気のあった短歌"]<a href="http://blog.candycane.jp/wp-content/uploads/2012/06/IMG_2034.jpg"><img src="http://blog.candycane.jp/wp-content/uploads/2012/06/IMG_2034.jpg" alt="" title="IMG_2034" width="320" height="480" class="size-full wp-image-1515" /></a>[/caption]</p>
+<p>たまたま気がついた事ですが、短歌を書くというのは面白いです。Instagramのフィルターが写真を撮る面白さを教えてくれたように、<strong>「Hinetterは文章のInstagram」</strong>というどこかで聞いたようなキャッチコピーで育てていこうと思います。<br />
+あと、今後しばらく事あるごとに短歌を詠むキャラになってしまいそうなで若干、うざいかもしれませんがその点については生暖かく見守って頂いて、一首返してみてもられば幸いです。<br />
+また僕は短歌を始めた？のは昨日今日なので短歌についての情報などを教えて頂けたりするのもうれしいです！</p>
+<p><strong><a href="https://www.facebook.com/Hinetter" target="_blank">みんなの短歌 Hinetter</a></strong>をよろしくお願いいたします。</p>

@@ -1,0 +1,51 @@
+---
+layout: anth_library_item
+title: Lithium0.7がリリースされました(和訳)
+date: 2010-03-10 12:22:27.000000000 +09:00
+categories: []
+tags: []
+status: draft
+type: anth_library_item
+published: false
+meta:
+  anthologize_meta: a:4:{s:11:"author_name";s:6:"yandod";s:17:"author_name_array";a:1:{i:0;s:6:"yandod";}s:9:"author_id";s:1:"2";s:16:"original_post_id";s:3:"309";}
+  author_name: yandod
+  author_name_array: a:1:{i:0;s:6:"yandod";}
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png"><img src="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_-300x90.png" alt="designall.dll" title="designall.dll" width="300" height="90" class="alignnone size-medium wp-image-188" /></a></p>
+<p>PHP5.3専用のもっとも革新的なフレームワークLithiumの最新版である0.7が2010年3月8日にリリースされました。今回はMySQLサポートの正式対応が追加され従来型のアプリケーションの開発が飛躍的に向上しました。またコードの再利用を進める為の内部の最適化も引き続き行われています。詳細はいつものようにリリースノートの和訳を作りましたのでそちらをご覧ください。<br />
+またGwooがOrange Countyで行ったプレゼンテーションの資料と音声も公開されているので要チェックです。</p>
+<p><img style="visibility:hidden;width:0px;height:0px;" border="0" width="0" height="0" src="http://counters.gigya.com/wildfire/IMP/CXNID=2000002.0NXC/bT*xJmx*PTEyNjgxOTEyNDg2MDAmcHQ9MTI2ODE5MTI2MjYxMyZwPTEwMTkxJmQ9c3NfZW1iZWQmZz*yJm89MTdhZDkyNGQwMGU5/NDdiMWI2MzdmMDc*NDI5YTMwM2Emb2Y9MA==.gif" />
+<div style="width:425px" id="__ss_3271175"><strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/gwoo/li3-ocphp" title="Li3 ocphp">Li3 ocphp</a></strong><object width="425" height="355"><param name="movie" value="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=li3-ocphp-100225013014-phpapp02&stripped_title=li3-ocphp" /><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><embed src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=li3-ocphp-100225013014-phpapp02&stripped_title=li3-ocphp" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="355"></embed></object>
+<div style="padding:5px 0 12px">View more <a href="http://www.slideshare.net/">presentations</a> from <a href="http://www.slideshare.net/gwoo">G W</a>.</div>
+</div>
+<p><embed type="application/x-shockwave-flash" width="350" height="24" allowfullscreen="true" allowscriptaccess="always" src="http://www.archive.org/flow/flowplayer.commercial-3.0.5.swf" w3c="true" flashvars="config={\"key\":\"#$b6eb72a0f2f1e29f3d4\",\"playlist\":[{\"url\":\"http://www.archive.org/download/lithium-ocphp/gwoo.mp3\",\"autoPlay\":false}],\"clip\":{\"autoPlay\":true},\"canvas\":{\"backgroundColor\":\"0x000000\",\"backgroundGradient\":\"none\"},\"plugins\":{\"audio\":{\"url\":\"http://www.archive.org/flow/flowplayer.audio-3.0.3-dev.swf\"},\"controls\":{\"playlist\":false,\"fullscreen\":false,\"gloss\":\"high\",\"backgroundColor\":\"0x000000\",\"backgroundGradient\":\"medium\",\"sliderColor\":\"0x777777\",\"progressColor\":\"0x777777\",\"timeColor\":\"0xeeeeee\",\"durationColor\":\"0x01DAFF\",\"buttonColor\":\"0x333333\",\"buttonOverColor\":\"0x505050\"}},\"contextMenu\":[{\"Listen+to+lithium-ocphp+at+archive.org\":\"function()\"},\"-\",\"Flowplayer 3.0.5\"]}"></embed><h3>原文</h3>
+<p><a href="http://rad-dev.org/lithium/wiki/blog/Lithium-0-7-luck-of-the-irish">http://rad-dev.org/lithium/wiki/blog/Lithium-0-7-luck-of-the-irish</a></p>
+<h3>Lithium0.7 Luck-of-the-irish</h3>
+<p>私たちは近づいてきたセントパトリックデーのお祝いに夢中になる前に、最新版のLithiumのリリースを準備できました。Lithium0.7は170のコミットを6人の開発者から受け取り、私たちはまた一歩の安定版のリリースに近づきました。<br />
+当初よりLithiumはドキュメント指向のデータベースをサポートし、高い比重を置いていました。私たちは依然として高速にパフォーマンスに配慮し、かつ柔軟なアプリケーションの構築と柔軟なアプリケーションの開発にはデータストレージに新しいアプローチを使用する事が大きな利益になると考えています。しかし、我々はまだ従来のリレーショナルデータベースが多くのアプリケーションに有益な事もわかっています。この目的のために、これらの機能を統合しリレーショナルデータベースを使用するために必要な大規模なサブセットをLithium0.7に実装しました。現時点ではMySQLがテストに合格した唯一のデータベース（`SourceTest`）ですが、基盤部分はSQLite3、PostgreSQLなどのその他のデータベースにも適用できます。すでにMSSQLの作業は進行中で、[<a href="http://rad-dev.org/li3_mssql/wiki">li3_mssql</a>プラグインとして進行中]（http://rad-dev.org/li3_mssql/wiki）、もちろんこのデータベースや他のデータベース実装へのコントリビューションは大歓迎です。<br />
+また、SQLをサポートする為に`Adaptable`クラスに計画的な実装をLithium0.7で追加しました。計画はどのようにデータが転送され、アダプタに適用される変更を抽象化して提供します。たとえば、あなたが`Cache::write()`を使用してデータを保存し、`Cache::read()`てデータを取り出したいとします。この機能は、コアに含まれている`Serializer`という計画を通じて簡単に実現できます。`Cache`アダプタに対するインターフェイスは`Base64`、`Json`、`Serializer`が実装済みです。また`Adaptable`のそのほかのサブクラスに対するストラテジーは実装中です。<br />
+<a href="http://rad-dev.org/lithium/wiki/releases/0_7">ChangeLog</a>を見てもらえれば（http://rad-dev.org/lithium/wiki/releases/0_7）、g11nのいくつかの大きな改善とテストのカバレッジの向上がした事がわかるでしょう。<br />
+いくつかの名前空間とブートストラップのプロセスは、アプリケーションのコア機能を委任しやすいように改良されました。いくつかの変更は、以前のリリースとの互換性がありません：</p>
+<ul>
+<li>Dispatcher::run() `Request`オブジェクトが最初のパラメータとして必要になりました。`webroot/index.php`を見てください。</li>
+<li>プラグインをすぐに他のライブラリと同じようにできます。app/libraries内の"plugins"ディレクトリが削除されています。現在はプラグインの追加はライブラリの追加と同じように行います。例 `Libraries::add('li3=docs');`</li>
+<li>新しいBootstrapファイルと`bootstrap/action.php`の代替の`switchboard.php`の除去。</li>
+<li>bootstrap/libraries.php内の `Libraries::Add('app', array('default' => true));` はあなたのアプリケーションを 'default' ライブラリとして提供します。</li>
+<li>`Connections` はconnections.phpを読み込まなくなりました。有効にするには`config/bootstrap.php`で設定してください。</li>
+<li>`Connections::add()の`は現在2つのパラメータを受け取ります。`config/bootstrap/connections.php`を参照してください。</li>
+</ul>
+<p>PHP 5.3およびLithiumに関する2時間のプレゼンテーションをここで読めます。（音声あり）：<a href="http://lithify.me/presents">http://lithify.me/presents</a><br />
+我々は、高速開発のスケジュールをイテレーションフライデーと共に進めてきました。私たちは減速するつもりはありません。予定どおり安定版は2010の初夏にリリースできるでしょう。<br />
+うまくいけば、このプロジェクトの成功はプロジェクトに関わる全ての人にとってエキサイティングなニュースになるでしょう。いつものように、われわれはどんな形のコントリビューションも大歓迎で待っています。<br />
+〜gwoo</p>
+<p>--翻訳ここまで</p>
+<p>MySQLなどの従来型のデータベースがサポートされましたが、ドキュメント指向データベースこそが高速で柔軟なアプリケーション開発をもたらすという強い意志が伝わってきます。かつてCakePHPなどが流行り始めた際はDRYなフレームワークこそが高速開発を実現する事を世の中に示したと言えますが、時代は次のステップに向かっていますね。Lithiumは単なる新しいフレームワークではなく、こういったパラダイムシフトを提唱しようとしている事が特に大事な点だと個人的には考えています。<br />
+またCakeやsymfonyなどの近代的なフレームワークではプラグインなどを利用した拡張が提供されていますが、なかなか共通部分をプラグインに切り出せないという問題にはまりがちです。その点を考慮してか次世代のフレームワークでは実装そのものとプラグインの境界線が薄くなる方向へと進んでいます。アプリケーション自体をプラグインとして実装するとイメージすると近いかもしれません。</p>
+<p>なんにせよこのパラダイムを体感するには実際に試してみるのが一番でしょう！</p>

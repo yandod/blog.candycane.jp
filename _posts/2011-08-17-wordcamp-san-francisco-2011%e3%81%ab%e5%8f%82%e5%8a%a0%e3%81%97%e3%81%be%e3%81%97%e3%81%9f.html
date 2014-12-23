@@ -1,0 +1,49 @@
+---
+layout: post
+title: WordCamp San Francisco 2011に参加しました
+date: 2011-08-17 11:55:07.000000000 +09:00
+categories:
+- ブログ
+tags:
+- WordPress
+- イベント
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p>このブログでも使っているブログエンジン、WordPressのサンフランシスコで開催されたカンファレンス、<a href="http://2011.sf.wordcamp.org/" target="_blank">WordCamp San Francisco 2011</a>に参加してきました。参加チケットは1000人分以上を完売した盛り上がったイベントでしたが、ウェブメディアの力を感じました。あまりたくさんのセッションを見ていないのですが、印象に残ったキーワードと全体の印象を紹介します。</p>
+<h2>全体の雰囲気</h2>
+<p><iframe width="640" height="390" src="http://www.youtube.com/embed/XxW5g-1n6CY" frameborder="0" allowfullscreen></iframe></p>
+<p>会場はミッションベイのカンファレンスセンターで2トラックのセッションと海沿いのピア38にあるAutomatticラウンジでの初心者向けワークショップという構成でした。どの会場も座席を探すのが難しいほどの来場者でまた参加者も老若男女幅広いのがプログラミング言語系のカンファレンスとは大きく違います。子供どころか孫も居そうな人が本当に珍しくなく、WordPressでブログを作るという行為がそこまで浸透している事を実感できます。また爽やかなイケメンの印象だったファウンダーの<a href="http://ma.tt/" target="_blank">Matt</a>が漂流者のようなワイルドなスタイルに変貌している事に個人的に衝撃を受けました。</p>
+<p><strong>さわやかな前のマット</strong><br />
+<a href="http://blog.candycane.jp/wp-content/uploads/2011/08/matt.png"><img src="http://blog.candycane.jp/wp-content/uploads/2011/08/matt-300x198.png" alt="" title="matt" width="300" height="198" class="aligncenter size-medium wp-image-752" /></a></p>
+<p><strong>漂流したマット</strong><br />
+<a href="http://www.flickr.com/photos/benoitdescary/5935572292/" title="keynote matt  mullenweg-6 by BenoitDescary, on Flickr"><img src="http://farm7.static.flickr.com/6135/5935572292_5f8a655046.jpg" width="332" height="500" alt="keynote matt  mullenweg-6" class="aligncenter" /></a></p>
+<h2>セッション</h2>
+<p>セッションは大きく分けてデベロッパー向けのセッションとユーザー向けのセッションに別れていました。デベロッパー向けのセッションではコードの断片やさまざまなソフトウェアを活用したスケールアウトの手法などが多く、ユーザー向けのセッションではさまざまな事例やメディア論のような利用者を啓蒙する内容、ハウツーのような形です。</p>
+<p>下記は参加してセッションで気になった事のメモ。</p>
+<ul>
+<li>
+<strong><a href="http://2011.sf.wordcamp.org/session/scaling-servers-and-deploys-oh-my/ ">Coding, Scaling, and Deploys... Oh My!</a></strong> by <a href="http://markjaquith.com/ ">Mark Jaquith</a><br />
+デプロイの方法についてのセッション。本番機上でコーディングする「カウボーイコーディング」と呼び脱却する為にCapistranoを使う方法を紹介していました。またローカルの設定ファイルを分離して開発用の設定を本番に持ち越さない工夫などを紹介していました。
+        </li>
+<li><strong>Ask Barry (About Scaling, Servers, or WordPress.com Infrastructure)</strong> by <a href="http://barry.wordpress.com/ ">Barry Abrahamson</a><br />
+WordPress.comのインフラ面を担当しているBarry氏によるセッション。<strong>2億8千万の登録ユーザー、250億PV/月</strong>をWordPressでホストしているインフラに対して、さまざまな質問が寄せられました。300台ほどの各種サーバーでこれだけのパフォーマンスを出す事が出来るというのはかなり心強いですね。<strong>秒感数万クエリーのデータアクセスを数百台のMySQLデータベース</strong>のレプリケーションなどの対応を<strong><a href="http://wordpress.org/extend/plugins/hyperdb/ ">HyperDBというプラグイン</a></strong>で行っている事や、キャッシュの活用など基本的な技術をうまく活用している点などが興味深かったです。wordpress.comにはTechCrunchやCNN、NewYorkTimesなどがホスティングされており、強力なインフラである割に日本での利用が進んでいない点はとても不思議です。各種インフラ面の為に<a href="http://code.trac.wordpress.org/">カスタマイズしたソフトウェア</a>も公開されています。
+</li>
+<li><strong>Building Custom CMS applications on WordPress</strong> by <a href="http://mitcho.com/ ">Michael “Mitcho” 芳貴 Erlewine</a><br />
+CMSとしても広く使われているWordPressですが、CMSとしてカスタマイズして作り混む前に考えるべき点などについてわかりやすく解説したセッションでした。コンテンツがどのようなワークフローでマネジメントされていくかという点と、サイトのコンテンツがなんで有るかという部分をしっかりと分析してからアプローチする事の重要性を訴える内容は面白かったです。WordPressの場合は特にサイトのメインのコンテンツに併せてカスタムフィールドやメディアの種類のカスタマイズを行う事の重要性を動画などの管理をWordPressで行った事例を元に説明したあたりが目から鱗です。またWordPressのコンテンツをファイルシステムとしてマウントする<a href="https://github.com/josephscott/pressfs">pressfs</a>という変態チックなプラグインの存在も驚きでした。
+</li>
+</ul>
+<h2>WordPressのプラットフォーム性</h2>
+<p>WordPressが膨大な数のプラグインとカスタマイズ性でブログに留まらないプラットフォームになっているという技術的な特徴はよく知られています。ですが今回それ以上に印象的だったのがカンファレンスを運営する<a href="http://wordpress.com/about/ ">Automatticのメンバー</a>の層の厚さです。企業がオープンソースソフトウェアを開発している例は多く有りますが、WordPressの場合はデベロッパ向けの活動や、エンドユーザー向けの活動、コミュニティやイベントの運営といったそれぞれの分野に専念できるほどの人数のスタッフが居るようでした。3つのトラックを平行で運営するだけでも相当な苦労だと思いますが、その中で翌日のセッションのリハーサルに別のスタッフがアドバイスをしたりするような光景はとても安定した未来を予想させます。<br />
+技術的な実装といてWordPressと同等のエンジンを開発する事がもし出来たとしても、そこにこれだけの豊富なコミュニティとサポートを構築する事は困難でしょうし、それだけの有機的な基盤こそがWordPressをプラットフォームにしている要因なのではと思います。<br />
+というか、大抵のオープンソースプロジェクトはなんとか開発を継続するだけのデベロッパ集団を維持するのが精一杯なのが殆どだと思う中で、これは本当にすごいです。</p>
+<p>その他にも今後の開発の方向性や実績を振り返るマットのセッションはまるでアップルの基調講演のような感じで楽しかったです。動画での視聴もできるようになるはずなので、興味が有る方はご覧になってみてください。</p>

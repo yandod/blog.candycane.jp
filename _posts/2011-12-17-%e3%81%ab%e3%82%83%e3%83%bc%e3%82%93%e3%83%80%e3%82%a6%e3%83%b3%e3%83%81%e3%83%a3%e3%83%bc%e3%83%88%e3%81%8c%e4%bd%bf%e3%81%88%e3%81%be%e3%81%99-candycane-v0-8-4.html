@@ -1,0 +1,85 @@
+---
+layout: post
+title: にゃーんダウンチャートが使えます - CandyCane v0.8.4
+date: 2011-12-17 23:37:39.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _blackbirdpie-147181570883715073: a:13:{s:2:"id";s:18:"147181570883715073";s:11:"screen_name";s:8:"kakutani";s:9:"real_name";s:17:"Kakutani
+    Shintaro";s:10:"tweet_text";s:482:"PHP&#12377;&#12372;&#12356; / &#8220;&#12450;&#12472;&#12515;&#12452;&#12523;&#38283;&#30330;&#12398;&#12496;&#12540;&#12531;&#12480;&#12454;&#12531;&#12481;&#12515;&#12540;&#12488;&#12399;&#12418;&#12358;&#21476;&#12356;&#65311;&#65281;2012&#24180;&#12363;&#12425;&#12399;&#12300;&#12395;&#12419;&#12540;&#12435;&#12480;&#12454;&#12531;&#12481;&#12515;&#12540;&#12488;&#12301;&#12408;
+    | &#19990;&#30028;&#8221; <a href="http://t.co/KjqtPSlQ" rel="nofollow">http://t.co/KjqtPSlQ</a>";s:6:"source";s:73:"<a
+    href="http://www.hatena.ne.jp/guide/twitter" rel="nofollow">Hatena</a>";s:11:"profile_pic";s:77:"http://a3.twimg.com/profile_images/332765353/portlait-20090726-tad_normal.png";s:16:"profile_bg_color";s:6:"022330";s:15:"profile_bg_tile";s:0:"";s:16:"profile_bg_image";s:48:"http://a0.twimg.com/images/themes/theme15/bg.png";s:18:"profile_text_color";s:6:"333333";s:18:"profile_link_color";s:6:"0084B4";s:10:"time_stamp";s:10:"1323925795";s:10:"utc_offset";s:5:"32400";}
+  _oembed_e283520cb46884c003416496534f586b: '{{unknown}}'
+  _oembed_e29acdc97433cdff4ac411b184a9ac46: <iframe width="500" height="375" src="http://www.youtube.com/embed/OuoBuQeSFdo?fs=1&feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+  _oembed_301e8a095a6ffe1fb703ca806b9f390e: <iframe width="600" height="450" src="http://www.youtube.com/embed/OuoBuQeSFdo?fs=1&feature=oembed"
+    frameborder="0" allowfullscreen></iframe>
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://candycanebts.files.wordpress.com/2011/12/candycane1.png"><img class="alignnone size-full wp-image-94" title="candycane1" src="http://candycanebts.files.wordpress.com/2011/12/candycane1.png" alt="" width="450" height="146" /></a></p>
+<p><a href="https://github.com/yandod/candycane" target="_blank">RedmineをPHPに移植したCandyCane</a>の<a href="https://github.com/yandod/candycane/tags" target="_blank">v0.8.4をリリースしました。</a> このリリースによりさまざまなプラグインを開発できるようになりました。完全なプロダクトを作るというのはかなり難しい目標です。そこでプラグインシステムを用意して必要な人が自分の好きな機能を追加できるというのが望ましいと考えていました。CandyCaneのプラグインはCakePHPの流儀で作成する事ができ、これによりプラグインを作ってみる方が増えてくればよいなと思っています。ではプラグインの概要を見てみましょう。</p>
+<h2>CandyCaneのプラグインの基礎</h2>
+<p>CandyCaneのプラグインはCakePHPのプラグインです。. CakePHPのMVCをベースにしたコードを書く事でCandyCaneにプラグインとして追加できます。また追加のコードからCandyCaneのモデルやヘルパー、コンポーネントなどを呼び出す事が出来ます。例えばチケットのデータやプロジェクトのデータをモデルから取得できます。作成したページがCandyCaneとやり取りをする為のAPIも用意されています。これらのAPIはプラグインの内部の<a href="https://github.com/yandod/cc_nyancat/blob/master/init.php" target="_blank">init.php</a>から呼び出します。</p>
+<h2>画面上部のメニューへのページ追加</h2>
+<p><a href="http://candycanebts.files.wordpress.com/2011/12/plugin1.png"><img class="alignnone size-full wp-image-99" title="plugin1" src="http://candycanebts.files.wordpress.com/2011/12/plugin1.png" alt="" width="450" height="262" /></a></p>
+<p>アプリケーション全体のレベルのページを追加したい場合は画面左上のメニューにリンクを追加する事になるでしょう。リンクを追加するにはMenuContainerオブジェクトをプラグインの中のinit.phpから使います。</p>
+<pre lang="php">$menuContainer = ClassRegistry::getObject('MenuContainer');
+$menuContainer->addTopMenu(
+	array(
+		'url' => '/cc_nyancat/nyan/index',
+		'class' => 'nyan-cat',
+		'caption' => 'Nyan Cat',
+		'logged' => false,
+		'admin' => false
+	)
+);</pre>
+<h2>プロジェクトタブへのページ追加</h2>
+<p><a href="http://candycanebts.files.wordpress.com/2011/12/plugin2.png"><img class="alignnone size-full wp-image-102" title="plugin2" src="http://candycanebts.files.wordpress.com/2011/12/plugin2.png" alt="" width="450" height="116" /></a></p>
+<p>CandyCaneの多くのページはプロジェクト以下の要素として動作します。このようなページを作成する場合はページをプロジェクトタブに追加することになります。その場合はMenuContainerクラスを使います。また現在のプロジェクトをURLから推定する為のルーティングの設定が必要です。</p>
+<pre lang="php">$menuContainer->addProjectMenu(
+  'nyancat',
+  array(
+          'plugin' => 'cc_nyancat',
+          'controller' => 'cc_nyancat_chart',
+          'action' => 'index',
+          'class' => '',
+          'caption' => 'Nyan Down Chart',
+          'params' => 'project_id',
+          '_allowed' => true // for bypassing permmission system.
+  )
+);
+// make sure put new route setting which includes project_id
+App::import('Core','Router');
+Router::connect('/projects/:project_id/nyanchart/:action', array(
+  'plugin' => 'cc_nyancat',
+  'controller' => 'cc_nyancat_chart'
+));</pre>
+<h2>ページ内の特定の場所へのHTML挿入</h2>
+<p><a href="http://candycanebts.files.wordpress.com/2011/12/plugin3.png"><img class="alignnone size-full wp-image-104" title="plugin3" src="http://candycanebts.files.wordpress.com/2011/12/plugin3.png" alt="" width="450" height="282" /></a></p>
+<p>CandyCaneの既存のページに変更を加えたい場合、テンプレートの構造を元に変更を加えられます。HookContainerクラスのオブジェクトを使って任意のテンプレートをフックできます。テンプレートが分離されているポイントに対しては好きなテンプレートを追加できます。例えばこの場合はNyan Catがissues/relationsテンプレートの後に表示されます。</p>
+<pre lang="php">$hookContainer = ClassRegistry::getObject('HookContainer');
+$hookContainer->registerElementHook(
+	'issues/relations', // target element name.
+	'../../plugins/cc_nyancat/views/elements/nyancat', // additional template you want to inject.
+	false // it should be true when you want to inject before the target template.
+);</pre>
+<h2>プラグインのインストール</h2>
+<p>http://www.youtube.com/watch?v=OuoBuQeSFdo</p>
+<p>プラグインのインストールには手動の作業が必要ですが、近いうちに自動化する予定です。とはいえ手順はapp/pluginsの下にプラグインを展開するだけです。CandyCaneのプラグインは"cc_"で始まるディレクトリで作成され、CandyCaneは"app/plugins/cc_*"配下のinit.phpを探してプラグインをロードしています。</p>
+<p><strong>注)</strong><br />
+<a href="http://blog.candycane.jp/archives/1188" title="ダッシュボードからプラグインのインストールが可能に – CandyCane v0.8.5リリース" target="_blank">プラグインのインストールはすでに自動化されました！</a></p>
+<p>実際の例を見るには<a href="https://github.com/yandod/cc_nyancat" target="_blank">cc_nyancat plugin</a> のgithub上のコードを動かしてみてください。みなさんが実際にプラグインを作成して面白い使い方ができるようになることを楽しみしています。</p>
+<h3>おまけ：各界の反応</h3>
+<p>http://twitter.com/#!/kakutani/status/147181570883715073</p>

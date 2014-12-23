@@ -1,0 +1,59 @@
+---
+layout: anth_library_item
+title: Lithium0.3がリリースされました(和訳)
+date: 2009-12-12 14:18:31.000000000 +09:00
+categories: []
+tags: []
+status: draft
+type: anth_library_item
+published: false
+meta:
+  anthologize_meta: a:4:{s:11:"author_name";s:6:"yandod";s:17:"author_name_array";a:1:{i:0;s:6:"yandod";}s:9:"author_id";s:1:"2";s:16:"original_post_id";s:3:"187";}
+  author_name: yandod
+  author_name_array: a:1:{i:0;s:6:"yandod";}
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png"><img src="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_-300x90.png" alt="designall.dll" title="designall.dll" width="300" height="90" class="alignnone size-medium wp-image-188" /></a></p>
+<p><a href="http://blog.candycane.jp/archives/140">最も先鋭的なフレームワーク</a>、Lithiumの<a href="http://rad-dev.org/lithium/versions/view/3">バージョン0.3</a>が2009年12月9日にリリースされました。プロジェクトマネージャのgwooからリリースノートがアップされていますので今回はこちらの記事の和訳を紹介したいと思います。<br />
+Lithiumの開発状況はどのようになっているんでしょうか？</p>
+<h3>原文</h3>
+<p><a href="http://rad-dev.org/lithium/wiki/blog/Lithium_0_3_Now_Available">http://rad-dev.org/lithium/wiki/blog/Lithium_0_3_Now_Available</a></p>
+<h3>Lithium0.3 Now Available</h3>
+<p>前回のリリースから<a href="http://rad-dev.org/lithium/wiki/releases/0_3">260以上のコミット</a>を経て、<a href="http://rad-dev.org/lithium/versions/view/3">Lithium 0.3が世界にお目見えしました。</a></p>
+<p>ただ世界の準備は出来ていますか？何度か言及したように我々は頻繁にLithiumの安定性について質問を受けています。 実際のアプリケーションで使えるのかどうか？と。<a href="http://rad-dev.org/lithium_bin">Lithium Bin</a>は0.3にアップデートされました。Lithiumの構造を見ることでこの質問にお答えします。</p>
+<h3>構造(Structure)</h3>
+<p>Lithiumフレームワークは10のパッケージに分類されます。それぞれは個別の機能を中心とした形になっており、フレームワーク内のいくつかのパッケージに対して依存関係があります。この依存関係の基本はcoreパッケージとutilパッケージの部分です。(つまりここが)フレームワークの中核部分です。</p>
+<p>これらのパッケージは基本的なブートストラップとその他のほぼ全てのパッケージの為の便利な機能を提供しています。とても小さなアプリケーションや、自作のマイクロフレームワークの為であればこの２つのパッケージを使う事ができます。多くの高度な機能が出来たばかりのころから、これらの基礎的なパッケージは約1年半ほど開発され、テストが進み安定しています。</p>
+<p>storageやconsole、dataといった多くのパッケージはとてもしっかりとしています。これには機能を検証する為の広範囲のテストスイートも含まれています。ですが我々が安定版であると太鼓判を押す前にいくつかやることが残っています。<br />
+幸いにも、Lithiumは疎結合で高い拡張性を持つように設計されていて簡単に自作のクラスと入れ替える事が出来ます。フレームワークの大部分が依存しているコア機能を入れ替えたり、またコア機能を<a href="http://li3.rad-dev.org/docs/lithium/util/collection/Filters">革新的なフィルター機能</a>を使って拡張したり置き換える事が出来ます。</p>
+<p>フレームワークのコアの動きをみて、我々と同じように興奮を持ってあなたのアプリケーションに使ってもらえる事を期待しています。それがここからさらに良い状態に進むための唯一の方法です。</p>
+<h3>更新情報</h3>
+<p>この3週間の間に多くの更新がありました。特に顕著なものは下記の通り。</p>
+<ul>
+　　
+<li><strong>データベースとの接続クラスの安定性の改善:</strong><br />dataレイヤーは大きな進歩がありました。MongoDBとCouchDB向けのバグフィクスと機能追加やMySQLとSQLiteのアダプタに進歩がありました。</li>
+<li><strong>Windowsサポート:</strong><br />David Persson, Joël Perras, Neil Archerに感謝します。ディスパッチャとコンソールがWindowsに完全対応しました。また更なる支援がMicrosoftから直接ありました。詳細は後で触れます。</li>
+<li><strong>セッションとクッキーのサポートと統合されたインターフェース:</strong><br />セッションとクッキーのサポートが完全に実装されました。また一つの一貫性のあるインターフェースでアクセスできます。詳細はドキュメントを見てください。</li>
+<li><strong>改良された国際化対応のサポート:</strong><br />メッセージ翻訳システムが更新されさまざまな使い方が出来るようになりました。この機能がこのシステムそのものを補っています。
+<ul>
+<li><strong>Message::translate()</strong> はフィルターする事が出来るようになりました。たとえば翻訳出来なかったメッセージを未翻訳とマークして記録できます。</li>
+<li>extractコマンドのさらなる改良。ソースコード内のメッセージを展開する為のさらに直感的なインターフェースを持ち、さらにカスタムアダプタをサポートしました。(<a href="http://rad-dev.org/li3_docs/source/extensions/adapter/g11n/catalog/Docs.php#numbers">docs translation extension</a>を見てください)</li>
+<li>テンプレート内での翻訳方法が変わりました。 <strong>$tn()</strong> がすでにある <strong>$t()</strong> に追加されました。双方のメソッドの書式が更新されています。</li>
+<li>メッセージを展開する為のパーサを $tn() をパースできるように更新しました。</li>
+<li>次のリリースでは日付と数値の標準化と現在のロケール情報を透過的に取得する方法をサポートする事を予定しています。</li>
+<p>　　</ul>
+</li>
+</ul>
+<h3>ニュース</h3>
+<p>現在、多くのLithiumプラグインが開発中です。<a href="http://rad-dev.org/li3_oauth">OAuthプラグイン</a>は大きく前進し、あなたのアプリケーションをOAuthクライアントとしてOAuthプロバイダと接続できます。(あなたがTwitterクライアントを作る時など)プロバイダとのインターフェースはさらに改善中です。<br />
+我々の前任のフレームワークではプラグインの配布と更新は常に頭の痛い点でした。Lithiumではそのあたりを改良しています。いくつかの驚きの計画もあります。ご期待ください。</p>
+<p>最後に全てのLithium開発者に対するハイレベルなサポートの申し出がありました。Uniod of RADチームはフル機能のWindows Server 2008 VPSとIIS、FastCGI PHP5.3をセットアップしました。このサーバーは先週、2009年11月に開催され、コアメンバーの一人がLithiumを発表したMS Web Debeloper Summitで私たちに気前よく寄付されたものです。これによりwindowsはLithiumの第一級のデプロイプラットフォームの選択肢になり、開発者の選択肢を最大化します。</p>
+<p>--翻訳ここまで</p>
+<p>Lithiumの大まかな構造や、コア部分がかなり安定しているであろう事が見て取れたのではないでしょうか。またCakePHPはWindows上での動作が顕著に遅いといった問題がありましたが、これも解消されそうです。MongoDBやCouchDBをMySQLと同格の扱いで扱っている点も見逃せません。<br />
+CakeFestの際にNateに聞いたのですが、cake3(Lithium)はこれまでのCakePHPの歴史や機能、反省点を念頭において開発をされていますので、驚異的なスピードで機能が備わっていきます。おそらく安定版がリリースされた際にはCakePHP1.2ないし1.3と同等以上の機能を備えていると思ってよいのではないでしょうか。ただコミュニティやドキュメントについてはまだ表には出てきていません。（いくつか聞いている事はありますけど、まだ秘密）</p>
+<p>ということでお手元にPHP5.3環境を用意してLithiumを試してみるとこのライブ感を感じられて楽しいかと。</p>

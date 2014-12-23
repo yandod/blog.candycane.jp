@@ -1,0 +1,57 @@
+---
+layout: post
+title: Engine Yard Cloudの無料トライアルでアプリをデプロイするまでの流れ
+date: 2012-10-04 19:06:19.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Engine Yard
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _thumbnail_id: '1621'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/logo-engineyard-horizontal.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/logo-engineyard-horizontal.png" alt="" title="logo-engineyard-horizontal" width="387" height="116" class="aligncenter size-full wp-image-1621" /></a></p>
+<p><a href="http://itpro.nikkeibp.co.jp/article/NEWS/20120904/420402/" target="_blank">日本法人の設立がニュースにもなっていた</a>Engine Yardの提供するPaaSサービス、「<a href="http://www.engineyard.co.jp/products/cloud" target="_blank">Engine Yard Cloud</a>」についてアカウントの取得からデプロイまでの流れをまとめた日本語記事が無かったのでまとめてみました。</p>
+<h2>Engine Yard Cloudの概要</h2>
+<p>Herokuと同様に主にRubyをサポートするPaaSスタックとして知られているEngine Yard　Cloudですが、実際に使ってみると気がつく特徴がいくつかあります。</p>
+<ul>
+<li>アプリケーションごとに独立したEC2インスタンスを専有して動作</li>
+<li>インスタンスの構築はchefを利用した自動構築</li>
+<li>インスタンスを日本リージョンに配置する事も可能</li>
+<li>gitレポジトリからアプリケーションを自動デプロイ</li>
+<li>稼働中のインスタンスへのsshログインも可能</li>
+</ul>
+<p>直接の比較対象になりやすいHerokuは大きなクラスタをさまざまなアプリケーションが共用するイメージですが、Engine Yard Cloudはアプリケーション毎に専用のEC2インスタンスを自動構築して稼働します。これによりネットワーク接続数などは特になくEC2インスタンスの性能をそのまま利用できます。この特徴が一般的な資料などでは「シングルテナント方式」と表現されています。</p>
+<blockquote><p>
+「Herokuはマルチテナントだが、Engine Yardはシングルテナントで提供するため信頼性が高い。小規模ではシングルテナントのほうが低コストだが、大規模ではマルチテナントではシングルテナントの方が有利になる」<br />
+<a href="http://itpro.nikkeibp.co.jp/article/NEWS/20120904/420402/">http://itpro.nikkeibp.co.jp/article/NEWS/20120904/420402/</a>
+</p></blockquote>
+<h2>アカウントの取得</h2>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Ruby-On-Rails-and-PHP-Cloud-Hosting-PaaS-Managed-Rails-Development-Engine-Yard-Platform-as-a-Service.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Ruby-On-Rails-and-PHP-Cloud-Hosting-PaaS-Managed-Rails-Development-Engine-Yard-Platform-as-a-Service-600x333.png" alt="" title="Ruby On Rails and PHP Cloud Hosting PaaS | Managed Rails Development | Engine Yard Platform as a Service" width="600" height="333" class="aligncenter size-medium wp-image-1631" /></a></p>
+<p><a href="http://bit.ly/PcfbE6" target="_blank">アカウントの作成</a>は公式サイトの右上からアカウントサービスにアクセスして行います。日本法人のウェブサイト、アメリカ本国のウェブサイトのどちらからアクセスしても同じページにリンクしています。またPHPのクラウドサービスである、Orchestra.ioもログインサービスが統合されていますので<strong>Orchestra.ioのアカウントを既に持っている場合はアカウントを移行して利用する事も出来ます。</strong></p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard_-Sign-In.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard_-Sign-In-600x369.png" alt="" title="Engine Yard_ Sign In" width="600" height="369" class="aligncenter size-medium wp-image-1625" /></a></p>
+<p>アカウントの登録に必要になるのはフルネーム、メールアドレス、パスワードの3項目ととてもシンプルです。<strong style="color:red">無料のトライアルアカウントであればクレジットカードや請求先などの情報の入力は必要ありません。</strong>正しくアカウントを登録するとアクティベーションの為のURLが登録したメールアドレス宛に送信されます。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard_-Sign-In-2.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard_-Sign-In-2-600x273.png" alt="" title="Engine Yard_ Sign In-2" width="600" height="273" class="aligncenter size-medium wp-image-1629" /></a></p>
+<p>メールで送信されたURLからログインするとEngine Yardが提供する各サービスへのメニューが表示されます。今回は一番左側のRuby等のスタックが利用できるPaaSサービスであるEngine Yard Cloudをクリックします。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Create-your-Engine-Yard-Cloud-account.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Create-your-Engine-Yard-Cloud-account-600x262.png" alt="" title="Engine Yard Cloud — Create your Engine Yard Cloud account" width="600" height="262" class="aligncenter size-medium wp-image-1633" /></a></p>
+<p>次にEngine Yard Cloud上のアカウント名を入力し、左側のボタンをクリックして無料トライアルを開始します。Engine Yard Cloudのアカウントは複数の個人アカウントを管理者として紐付ける事もできる為、ここで入力するアカウントは組織名などをベースにしたような名称が良いでしょう。これで無事にアカウントが作成されアプリケーションをデプロイする準備が整いました。</p>
+<h2>サンプルアプリケーションのデプロイ</h2>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Applications-1-1.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Applications-1-1-600x474.png" alt="" title="Engine Yard Cloud — Applications-1-1" width="600" height="474" class="aligncenter size-medium wp-image-1653" /></a></p>
+<p>作成済みのアプリケーションが無い場合はアプリケーションの新規作成画面がすぐに表示されます。ここではデプロイするアプリケーションのgitリポジトリのアドレスやスタックの種類、データベースの種類などを選択します。今回はまずは公式サンプルアプリをデプロイするべく、gitリポジトリの入力欄のすぐ下にある"Rails ToDo app"をクリックし、ページ下部の"Create Application"のボタンをクリックします。</p>
+<p>あとは自動的に環境の構築とデプロイが始まり、状況が逐次メッセージで表示されます。このステップではAmazon EC2に新しいインスタンスを起動し、Unixパッケージ、Ruby、RubyGems、nginx、データベース・サーバなどのセットアップが行われる為8分ほど時間がかかります。この構築作業はインスタンスの停止、再開の際にも実行されEngine Yard Cloudの特徴的な動きになっています。アプリケーションコードのデプロイ作業についてはインスタンスを再構築する事なく即座に行えます。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environment-todo_production-of-application-todo-1.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Engine-Yard-Cloud-—-Environment-todo_production-of-application-todo-1-600x484.png" alt="" title="Engine Yard Cloud — Environment todo_production of application todo-1" width="600" height="484" class="aligncenter size-medium wp-image-1645" /></a></p>
+<p>デプロイが完了すると稼働中のアプリケーションへのリンクが表示され、ソースコードの再デプロイやインスタンスの停止、削除といった操作が行えるようになります。また予め公開鍵を登録しておけば稼働中のインスタンスへのsshログインも可能です。</p>
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/10/Getting-Things-Done-with-Engine-Yard-AppCloud.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/10/Getting-Things-Done-with-Engine-Yard-AppCloud-600x351.png" alt="" title="Getting Things Done with Engine Yard AppCloud" width="600" height="351" class="aligncenter size-medium wp-image-1646" /></a></p>
+<p>サンプルアプリケーションが無事に動作しました。この場合は1つのEC2インスタンスにnginxやデータベースサーバが同居する形でアプリケーションが稼働しています。インスタンス自体は100％専有している状態という事もあり同時接続数についての特別な制限なども無く一般的なレベルでのパフォーマンスを発揮しています。<br />
+<strong style="color:red">インスタンスを動かしている間はトライアルの500時間がカウントダウンされていきます。用事が無い場合はインスタンスの停止を行いましょう。</strong></p>
+<p>ひとまず支払いの必要や特別なソフトウェアの導入などは特に必要ありませんので、一度ためしてみると良いのではないでしょうか。<a href="http://bit.ly/PcfbE6" target="_blank">アカウントの作成はこちら</a>から行えます。</p>
+<p>次回の記事ではEngine Yardの特徴でもあるインスタンスを日本リージョンへ配置する設定と、インスタンスへのsshログインの方法をまとめます。</p>

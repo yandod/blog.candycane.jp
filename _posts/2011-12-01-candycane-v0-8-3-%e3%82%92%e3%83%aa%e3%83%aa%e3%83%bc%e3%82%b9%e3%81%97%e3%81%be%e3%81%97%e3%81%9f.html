@@ -1,0 +1,37 @@
+---
+layout: post
+title: candycane v0.8.3 をリリースしました
+date: 2011-12-01 18:43:12.000000000 +09:00
+categories:
+- ブログ
+tags:
+- CakePHP
+- candycane
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="https://github.com/yandod/candycane/tags" target="_blank">Version 0.8.3 ダウンロード</a></p>
+<p>RedmineをPHPに移植したチケット管理システム、CandyCaneのv0.8.3をリリースしました。今回のリリースではphpmatsuriでの成果とバグフィックスを含んでおり、これによりプラグインを用いてCandyCaneを拡張できるようになりました。</p>
+<p>サンプルとしてNyan Catを表示する<a href="https://github.com/yandod/cc_nyancat" target="_blank">cc_nyancatプラグイン</a>を開発しました。このプラグインを導入するデモ動画があります。こちらの動画ではプラグインがサブディレクトリに配置するだけで有効になる様子をご覧になれます。<br />
+<iframe width="480" height="360" src="http://www.youtube.com/embed/OuoBuQeSFdo" frameborder="0" allowfullscreen></iframe></p>
+<p>延べ作業時間は10時間、6のバグ修正と2つの機能追加です。</p>
+<ul>
+<li><a href="http://my.candycane.jp/issues/show/65" class=" issue closed">Bug #65</a>: チケットの移動時に関連削除処理でエラーがでる</li>
+<li><a href="http://my.candycane.jp/issues/show/67" class=" issue closed">Bug #67</a>: チケットを移動させると起票者が変わる</li>
+<li><a href="http://my.candycane.jp/issues/show/75" class=" issue closed">Bug #75</a>: ログインしていないのにニュースが編集できてしまう</li>
+<li><a href="http://my.candycane.jp/issues/show/158" class=" issue closed">Bug #158</a>: News module was spamed.</li>
+<li><a href="http://my.candycane.jp/issues/show/159" class=" issue closed">Enhancement  #159</a>: Sending email on updating news.</li>
+<li><a href="http://my.candycane.jp/issues/show/178" class=" issue closed">Bug #178</a>: Users can't Update issues</li>
+<li><a href="http://my.candycane.jp/issues/show/186" class=" issue closed">Enhancement  #186</a>: Supporting plugin architecture. Part1</li>
+<li><a href="http://my.candycane.jp/issues/show/190" class=" issue closed">Bug #190</a>: Fix denial of permissions for users with permissions moving issues</li>
+</ul>
+<p>イベントの開催などが一段落したので今後は開発に多くの時間を割けるようになりそうです。githubでのプルリクエストや実際に使ってみたなどのご報告も歓迎です。宜しくお願い致します。</p>

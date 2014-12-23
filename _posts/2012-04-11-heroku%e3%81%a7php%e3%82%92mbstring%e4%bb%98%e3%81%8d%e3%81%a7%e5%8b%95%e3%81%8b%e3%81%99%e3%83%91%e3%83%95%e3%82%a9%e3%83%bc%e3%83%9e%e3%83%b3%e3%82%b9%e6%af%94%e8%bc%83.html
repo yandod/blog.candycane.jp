@@ -1,0 +1,49 @@
+---
+layout: post
+title: HerokuでPHPをmbstring付きで動かす&パフォーマンス比較
+date: 2012-04-11 13:53:36.000000000 +09:00
+categories:
+- ブログ
+tags:
+- heroku
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2012/04/mbstring.png"><img src="http://blog.candycane.jp/wp-content/uploads/2012/04/mbstring-600x286.png" alt="" title="mbstring" width="600" height="286" class="aligncenter size-medium wp-image-1376" /></a></p>
+<p>そろそろgithubと並んで使った事が無いなら危機感を感じるレベルなPaaSですが、PHPの場合は何を使っていますか？PHP FogやOrchestra.ioといったPHPに最適化されたプラットフォームもありますが、PaaSの王道とも言えるHerokuでもPHPは非公式にサポートされています。</p>
+<p>しかもこれが非公式サポートであるにも関わらず、facebookの開発者コンソールからクリックだけでデプロイできるので密かにメジャーなプラットフォームになっているという不思議な状況です。Ruby界隈では常識かと思われるHerokuがPHP界隈で流行っていない原因に<strong>「mbstringがサポートされていない」</strong>というのがあります。しかし今回ちょっとやってみたら<strong style="color:red">mbstringをHeroku上にセットアップする事が出来ました。</strong></p>
+<p>ひとまずコチラが実際の環境です。<br />
+<a href="http://strong-warrior-2383.herokuapp.com/" target="_blank">phpinfo() on Heroku</a></p>
+<h3>mbstringをherokuで動かした方法</h3>
+<p>参考にしたのは下記に紹介されていたmongo.soをセットアップする方法です。同じ方法で作成した拡張を読みこまさせてみたら動きました。<code>heroku run bash</code>を使えばどんな拡張でもビルドできそうですね。</p>
+<p><a href="http://stackoverflow.com/questions/8656247/php-multibyte-string-on-heroku">linux - PHP Multibyte String on Heroku - Stack Overflow</a></p>
+<p>作成したPHP拡張モジュールをgithubに公開しています。この拡張をアプリのリポジトリにいれた上で、プロジェクトフォルダ内のphp.iniから読み込ませれば動作しているようです。具体的な例はこのサンプルアプリのリポジトリをご覧ください。</p>
+<p><a href="https://github.com/yandod/phpinfo-heroku">yandod/phpinfo-heroku</a></p>
+<p>やっている事はHeroku上でビルドしたmbstring.soをプロジェクト内に配置して、php.iniを下記のように記載してこれもプロジェクト内に配置します。</p>
+<pre lang="txt">
+extension=/app/www/mbstring.so
+</pre>
+<p>拡張モジュールについては今後はここに集まるかもしれませんね。使いたい拡張があった人はビルドした後にプルリクエストを送るとよさそうですね。</p>
+<h3>Herokuってパフォーマンスどうなの？</h3>
+<p>PHPに最適化されているその他の環境ではなくHerokuを使う利点はやはりプラットフォームが大きい事による安定性やパフォーマンスだと思われます。下北沢オープンソースカフェのマスター河村さんが計測してみた所によると、herokuはpagodaboxやphpfogよりもパフォーマンスが良かったようです。</p>
+<p><object width="400" height="250"><param name="allowfullscreen" value="true" /><param name="movie" value="http://www.facebook.com/v/3015738917866" /><embed src="http://www.facebook.com/v/3015738917866" type="application/x-shockwave-flash" allowfullscreen="true" width="400" height="250"></embed></object></p>
+<h3>PHPerもHerokuを始めよう</h3>
+<p>というわけでまだherokuデビューをしていないPHPerはherokuをやってみるといいと思います。アカウントを取得したらやることはそんなに多くありません。</p>
+<ul>
+<li>Heroku Toolbeltのインストール</li>
+<li>heroku create --stack cedar</li>
+<li>git push heroku master</li>
+</ul>
+<p>本当に簡単なので是非試してみてくださいー。</p>
+<p>参考：<br />
+<a href="http://d.hatena.ne.jp/Kenji_s/20120228/1330418302">heroku で PHP を使う - A Day in Serenity @ Kenji</a></p>

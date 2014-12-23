@@ -1,0 +1,85 @@
+---
+layout: post
+title: '[和訳]Lithium0.10リリースノート'
+date: 2011-06-20 12:00:11.000000000 +09:00
+categories:
+- ブログ
+tags: []
+status: draft
+type: post
+published: false
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><img src="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png" alt="" title="designall.dll" width="500" height="150" class="aligncenter size-full wp-image-188" /></p>
+<p>半年の沈黙を破ってLithiumの最新版がリリースされました。0.9.9ときてついに1.0かと思いきや、0.10ですが。ただ内容を見てもらうとコミュニティ自体は機能していて、開発の活発さは順調に思えます。かなりのボリュームですがリリースに当たって投稿されたNateの記事は下記の通り。</p>
+<div class="wiki-text markdown">
+<h1>Getting Ourselves Together: Lithium 0.10</h1>
+<p>So... I guess we haven't had a release since November. I suppose that's kind of a while. What can I say? We got stuck in a moment. And we couldn't get out of it. However, we certainly wouldn't go that long without having some decent updates to show for it. In fact, thanks not just to the team, but the entire community, we have quite a bit to show for it. This release features close to 700 commits from 21 contributors. Thanks to our awesome community for making this possible.</p>
+<h2>GitHub</h2>
+<p>Firstly, as many of you already know, we've migrated our main development branches to GitHub. You can check us out at <a href="http://github.com/UnionOfRAD"> github.com/UnionOfRAD</a>. You'll also note what used to be one repository has now become two: <a href="https://github.com/UnionOfRAD/framework">"framework"</a> and <a href="https://github.com/UnionOfRAD/lithium">"lithium"</a>. As many of you noticed, cloning the default distribution and building your app was a bit awkward, because the entire framework system was in one repository.</p>
+<p>Now, the Lithium core is its own repository, which you can clone directly into your own (project | libraries | system | include) directory. The "framework" repository, which is primarily targeted towards new users wanting to get up and running quickly, and will act as the main downloadable distribution, now references the core as a submodule.</p>
+<p>While GitHub is now the primary repository, we still have plenty of open tickets on <a href="http://dev.lithify.me/lithium/tickets">dev.lithify.me</a>, as well as the list of releases and plenty of wiki pages. We'll slowly be migrating things over as we're able to. If you've already opened a ticket, rest assured that we'll still get to it, but new tickets and pull requests should be opened on GitHub. Thanks, y'all!</p>
+<h2>Relationships</h2>
+<p>Thanks to the dedicated efforts of <a href="http://twitter.com/HowardL3">Howard Lince (aka Howard3)</a>, relationship support is now available for MySQL. The documentation on how to work with them will be forthcoming in the next week or two, but if you're coming from CakePHP, the setup and syntax will be very familiar. We're also well underway on support for MongoDB relationships too, so stay tuned for that.</p>
+<h2>The Manual is Online</h2>
+<p>The Lithium Manual, which you can find (and fork!) at <a href="https://github.com/UnionOfRAD/manual">its new home on GitHub</a>, is now online thanks to some updates to <a href="http://dev.lithify.me/li3_docs">the docs plugin</a>. You can find the published version at <a href="http://lithify.me/docs/manual">lithify.me/docs/manual</a>. Putting this together has been a huge effort on the part of our documentation team lead, <a href="http://twitter.com/raisinbread">John Anderson (aka psychic)</a>, as well as the whole community, who have contributed content, corrections, and tracked down outdated information. We really appreciate everyone's efforts, this project wouldn't be what it is without you guys (and gals).</p>
+<h2>Features!</h2>
+<p>In addition to model relationships, we've also been able to implement several other great features.</p>
+<ul>
+<li>
+<p><strong>Content negotiation</strong>: <a href="http://lithify.me/docs/lithium/net/http/Media">The <code>Media</code> class</a> now supports full-fledged content negotiation. Using <code>Media::type()</code>, you can register new custom content types that support a variety of handling scenarios for different types of requests, including rendering custom templates for iPhones or other mobile devices, case-specific handling of Ajax requests, and more.</p>
+</li>
+<li>
+<p><strong>CSRF protection</strong>: With the new <a href="http://lithify.me/docs/lithium/security/validation/RequestToken"><code>RequestToken</code> class</a> and <a href="http://lithify.me/docs/lithium/template/helper/Security"><code>Security</code> helper</a>, Lithium now has built-in support for CSRF protection. Normally, when implementing CSRF protection, one must make a trade-off between the enhanced security of continuously-rotating request token, and the ability of an application to accommodate Ajax requests and multiple tabs without breaking. However, using cryptographically-secure hashing functions, we've been able to implement the best of both worlds. How, you ask?</p>
+</li>
+<li>
+<p><strong>Crypto &amp; password features</strong>: Thanks to the hard work of <a href="http://twitter.com/ddebernardy">Denis de Bernardy</a>, we now have several utility functions for dealing with passwords and other cryptographic operations. These classes and methods provide the support infrastructure for the above-mentioned CSRF protection, and can be used in other situations as well. The <code>String</code> class now has a new method, <code>random()</code>, which generates cryptographically-strong random strings, for use in, among other things, the rewritten <code>uuid()</code> method, which no longer depends on outside information to generate UUIDs. These features are also used in the new <code>\security\Password</code> class, which is able to generate unique cyptographic hashes each time a password is hashed, and validate them securely, in a way that protects against <a href="http://codahale.com/a-lesson-in-timing-attacks/">timing attacks</a>. This will be integrated into the default <code>Auth</code> configuration soon.</p>
+</li>
+<li>
+<p><strong>FirePHP logging</strong>: Thanks to <a href="http://nitschinger.at/">Michael Nitschinger (aka daschl)</a>, Lithium now has a logger adapter that implements the <a href="http://www.firephp.org/">FirePHP protocol</a>. Thanks, Michael! To start using it in your apps, <a href="http://lithify.me/docs/lithium/analysis/logger/adapter/FirePhp">check out the documentation</a>.</p>
+</li>
+<li>
+<p><strong>Error handling and error pages</strong>: Lithium now includes an innovative new error handling class, and thanks to <a href="http://twitter.com/DanielMcOrmond">Daniel McOrmond (aka dmco)</a>, an exception debugging page that you can use in development. To see both in action, uncomment the <code>require</code> statement for <a href="https://github.com/UnionOfRAD/framework/blob/master/app/config/bootstrap/errors.php"><code>errors.php</code></a>. We're very excited about the new error-handling infrastructure, and all the flexibility it provides. In fact, you may never write another <code>try</code>/<code>catch</code> block again! Stay tuned for docs on how to take advantage of all of its features.</p>
+</li>
+<li>
+<p><strong>Oracle &amp; PostgreSQL support</strong>: Finally, I'm very excited to announce that world-renowned speaker and fan favorite <a href="http://twitter.com/phishy">Jeff Loiselle (aka phishy)</a> has joined the Lithium community. As an expert in Oracle, he was the original author of the Oracle driver for CakePHP. Now, he's bringing his expertise to bear on a first-class Oracle adapter for Lithium, to meet all your "enterprise" needs. In addition, several community members have been working on an adapter for PostgreSQL, which we hope to include in our next release. Thanks to everyone involved for your great effort and awesome work!</p>
+</li>
+</ul>
+<h2>API Breaks</h2>
+<p>In order to prepare for a clean API when we reach stability, we've decided to take this last opportunity to make a few small backwards-incompatible changes. Fortunately, these are all minor, and most of them won't affect most people.</p>
+<ul>
+<li>
+<p><strong>Unmatched URL parameters now throw <code>RoutingException</code>s</strong>: In previous versions, when URL parameters passed to <code>Router::match()</code> didn't match any routes, it simply returned <code>false</code>. However, this caused a fair bit of confusion, as templates would often end up rendering links with inexplicably empty <code>href</code> attributes and the like. Now, you're told exactly when and where this happens, and you can see a dump of the URL parameters attempting to be matched.</p>
+</li>
+<li>
+<p><strong>Renamed: <code>\data\Source::entities()</code> to <code>\data\Source::sources()</code></strong>: This change was made to improve the consistency of nominclature / terminology across the framework. The parameters and everything else about this method remain the same, and this change should not affect you unless you're manually extracting table/collection names from databases, or if you've written a custom data source in an app or plugin.</p>
+</li>
+<li>
+<p><strong>Host references in cache adapters</strong>: To improve naming and parameter value consistency across the framework, the <code>Memcache</code> and <code>Redis</code> cache adapters have had some updates to their configuration: the <code>'host'</code> key of the <code>Memcache</code> adapter now takes host names in the <code>'host:port</code>' format by default. Legacy configurations should continue to work, but please see <a href="http://lithify.me/docs/lithium/storage/cache/adapter/Memcache::__construct(">the configuration documentation</a> for more info. For the <code>Redis</code> adapter, simply rename the <code>'server'</code> configuration key to <code>'host'</code>.</p>
+</li>
+<li>
+<p><strong>Misc. updates to <code>\util\Set</code></strong>: Previously, methods that handled array would accept non-array parameters and just try their best to deal with them. This code has been stripped out, and array parameters are now enforced.</p>
+</li>
+<li>
+<p><strong>Renamed: <code>\util\Set::blend()</code> to <code>\util\Set::append()</code></strong>: This method was given a more meaningful name, that better reflects its functionalty. Again, upgrading should be as straight-forward as a search-and-replace.</p>
+</li>
+<li>
+<p><strong>Parameter changes: <code>\util\Set::depth()</code> and <code>\util\Set::matches()</code></strong>: The third parameter to the <code>Set::depth()</code> method, <code>$count</code> has been merged into the second parameter as <code>$options['count']</code>. Finally, to improve API consistency, the parameter order for <code>Set::matches()</code> has been reversed from <code>$conditions</code> / <code>$data</code> to <code>$data</code>, <code>$conditions</code>. Please update your code accordingly.</p>
+</li>
+</ul>
+<h2>Onward</h2>
+<p>In closing, I just want to thank everyone again for being a part of this. I'm a firm believer in the idea that Open Source is the sum of its people, not its repositories, and as far as I'm concerned, this community is one of the best. I'm  looking forward to the things we have to show you coming up, and I'm <em>really</em> looking forward to all the things you have to show that I can't even imagine yet.</p>
+<p>~ nate ~</p>
+<p></p>
+<ul>
+<li><a href="http://dev.lithify.me/lithium/versions">Download the new release</a></li>
+<li><a href="http://dev.lithify.me/lithium/wiki/releases/0_10">See the full change log</a></li>
+</ul>
+</div>

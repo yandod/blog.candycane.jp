@@ -1,0 +1,72 @@
+---
+layout: post
+title: Lithium0.9.5リリースノート(和訳)
+date: 2010-05-23 10:17:23.000000000 +09:00
+categories:
+- ブログ
+tags:
+- Lithium
+- 和訳
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+author:
+  login: yandod
+  email: ando@rikezemi.com
+  display_name: yandod
+  first_name: Yusuke
+  last_name: Ando
+---
+<p><a href="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png"><img src="http://blog.candycane.jp/wp-content/uploads/2009/12/designall.dll_.png" alt="designall.dll" title="designall.dll" width="500" height="150" class="aligncenter size-full wp-image-188" /></a></p>
+<p>順調に進化を続けるLithiumから例外的に0.9.5がリリースされました。今回も多くの新機能がアナウンスされています。</p>
+<h3>原文</h3>
+<p><a href="http://rad-dev.org/lithium/wiki/blog/Lithium-0-9-5-Dont-Stop-Till-You-Get-Enough">http://rad-dev.org/lithium/wiki/blog/Lithium-0-9-5-Dont-Stop-Till-You-Get-Enough</a></p>
+<h3>Lithium0.9.5:止まるにはまだ早い</h3>
+<p>0.9から1週間半が経ち、Lithiumチームはバージョン0.9.5をアナウンスします。本来のリリーススケジュールに予定されていませんが、今週非常に多くの事を達成したので中間のリリースを行うことにしました。これによりコミュニティの開発者は以下の優れた機能を試す事ができます。</p>
+<p><strong>HTTP Auth Adapter：</strong>HTTP認証を検証できるようにする`Auth`アダプタが追加されました。`Form`アダプタと同時に利用する事もできます。標準的なログインによる同一の資格情報を持ったWEBサービスへのリクエストを認証できます。（Twitterのクライアントのような例を想定してください)</p>
+<p><strong>再設計されたロガーAPI：</strong>我々の最初の（そしておそらく最後の）メジャーな後方互換性の無い変更です。より直感的なインターフェースを提供する為にロガーAPIを再設計しました。設定名の代わりに優先度を指定し、それぞれの優先度に対して一つのアダプタを指定します。それぞれの設定は任意の名前を付ける事ができ、priorityキーでどの優先度にアダプタが応答するかを指定します。この柔軟性により重要度の高いメッセージを複数のログに残せます。<a href="http://lithify.me/docs/lithium/analysis/Logger">[Logger APIドキュメント]</a>をご覧ください。</p>
+<p><strong>Growlロガーアダプタ：</strong>再設計されたロガーAPIともにMax OSXでポピュラーな通知システム、Growlへのアダプタもリリースされました。(オリジナルの実装者は<a href="http://twitter.com/coates">Sean Coates</a>)。リリースされたバージョンは、最初から外部に依存関係が無いように書き直され、高速開発に大きな助けになります。</p>
+<p><strong>モデル初期化処理のリファクタリング：</strong>モデルクラスの初期化処理がリファクタリングされ、大幅に合理化されました。これによりモデルクラスは`lithium\data\Model`を継承したいくつかの基底クラスを継承できます。またクラスは任意のプロパティを継承します。</p>
+<p><strong>リードスルーキャッシュ:</strong>通常のキャッシュ処理は２つのステップで行われます。指定されたキーを元にキャッシュが存在するかを確認し、存在しない場合はキャッシュする為の処理を行い結果をキャッシュに書き込みます。リードスルーキャッシュはこのプロセスをより直感的にします。次のコードを例を考えます：</p>
+<pre lang="php" line="1">
+$id = $this->request->id;
+$user = Cache::read("storage", "user.{$id}", array('write' => function() use ($id) {
+    return array('+2 days' => serialize(User::find($id)->data()));
+}));
+</pre>
+<p>キャッシュキーが存在しない場合は、渡された関数が呼び出され返されたデータは、キーに保存され、返す値のarrayのキーキャッシュの有効期限として使用します。このインターフェイスを使用して、キャッシュのチェックとセットを１度の処理で行えます。</p>
+<p><strong>ベンダライブラリのための新しいソース管理：</strong>我々は、デフォルト配布用に2つのディレクトリを追加しました：`libraries/ _source`と`app/libraries/_source`です。これらのディレクトリはあなたが外部のライブラリをコピーするかチェックアウトし、より簡単にアプリケーションと同期させる為に作られました。外部ライブラリを`_source`ディレクトリに配置した後、実際にソースコードを含むディレクトリを`libraries`ディレクトリとしてsymlinkできます。<br />
+たとえば、私はアプリケーション内でいくつかのPEARクラスを利用しています。私の現在の設定は次のようになります：</p>
+<pre lang="php" line="1">
+Libraries::add("PEAR", array(
+    "prefix" => false,
+    "includePath" => true,
+    'path' => LITHIUM_LIBRARY_PATH . "/PEAR/pear/php",
+    "transform" => function($class) { return str_replace("_", "/", $class) . ".php"; }
+));
+</pre>
+<p>実際のPEARのソースコードは`PEAR/pear/php`内にネストされています。これは醜いです。その代わりに、`PEAR`ディレクトリを`app/libraries/_source`の中に移動し、`app/libraries/_source/PEAR/pear/php`から`app/libraries/PEAR`へのsymlinkを追加しました。これで設定を下記のようにシンプルに変更できます：</p>
+<pre lang="php" line="1">
+Libraries::add("PEAR", array(
+    "prefix" => false,
+    "includePath" => true,
+    "transform" => function($class) { return str_replace("_", "/", $class) . ".php"; }
+));
+</pre>
+<p>PHP 5.3の標準的なネーミングに従っているライブラリの場合は、その差はさらに歴然です。例えば、PEAR2の場合はシンプルに
+<pre lang="php">Libraries::add('PEAR2');</pre>
+<p>とするだけでインポートできます。<br />
+この規約によって複数のバージョンのライブラリをsymlinkの切り替えだけで透過的に変更できるというメリットもあります。この規約は、<a href="http://twitter.com/pmjones">Paul M. Jones</a>の<a href="http://solarphp.com/">SolarPHPプロジェクト</a>に触発されました。</p>
+<p><strong>MongoDB条件演算子：</strong>我々はMongoDBのネイティブなクエリ演算子を常にサポートしてきました。さらにSQLスタイルのクエリ演算子のサポートを追加しました。標準クエリの構文を使用する例：</p>
+<pre lang="php" line="1">
+Article::find('all', array('conditions' => array(
+    'expires' => array('>' => time())
+)));
+</pre>
+<p>これは自動的にネイティブなMongoDBのクエリ演算子に変換されます。これはMongoの(素晴らしい)構文を単に置き換えるものではなく、プラグインの開発者に対して様々なデータソースで動く抽象的なクエリを書く手段を提供する事と新たに非リレーショナルデータベースに興味を持つ開発者や既存のアプリケーションの移植へのバリアフリーも目的にしています。<br />
+最後に全てのチームメンバーに感謝しています。特に<a href="http://twitter.com/raisinbread">ジョンアンダーソン</a>に、我々のドキュメントリードは、我々は、新しいAPIドキュメントを大量に追加してAPIを100%カバーするという目標の目前にまで来ています。<a href="http://rad-dev.org/lithium/wiki/releases/0_9_5">変更履歴</a>、または<a href="http://lithify.me/docs/lithium">新しいAPIドキュメントを閲覧</a>するか、<a href="http://rad-dev.org/lithium/versions">新しいリリースをダウンロード</a>してお楽しみください！<br />
+~Nate~</p>
+<p>--翻訳ここまで</p>
+<p>1週間半で大きな進展が会ったことが伺えます。特にNoSQLなデータベースを透過的に扱う技術は多くの人にとって有益ですし、キャッシュの実装をクロージャを使って簡単にする例などは示唆に富んでいますね。ログをGrowlにながすというアイデアも秀逸です！</p>
